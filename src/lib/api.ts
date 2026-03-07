@@ -95,6 +95,22 @@ export async function fetchSession(id: string): Promise<StealthSession> {
   return data.session;
 }
 
+export async function checkEmbeddable(url: string): Promise<'true' | 'false' | 'unknown'> {
+  try {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 8000);
+    const res = await fetch(`${API_BASE}/embed-check?url=${encodeURIComponent(url)}`, {
+      signal: controller.signal,
+    });
+    clearTimeout(timeout);
+    if (!res.ok) return 'unknown';
+    const data = await res.json();
+    return data.embeddable || 'unknown';
+  } catch {
+    return 'unknown';
+  }
+}
+
 export async function updateSessionStatus(id: string, status: 'active' | 'ended' | 'error'): Promise<StealthSession> {
   const res = await fetch(`${API_BASE}/sessions/${id}`, {
     method: 'PATCH',
