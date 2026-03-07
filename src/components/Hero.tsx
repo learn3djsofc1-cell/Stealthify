@@ -1,13 +1,35 @@
 import { motion, useInView } from 'motion/react';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Copy, Check } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Scene from './Nucleus3D';
 import Navbar from './Navbar';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
+
+const CA_ADDRESS = 'CPLb9vgauAEWtgASnquwhB7G4bD2kosu1QCboXKppump';
 
 const Hero = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { margin: "0px 0px -200px 0px" });
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(CA_ADDRESS);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      const textarea = document.createElement('textarea');
+      textarea.value = CA_ADDRESS;
+      textarea.style.position = 'fixed';
+      textarea.style.opacity = '0';
+      document.body.appendChild(textarea);
+      textarea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textarea);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
+  };
 
   return (
     <div ref={ref} className="relative w-full min-h-screen bg-[#050505] overflow-hidden flex flex-col font-sans selection:bg-purple-500/30">
@@ -35,6 +57,33 @@ const Hero = () => {
           >
             A privacy-native access layer integrating with OpenClaw for audited, discoverable relayer agents and easy third-party deployments.
           </motion.p>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
+            className="mb-8"
+          >
+            <div className="text-[10px] sm:text-xs uppercase tracking-[0.2em] text-purple-400/70 font-medium mb-2">CA</div>
+            <button
+              onClick={handleCopy}
+              className="group flex items-center gap-2 sm:gap-3 w-full max-w-xl bg-white/[0.04] backdrop-blur-xl border border-white/[0.08] rounded-xl px-3 sm:px-4 py-2.5 sm:py-3 hover:bg-white/[0.07] hover:border-purple-500/30 transition-all duration-300 cursor-pointer overflow-hidden"
+            >
+              <span className="font-mono text-[10px] sm:text-xs text-white/60 group-hover:text-white/80 transition-colors truncate select-all">
+                {CA_ADDRESS}
+              </span>
+              <span className="flex-shrink-0 flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-purple-500/10 border border-purple-500/20 group-hover:bg-purple-500/20 transition-all duration-300">
+                {copied ? (
+                  <Check className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-green-400" />
+                ) : (
+                  <Copy className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-purple-400" />
+                )}
+              </span>
+            </button>
+            <div className={`text-[10px] mt-1.5 transition-all duration-300 ${copied ? 'text-green-400 opacity-100' : 'text-transparent opacity-0'}`}>
+              Copied to clipboard
+            </div>
+          </motion.div>
           
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
