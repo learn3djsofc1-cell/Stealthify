@@ -176,6 +176,102 @@ app.patch('/api/sessions/:id', async (req, res) => {
   }
 });
 
+const BLOCKED_HOSTNAMES = new Set([
+  'localhost', '127.0.0.1', '0.0.0.0', '[::1]', '169.254.169.254',
+  'metadata.google.internal', 'metadata.google', 'metadata',
+]);
+
+function isPrivateIP(hostname: string): boolean {
+  if (BLOCKED_HOSTNAMES.has(hostname.toLowerCase())) return true;
+  const parts = hostname.split('.').map(Number);
+  if (parts.length === 4 && parts.every(p => !isNaN(p))) {
+    if (parts[0] === 10) return true;
+    if (parts[0] === 172 && parts[1] >= 16 && parts[1] <= 31) return true;
+    if (parts[0] === 192 && parts[1] === 168) return true;
+    if (parts[0] === 127) return true;
+    if (parts[0] === 169 && parts[1] === 254) return true;
+    if (parts[0] === 0) return true;
+  }
+  if (hostname.startsWith('[')) return true;
+  return false;
+}
+
+const proxyRateLimit = new Map<string, { count: number; reset: number }>();
+
+app.get('/api/proxy', async (req, res) => {
+  const clientIp = req.ip || 'unknown';
+  const now = Date.now();
+  const rateEntry = proxyRateLimit.get(clientIp);
+  if (rateEntry && rateEntry.reset > now) {
+    if (rateEntry.count >= 30) {
+      return res.status(429).json({ error: 'Too many proxy requests. Try again later.' });
+    }
+    rateEntry.count++;
+  } else {
+    proxyRateLimit.set(clientIp, { count: 1, reset: now + 60000 });
+  }
+
+  const { url } = req.query;
+  if (!url || typeof url !== 'string') {
+    return res.status(400).json({ error: 'URL parameter is required' });
+  }
+  let parsedUrl: URL;
+  try {
+    parsedUrl = new URL(url);
+    if (!['http:', 'https:'].includes(parsedUrl.protocol)) {
+      throw new Error('Invalid protocol');
+    }
+  } catch {
+    return res.status(400).json({ error: 'Invalid URL' });
+  }
+  if (isPrivateIP(parsedUrl.hostname)) {
+    return res.status(403).json({ error: 'Access to internal resources is not allowed' });
+  }
+  try {
+    const response = await fetch(url, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
+        'Accept-Language': 'en-US,en;q=0.5',
+        'Accept-Encoding': 'identity',
+      },
+      redirect: 'follow',
+    });
+    const finalUrl = new URL(response.url);
+    if (isPrivateIP(finalUrl.hostname)) {
+      return res.status(403).json({ error: 'Redirect to internal resource is not allowed' });
+    }
+    const contentType = response.headers.get('content-type') || '';
+    if (contentType.includes('text/html')) {
+      let html = await response.text();
+      const origin = parsedUrl.origin;
+      const baseTag = `<base href="${origin}/" target="_self">`;
+      if (html.includes('<head>')) {
+        html = html.replace('<head>', `<head>${baseTag}`);
+      } else if (html.includes('<HEAD>')) {
+        html = html.replace('<HEAD>', `<HEAD>${baseTag}`);
+      } else if (html.includes('<html')) {
+        html = html.replace(/(<html[^>]*>)/i, `$1<head>${baseTag}</head>`);
+      } else {
+        html = baseTag + html;
+      }
+      res.setHeader('Content-Type', 'text/html; charset=utf-8');
+      res.removeHeader('X-Frame-Options');
+      res.removeHeader('Content-Security-Policy');
+      res.send(html);
+    } else {
+      const buffer = Buffer.from(await response.arrayBuffer());
+      if (contentType) res.setHeader('Content-Type', contentType);
+      const cacheControl = response.headers.get('cache-control');
+      if (cacheControl) res.setHeader('Cache-Control', cacheControl);
+      res.send(buffer);
+    }
+  } catch (err: any) {
+    console.error('Proxy error:', err.message);
+    res.status(502).json({ error: 'Failed to load the target URL' });
+  }
+});
+
 app.get('/api/search', async (req, res) => {
   const { q } = req.query;
   if (!q || typeof q !== 'string' || q.trim().length === 0) {

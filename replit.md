@@ -26,6 +26,7 @@ Stealthify — A privacy-native Web3 access layer. Landing page + web applicatio
   - `GET /api/sessions?browserSessionId=` - List sessions for browser session
   - `GET /api/sessions/:id` - Fetch single session by ID
   - `PATCH /api/sessions/:id` - Update session status (active/ended/error)
+  - `GET /api/proxy?url=` - Server-side proxy for embedding websites (strips X-Frame-Options/CSP headers)
 
 ### Landing Page (`/`)
 - `src/App.tsx` - Root component with route definitions

@@ -130,7 +130,6 @@ export default function LaunchSession() {
         fingerprintRandomization,
         ipCloaking,
       });
-      window.open(selectedUrl, `stealth_${session.id}`);
       navigate(`/app/session/${session.id}`);
     } catch (err: any) {
       setLaunchError(err.message || 'Failed to launch session');
