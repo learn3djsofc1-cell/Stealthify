@@ -9,10 +9,25 @@ export default defineConfig(({mode}) => {
     plugins: [react(), tailwindcss()],
     define: {
       'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY),
+      'global': 'globalThis',
     },
     resolve: {
       alias: {
         '@': path.resolve(__dirname, '.'),
+        buffer: 'buffer',
+      },
+    },
+    optimizeDeps: {
+      include: ['buffer', '@solana/web3.js', 'bs58'],
+      esbuildOptions: {
+        define: {
+          global: 'globalThis',
+        },
+      },
+    },
+    build: {
+      rollupOptions: {
+        plugins: [],
       },
     },
     server: {
