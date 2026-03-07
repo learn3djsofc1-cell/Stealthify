@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import {
   Globe,
   Rocket,
@@ -19,6 +19,18 @@ export default function LaunchSession() {
   const [fingerprintRandomization, setFingerprintRandomization] = useState(true);
   const [ipCloaking, setIpCloaking] = useState(true);
   const [relayerDropdownOpen, setRelayerDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!relayerDropdownOpen) return;
+    function handleClickOutside(e: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setRelayerDropdownOpen(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [relayerDropdownOpen]);
 
   return (
     <div className="space-y-6 sm:space-y-8">
@@ -39,26 +51,28 @@ export default function LaunchSession() {
             />
           </Card>
 
-          <Card glow="rgba(59, 130, 246, 0.06)" overflow>
-            <h2 className="text-sm font-medium text-white mb-4">Relayer Preference</h2>
-            <div className="relative">
-              <button
-                onClick={() => setRelayerDropdownOpen(!relayerDropdownOpen)}
-                className="flex w-full items-center justify-between rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 text-sm transition-all duration-200 hover:border-white/20"
-              >
-                <span className="text-white/40">Auto-select best relayer</span>
-                <ChevronDown className={`h-4 w-4 text-white/30 transition-transform duration-200 ${relayerDropdownOpen ? 'rotate-180' : ''}`} />
-              </button>
-              {relayerDropdownOpen && (
-                <div className="absolute top-full left-0 right-0 mt-2 rounded-xl border border-white/10 bg-[#0A0A0A] p-2 shadow-2xl z-20">
-                  <div className="flex flex-col items-center justify-center py-6 text-center">
-                    <p className="text-sm text-white/30">No relayers available</p>
-                    <p className="text-xs text-white/20 mt-1">Connect to the network to discover relayers</p>
+          <div ref={dropdownRef} className="relative" style={relayerDropdownOpen ? { zIndex: 30 } : undefined}>
+            <Card glow="rgba(59, 130, 246, 0.06)" overflow>
+              <h2 className="text-sm font-medium text-white mb-4">Relayer Preference</h2>
+              <div className="relative">
+                <button
+                  onClick={() => setRelayerDropdownOpen(!relayerDropdownOpen)}
+                  className="flex w-full items-center justify-between rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 text-sm transition-all duration-200 hover:border-white/20"
+                >
+                  <span className="text-white/40">Auto-select best relayer</span>
+                  <ChevronDown className={`h-4 w-4 text-white/30 transition-transform duration-200 ${relayerDropdownOpen ? 'rotate-180' : ''}`} />
+                </button>
+                {relayerDropdownOpen && (
+                  <div className="absolute top-full left-0 right-0 mt-2 rounded-xl border border-white/10 bg-[#0A0A0A] p-2 shadow-2xl z-50">
+                    <div className="flex flex-col items-center justify-center py-6 text-center">
+                      <p className="text-sm text-white/30">No relayers available</p>
+                      <p className="text-xs text-white/20 mt-1">Connect to the network to discover relayers</p>
+                    </div>
                   </div>
-                </div>
-              )}
-            </div>
-          </Card>
+                )}
+              </div>
+            </Card>
+          </div>
 
           <Card glow="rgba(16, 185, 129, 0.06)">
             <h2 className="text-sm font-medium text-white mb-5">Session Configuration</h2>
