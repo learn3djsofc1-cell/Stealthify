@@ -1,16 +1,16 @@
 import React from 'react';
 import { Twitter } from 'lucide-react';
+import logoSrc from '../assets/logo.png';
 
 const Footer: React.FC = () => {
   return (
     <footer className="bg-black border-t border-white/10 relative overflow-hidden">
-      {/* Center Light Effect */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[300px] h-[100px] bg-purple-900/20 blur-[80px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-6 py-12 flex flex-col md:flex-row justify-between items-center gap-8 text-sm text-white/40 relative z-10">
         <div className="flex items-center gap-4">
+          <img src={logoSrc} alt="Stealthify" className="h-6 w-6 object-contain" />
           <span className="font-medium text-white/60">© 2026 Stealthify.</span>
-          {/* Glowing Separator */}
           <div className="w-1.5 h-1.5 rounded-full bg-purple-500 shadow-[0_0_10px_#a855f7]"></div>
           <span>All rights reserved.</span>
         </div>

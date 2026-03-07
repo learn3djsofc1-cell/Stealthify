@@ -2,6 +2,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { ArrowRight, Menu, X } from 'lucide-react';
 import clsx from 'clsx';
 import { useState } from 'react';
+import logoSrc from '../assets/logo.png';
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -15,12 +16,11 @@ const Navbar = () => {
         className="w-full max-w-6xl bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl md:rounded-full px-6 py-4 flex flex-col md:flex-row items-center justify-between relative shadow-2xl shadow-purple-900/5"
       >
         <div className="w-full md:w-auto flex items-center justify-between">
-          {/* Logo */}
           <div className="flex items-center gap-2">
+            <img src={logoSrc} alt="Stealthify" className="h-7 w-7 object-contain" />
             <span className="text-white font-bold tracking-widest text-sm uppercase">Stealthify</span>
           </div>
 
-          {/* Mobile Menu Toggle */}
           <button 
             className="md:hidden text-white p-2"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -29,7 +29,6 @@ const Navbar = () => {
           </button>
         </div>
 
-        {/* Desktop Links */}
         <div className="hidden md:flex items-center gap-8">
           {['Overview', 'Features', 'Product', 'Security'].map((item, index) => (
             <a 
@@ -48,13 +47,11 @@ const Navbar = () => {
           ))}
         </div>
 
-        {/* Desktop CTA */}
         <button className="hidden md:flex items-center gap-2 px-5 py-2 rounded-full bg-[#1A1A1A] border border-white/10 text-white text-xs font-medium hover:bg-[#252525] transition-colors group">
           Launch App
           <ArrowRight className="w-3 h-3 text-gray-400 group-hover:text-white transition-colors" />
         </button>
 
-        {/* Mobile Menu */}
         <AnimatePresence>
           {isMobileMenuOpen && (
             <motion.div
