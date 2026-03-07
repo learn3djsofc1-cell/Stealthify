@@ -55,7 +55,7 @@ export default function Relayers() {
         </div>
       </div>
 
-      <Card tilt glow="rgba(59, 130, 246, 0.08)">
+      <Card glow="rgba(59, 130, 246, 0.08)">
         <EmptyState
           icon={<Radio className="h-7 w-7" />}
           title="No relayers discovered yet"
@@ -72,7 +72,7 @@ export default function Relayers() {
             { name: 'Relay Alpha', region: 'US-East', status: 'Offline' },
             { name: 'Relay Beta', region: 'EU-West', status: 'Offline' },
           ].map((relayer) => (
-            <Card key={relayer.name} tilt hover glow="rgba(59, 130, 246, 0.1)">
+            <Card key={relayer.name} hover glow="rgba(59, 130, 246, 0.1)">
               <div className="flex items-start justify-between mb-4">
                 <div className="flex items-center gap-3">
                   <div className="rounded-xl bg-blue-500/10 border border-blue-500/20 p-2.5 shadow-[0_0_16px_rgba(59,130,246,0.08)]">

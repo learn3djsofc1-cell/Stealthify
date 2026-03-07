@@ -1,23 +1,15 @@
 import { Link } from 'react-router-dom';
-import { WifiOff, ArrowLeft } from 'lucide-react';
+import { WifiOff } from 'lucide-react';
 import logoSrc from '../assets/logo.png';
 import Badge from './components/Badge';
 
 export default function TopBar() {
   return (
     <header className="sticky top-0 z-40 flex h-14 items-center justify-between border-b border-white/[0.06] bg-[#050505]/80 backdrop-blur-xl px-4 lg:px-6">
-      <div className="flex items-center gap-3">
-        <Link
-          to="/"
-          className="rounded-lg p-1.5 text-white/30 hover:bg-white/[0.05] hover:text-white/60 transition-colors"
-        >
-          <ArrowLeft className="h-4 w-4" />
-        </Link>
-        <Link to="/app" className="flex items-center gap-2.5">
-          <img src={logoSrc} alt="Stealthify" className="h-6 w-6 object-contain" />
-          <span className="text-white font-bold tracking-widest text-xs uppercase hidden sm:block">Stealthify</span>
-        </Link>
-      </div>
+      <Link to="/" className="flex items-center gap-2.5">
+        <img src={logoSrc} alt="Stealthify" className="h-6 w-6 object-contain" />
+        <span className="text-white font-bold tracking-widest text-xs uppercase">Stealthify</span>
+      </Link>
 
       <div className="flex items-center gap-2 sm:gap-3">
         <Badge label="Offline" variant="inactive" dot className="hidden sm:inline-flex" />

@@ -20,7 +20,7 @@ export default function Sessions() {
         <p className="mt-1 text-sm text-white/40">View and manage your stealth browsing session history</p>
       </div>
 
-      <Card tilt glow="rgba(168, 85, 247, 0.08)">
+      <Card glow="rgba(168, 85, 247, 0.08)">
         <EmptyState
           icon={<History className="h-7 w-7" />}
           title="No sessions yet"

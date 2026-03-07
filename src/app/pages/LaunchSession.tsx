@@ -29,7 +29,7 @@ export default function LaunchSession() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
         <div className="lg:col-span-2 space-y-4 sm:space-y-6">
-          <Card tilt glow="rgba(168, 85, 247, 0.08)">
+          <Card glow="rgba(168, 85, 247, 0.06)">
             <h2 className="text-sm font-medium text-white mb-4">Target dApp</h2>
             <Input
               icon={<Globe className="h-4 w-4" />}
@@ -39,7 +39,7 @@ export default function LaunchSession() {
             />
           </Card>
 
-          <Card tilt glow="rgba(59, 130, 246, 0.08)">
+          <Card glow="rgba(59, 130, 246, 0.06)" overflow>
             <h2 className="text-sm font-medium text-white mb-4">Relayer Preference</h2>
             <div className="relative">
               <button
@@ -50,7 +50,7 @@ export default function LaunchSession() {
                 <ChevronDown className={`h-4 w-4 text-white/30 transition-transform duration-200 ${relayerDropdownOpen ? 'rotate-180' : ''}`} />
               </button>
               {relayerDropdownOpen && (
-                <div className="absolute top-full left-0 right-0 mt-2 rounded-xl border border-white/10 bg-[#0A0A0A] p-2 shadow-2xl z-10">
+                <div className="absolute top-full left-0 right-0 mt-2 rounded-xl border border-white/10 bg-[#0A0A0A] p-2 shadow-2xl z-20">
                   <div className="flex flex-col items-center justify-center py-6 text-center">
                     <p className="text-sm text-white/30">No relayers available</p>
                     <p className="text-xs text-white/20 mt-1">Connect to the network to discover relayers</p>
@@ -60,7 +60,7 @@ export default function LaunchSession() {
             </div>
           </Card>
 
-          <Card tilt glow="rgba(16, 185, 129, 0.08)">
+          <Card glow="rgba(16, 185, 129, 0.06)">
             <h2 className="text-sm font-medium text-white mb-5">Session Configuration</h2>
             <div className="space-y-5">
               <Toggle
@@ -92,7 +92,7 @@ export default function LaunchSession() {
         </div>
 
         <div className="space-y-4 sm:space-y-6">
-          <Card tilt glow="rgba(168, 85, 247, 0.1)" className="border-purple-500/10">
+          <Card glow="rgba(168, 85, 247, 0.08)" className="border-purple-500/10">
             <div className="flex items-center gap-2 mb-4">
               <Info className="h-4 w-4 text-purple-400" />
               <h3 className="text-sm font-medium text-purple-400">How it works</h3>
@@ -133,7 +133,7 @@ export default function LaunchSession() {
             </div>
           </Card>
 
-          <Card tilt glow="rgba(255,255,255,0.04)">
+          <Card>
             <h3 className="text-sm font-medium text-white mb-3">Session Defaults</h3>
             <div className="space-y-2.5">
               <div className="flex items-center justify-between">

@@ -18,7 +18,7 @@ export default function Wallet() {
         <p className="mt-1 text-sm text-white/40">Manage your anonymous in-browser wallet</p>
       </div>
 
-      <Card tilt glow="rgba(245, 158, 11, 0.08)">
+      <Card glow="rgba(245, 158, 11, 0.08)">
         <EmptyState
           icon={<WalletIcon className="h-7 w-7" />}
           title="No wallet created yet"
@@ -51,7 +51,7 @@ export default function Wallet() {
               glow: 'rgba(59, 130, 246, 0.12)',
             },
           ].map(({ icon: Icon, title, desc, glow }) => (
-            <Card key={title} tilt hover glow={glow}>
+            <Card key={title} hover glow={glow}>
               <div className="flex flex-col items-center text-center">
                 <div className="rounded-xl bg-purple-500/10 border border-purple-500/20 p-3 mb-3 shadow-[0_0_20px_rgba(168,85,247,0.08)]">
                   <Icon className="h-5 w-5 text-purple-400" />

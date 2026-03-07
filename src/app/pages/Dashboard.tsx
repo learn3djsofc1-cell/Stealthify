@@ -62,7 +62,7 @@ export default function Dashboard() {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
-        <Card tilt hover glow="rgba(168, 85, 247, 0.15)" onClick={() => navigate('/app/launch')}>
+        <Card hover glow="rgba(168, 85, 247, 0.15)" onClick={() => navigate('/app/launch')}>
           <div className="flex items-center gap-4">
             <div className="rounded-xl bg-purple-500/10 border border-purple-500/20 p-3 shadow-[0_0_20px_rgba(168,85,247,0.1)]">
               <Rocket className="h-5 w-5 text-purple-400" />
@@ -75,7 +75,7 @@ export default function Dashboard() {
           </div>
         </Card>
 
-        <Card tilt hover glow="rgba(16, 185, 129, 0.15)" onClick={() => navigate('/app/wallet')}>
+        <Card hover glow="rgba(16, 185, 129, 0.15)" onClick={() => navigate('/app/wallet')}>
           <div className="flex items-center gap-4">
             <div className="rounded-xl bg-emerald-500/10 border border-emerald-500/20 p-3 shadow-[0_0_20px_rgba(16,185,129,0.1)]">
               <Wallet className="h-5 w-5 text-emerald-400" />
@@ -88,7 +88,7 @@ export default function Dashboard() {
           </div>
         </Card>
 
-        <Card tilt hover glow="rgba(59, 130, 246, 0.15)" onClick={() => navigate('/app/relayers')}>
+        <Card hover glow="rgba(59, 130, 246, 0.15)" onClick={() => navigate('/app/relayers')}>
           <div className="flex items-center gap-4">
             <div className="rounded-xl bg-blue-500/10 border border-blue-500/20 p-3 shadow-[0_0_20px_rgba(59,130,246,0.1)]">
               <Eye className="h-5 w-5 text-blue-400" />
@@ -103,7 +103,7 @@ export default function Dashboard() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4">
-        <Card tilt glow="rgba(255,255,255,0.04)">
+        <Card glow="rgba(255,255,255,0.04)">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
               <Clock className="h-4 w-4 text-white/30" />
@@ -120,7 +120,7 @@ export default function Dashboard() {
           />
         </Card>
 
-        <Card tilt glow="rgba(255,255,255,0.04)">
+        <Card glow="rgba(255,255,255,0.04)">
           <div className="flex items-center justify-between mb-5">
             <div className="flex items-center gap-2">
               <Zap className="h-4 w-4 text-white/30" />
