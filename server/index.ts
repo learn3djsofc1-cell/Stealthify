@@ -272,40 +272,6 @@ app.get('/api/proxy', async (req, res) => {
   }
 });
 
-app.get('/api/embed-check', async (req, res) => {
-  const { url } = req.query;
-  console.log('[embed-check] Request for:', url);
-  if (!url || typeof url !== 'string') {
-    return res.status(400).json({ embeddable: 'unknown' });
-  }
-  try {
-    const parsedUrl = new URL(url);
-    if (!['http:', 'https:'].includes(parsedUrl.protocol) || isPrivateIP(parsedUrl.hostname)) {
-      console.log('[embed-check] Blocked private URL');
-      return res.json({ embeddable: 'false' });
-    }
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 5000);
-    const response = await fetch(url, {
-      method: 'HEAD',
-      headers: {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
-      },
-      redirect: 'follow',
-      signal: controller.signal,
-    });
-    clearTimeout(timeout);
-    const xfo = response.headers.get('x-frame-options');
-    const csp = response.headers.get('content-security-policy');
-    const embeddable = !xfo && (!csp || !csp.includes('frame-ancestors'));
-    console.log('[embed-check] Result:', embeddable ? 'true' : 'false', 'xfo:', xfo, 'csp:', !!csp);
-    res.json({ embeddable: embeddable ? 'true' : 'false' });
-  } catch (err: any) {
-    console.log('[embed-check] Error:', err.message);
-    res.json({ embeddable: 'unknown' });
-  }
-});
-
 app.get('/api/search', async (req, res) => {
   const { q } = req.query;
   if (!q || typeof q !== 'string' || q.trim().length === 0) {
