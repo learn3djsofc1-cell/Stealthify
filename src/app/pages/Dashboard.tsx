@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   Activity,
@@ -15,9 +16,29 @@ import Card from '../components/Card';
 import Button from '../components/Button';
 import Badge from '../components/Badge';
 import EmptyState from '../components/EmptyState';
+import { fetchWallet, type WalletData } from '../../lib/api';
+import { getSessionId } from '../../lib/session';
 
 export default function Dashboard() {
   const navigate = useNavigate();
+  const [wallet, setWallet] = useState<WalletData | null>(null);
+  const [walletLoaded, setWalletLoaded] = useState(false);
+
+  useEffect(() => {
+    async function loadWallet() {
+      try {
+        const sessionId = getSessionId();
+        const w = await fetchWallet(sessionId);
+        setWallet(w);
+      } catch {
+      } finally {
+        setWalletLoaded(true);
+      }
+    }
+    loadWallet();
+  }, []);
+
+  const formatAddress = (addr: string) => `${addr.slice(0, 4)}...${addr.slice(-4)}`;
 
   return (
     <div className="space-y-6 sm:space-y-8">
@@ -53,9 +74,9 @@ export default function Dashboard() {
         />
         <StatCard
           label="Wallet"
-          value="None"
+          value={walletLoaded ? (wallet ? formatAddress(wallet.public_key) : 'None') : '...'}
           icon={<Wallet className="h-5 w-5" />}
-          trend="Create to get started"
+          trend={wallet ? 'Connected' : 'Create to get started'}
           glow="rgba(245, 158, 11, 0.12)"
           accentColor="#f59e0b"
         />
@@ -64,7 +85,7 @@ export default function Dashboard() {
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
         <Card hover glow="rgba(168, 85, 247, 0.15)" onClick={() => navigate('/app/launch')}>
           <div className="flex items-center gap-4">
-            <div className="rounded-xl bg-purple-500/10 border border-purple-500/20 p-3 shadow-[0_0_20px_rgba(168,85,247,0.1)]">
+            <div className="rounded-xl bg-purple-500/10 border border-purple-500/20 p-3">
               <Rocket className="h-5 w-5 text-purple-400" />
             </div>
             <div className="flex-1 min-w-0">
@@ -77,12 +98,12 @@ export default function Dashboard() {
 
         <Card hover glow="rgba(16, 185, 129, 0.15)" onClick={() => navigate('/app/wallet')}>
           <div className="flex items-center gap-4">
-            <div className="rounded-xl bg-emerald-500/10 border border-emerald-500/20 p-3 shadow-[0_0_20px_rgba(16,185,129,0.1)]">
+            <div className="rounded-xl bg-emerald-500/10 border border-emerald-500/20 p-3">
               <Wallet className="h-5 w-5 text-emerald-400" />
             </div>
             <div className="flex-1 min-w-0">
-              <h3 className="text-sm font-medium text-white">Create Wallet</h3>
-              <p className="text-xs text-white/40 mt-0.5">Generate anonymous wallet</p>
+              <h3 className="text-sm font-medium text-white">{wallet ? 'View Wallet' : 'Create Wallet'}</h3>
+              <p className="text-xs text-white/40 mt-0.5">{wallet ? 'Manage Solana wallet' : 'Generate anonymous wallet'}</p>
             </div>
             <ArrowRight className="h-4 w-4 text-white/20 shrink-0" />
           </div>
@@ -90,7 +111,7 @@ export default function Dashboard() {
 
         <Card hover glow="rgba(59, 130, 246, 0.15)" onClick={() => navigate('/app/relayers')}>
           <div className="flex items-center gap-4">
-            <div className="rounded-xl bg-blue-500/10 border border-blue-500/20 p-3 shadow-[0_0_20px_rgba(59,130,246,0.1)]">
+            <div className="rounded-xl bg-blue-500/10 border border-blue-500/20 p-3">
               <Eye className="h-5 w-5 text-blue-400" />
             </div>
             <div className="flex-1 min-w-0">

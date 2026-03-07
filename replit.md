@@ -21,6 +21,7 @@ Stealthify — A privacy-native Web3 access layer. Landing page + web applicatio
   - `POST /api/wallet` - Create wallet record (stores public key only)
   - `GET /api/wallet/:sessionId` - Fetch wallet by session ID
   - `DELETE /api/wallet/:sessionId` - Delete wallet record
+  - `GET /api/search?q=` - Search dApps/protocols via server-side search API
 
 ### Landing Page (`/`)
 - `src/App.tsx` - Root component with route definitions
@@ -75,6 +76,7 @@ Note: Private keys are generated client-side and never stored server-side.
 ## Environment Variables
 
 - `DATABASE_URL` - PostgreSQL connection string (auto-set by Replit)
+- `SERP_API_KEY` - Search API key for dApp discovery (server-side only, never exposed to client)
 - `GEMINI_API_KEY` - Google Gemini AI API key (optional, injected at build time)
 
 ## Deployment

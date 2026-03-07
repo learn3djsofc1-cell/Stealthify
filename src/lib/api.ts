@@ -6,6 +6,14 @@ export interface WalletData {
   created_at: string;
 }
 
+export interface SearchResult {
+  title: string;
+  link: string;
+  snippet: string;
+  favicon?: string;
+  displayed_link?: string;
+}
+
 export async function fetchWallet(sessionId: string): Promise<WalletData | null> {
   const res = await fetch(`${API_BASE}/wallet/${sessionId}`);
   if (!res.ok) throw new Error('Failed to fetch wallet');
@@ -30,4 +38,11 @@ export async function createWalletRecord(sessionId: string, publicKey: string): 
 export async function deleteWalletRecord(sessionId: string): Promise<void> {
   const res = await fetch(`${API_BASE}/wallet/${sessionId}`, { method: 'DELETE' });
   if (!res.ok) throw new Error('Failed to delete wallet');
+}
+
+export async function searchDapps(query: string): Promise<SearchResult[]> {
+  const res = await fetch(`${API_BASE}/search?q=${encodeURIComponent(query)}`);
+  if (!res.ok) throw new Error('Search failed');
+  const data = await res.json();
+  return data.results;
 }

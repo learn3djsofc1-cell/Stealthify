@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import {
   Globe,
   Rocket,
@@ -7,19 +7,29 @@ import {
   Shield,
   Info,
   ChevronDown,
+  Search,
+  ExternalLink,
+  Loader2,
+  X,
 } from 'lucide-react';
 import Card from '../components/Card';
 import Button from '../components/Button';
-import Input from '../components/Input';
 import Toggle from '../components/Toggle';
 import Badge from '../components/Badge';
+import { searchDapps, type SearchResult } from '../../lib/api';
 
 export default function LaunchSession() {
-  const [url, setUrl] = useState('');
+  const [query, setQuery] = useState('');
+  const [selectedUrl, setSelectedUrl] = useState('');
+  const [results, setResults] = useState<SearchResult[]>([]);
+  const [searching, setSearching] = useState(false);
+  const [showResults, setShowResults] = useState(false);
   const [fingerprintRandomization, setFingerprintRandomization] = useState(true);
   const [ipCloaking, setIpCloaking] = useState(true);
   const [relayerDropdownOpen, setRelayerDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const searchRef = useRef<HTMLDivElement>(null);
+  const debounceRef = useRef<ReturnType<typeof setTimeout>>();
 
   useEffect(() => {
     if (!relayerDropdownOpen) return;
@@ -32,6 +42,62 @@ export default function LaunchSession() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [relayerDropdownOpen]);
 
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (searchRef.current && !searchRef.current.contains(e.target as Node)) {
+        setShowResults(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const handleSearch = useCallback(async (q: string) => {
+    if (q.trim().length < 2) {
+      setResults([]);
+      setShowResults(false);
+      return;
+    }
+    setSearching(true);
+    setShowResults(true);
+    try {
+      const data = await searchDapps(q);
+      setResults(data);
+    } catch {
+      setResults([]);
+    } finally {
+      setSearching(false);
+    }
+  }, []);
+
+  const handleQueryChange = (value: string) => {
+    setQuery(value);
+    setSelectedUrl('');
+    if (debounceRef.current) clearTimeout(debounceRef.current);
+    debounceRef.current = setTimeout(() => handleSearch(value), 500);
+  };
+
+  const handleSelectResult = (result: SearchResult) => {
+    setSelectedUrl(result.link);
+    setQuery(result.title);
+    setShowResults(false);
+  };
+
+  const handleClearSearch = () => {
+    setQuery('');
+    setSelectedUrl('');
+    setResults([]);
+    setShowResults(false);
+  };
+
+  const extractDomain = (url: string) => {
+    try {
+      return new URL(url).hostname;
+    } catch {
+      return url;
+    }
+  };
+
   return (
     <div className="space-y-6 sm:space-y-8">
       <div>
@@ -41,15 +107,87 @@ export default function LaunchSession() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
         <div className="lg:col-span-2 space-y-4 sm:space-y-6">
-          <Card glow="rgba(168, 85, 247, 0.06)">
-            <h2 className="text-sm font-medium text-white mb-4">Target dApp</h2>
-            <Input
-              icon={<Globe className="h-4 w-4" />}
-              placeholder="Paste dApp URL to launch stealth session"
-              value={url}
-              onChange={(e) => setUrl(e.target.value)}
-            />
-          </Card>
+          <div ref={searchRef} className="relative" style={showResults ? { zIndex: 30 } : undefined}>
+            <Card glow="rgba(168, 85, 247, 0.06)" overflow>
+              <h2 className="text-sm font-medium text-white mb-4">Target dApp</h2>
+              <div className="relative">
+                <div className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 transition-all duration-200 focus-within:border-purple-500/40 focus-within:bg-white/[0.06]">
+                  <Search className="h-4 w-4 text-white/30 shrink-0" />
+                  <input
+                    type="text"
+                    value={query}
+                    onChange={(e) => handleQueryChange(e.target.value)}
+                    onFocus={() => results.length > 0 && setShowResults(true)}
+                    placeholder="Search for dApps, protocols, or paste a URL..."
+                    className="flex-1 bg-transparent text-sm text-white placeholder:text-white/30 outline-none min-w-0"
+                  />
+                  {searching && <Loader2 className="h-4 w-4 text-purple-400 animate-spin shrink-0" />}
+                  {query && !searching && (
+                    <button onClick={handleClearSearch} className="text-white/30 hover:text-white/60 transition-colors shrink-0">
+                      <X className="h-4 w-4" />
+                    </button>
+                  )}
+                </div>
+
+                {showResults && (
+                  <div className="absolute top-full left-0 right-0 mt-2 rounded-xl border border-white/10 bg-[#0A0A0A] shadow-2xl z-50 max-h-80 overflow-y-auto">
+                    {searching ? (
+                      <div className="flex items-center justify-center py-8">
+                        <Loader2 className="h-5 w-5 text-purple-400 animate-spin" />
+                        <span className="ml-2 text-sm text-white/30">Searching...</span>
+                      </div>
+                    ) : results.length === 0 ? (
+                      <div className="flex flex-col items-center justify-center py-8 text-center px-4">
+                        <p className="text-sm text-white/30">No results found</p>
+                        <p className="text-xs text-white/20 mt-1">Try a different search term</p>
+                      </div>
+                    ) : (
+                      <div className="p-2">
+                        {results.map((result, i) => (
+                          <button
+                            key={i}
+                            onClick={() => handleSelectResult(result)}
+                            className="w-full text-left rounded-lg px-3 py-2.5 hover:bg-white/[0.06] transition-colors group"
+                          >
+                            <div className="flex items-start gap-3">
+                              {result.favicon ? (
+                                <img
+                                  src={result.favicon}
+                                  alt=""
+                                  className="h-4 w-4 rounded mt-0.5 shrink-0"
+                                  onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                                />
+                              ) : (
+                                <Globe className="h-4 w-4 text-white/20 mt-0.5 shrink-0" />
+                              )}
+                              <div className="min-w-0 flex-1">
+                                <p className="text-sm text-white/80 truncate group-hover:text-white transition-colors">{result.title}</p>
+                                <p className="text-xs text-purple-400/60 truncate mt-0.5">{result.displayed_link || extractDomain(result.link)}</p>
+                                {result.snippet && (
+                                  <p className="text-xs text-white/25 mt-1 line-clamp-2 leading-relaxed">{result.snippet}</p>
+                                )}
+                              </div>
+                              <ExternalLink className="h-3.5 w-3.5 text-white/10 group-hover:text-white/30 mt-0.5 shrink-0 transition-colors" />
+                            </div>
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+
+              {selectedUrl && (
+                <div className="mt-3 flex items-center gap-2 rounded-lg bg-purple-500/10 border border-purple-500/20 px-3 py-2">
+                  <Globe className="h-3.5 w-3.5 text-purple-400 shrink-0" />
+                  <span className="text-xs text-purple-300 truncate">{selectedUrl}</span>
+                  <button onClick={handleClearSearch} className="ml-auto text-purple-400/50 hover:text-purple-400 transition-colors shrink-0">
+                    <X className="h-3.5 w-3.5" />
+                  </button>
+                </div>
+              )}
+            </Card>
+          </div>
 
           <div ref={dropdownRef} className="relative" style={relayerDropdownOpen ? { zIndex: 30 } : undefined}>
             <Card glow="rgba(59, 130, 246, 0.06)" overflow>
@@ -96,13 +234,15 @@ export default function LaunchSession() {
           <Button
             variant="primary"
             fullWidth
-            disabled
+            disabled={!selectedUrl}
             icon={<Rocket className="h-4 w-4" />}
             className="py-3.5 text-sm rounded-xl"
           >
             Launch Stealth Session
           </Button>
-          <p className="text-xs text-white/25 text-center -mt-4">Connect to the network to launch sessions</p>
+          {!selectedUrl && (
+            <p className="text-xs text-white/25 text-center -mt-4">Search and select a dApp to launch</p>
+          )}
         </div>
 
         <div className="space-y-4 sm:space-y-6">
@@ -114,9 +254,9 @@ export default function LaunchSession() {
             <div className="space-y-4">
               {[
                 {
-                  icon: Globe,
-                  title: 'Paste dApp URL',
-                  desc: 'Enter the URL of any decentralized application you want to access privately.',
+                  icon: Search,
+                  title: 'Search dApps',
+                  desc: 'Search for any decentralized application or protocol you want to access privately.',
                 },
                 {
                   icon: Fingerprint,

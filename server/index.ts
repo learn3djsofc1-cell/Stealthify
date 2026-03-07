@@ -81,6 +81,41 @@ app.delete('/api/wallet/:sessionId', async (req, res) => {
   }
 });
 
+app.get('/api/search', async (req, res) => {
+  const { q } = req.query;
+  if (!q || typeof q !== 'string' || q.trim().length === 0) {
+    return res.status(400).json({ error: 'Search query is required' });
+  }
+  const apiKey = process.env.SERP_API_KEY;
+  if (!apiKey) {
+    return res.status(500).json({ error: 'Search service not configured' });
+  }
+  try {
+    const params = new URLSearchParams({
+      api_key: apiKey,
+      q: q.trim(),
+      engine: 'google',
+      num: '8',
+    });
+    const response = await fetch(`https://serpapi.com/search.json?${params}`);
+    if (!response.ok) {
+      throw new Error(`Search API returned ${response.status}`);
+    }
+    const data = await response.json();
+    const results = (data.organic_results || []).map((r: any) => ({
+      title: r.title,
+      link: r.link,
+      snippet: r.snippet,
+      favicon: r.favicon,
+      displayed_link: r.displayed_link,
+    }));
+    res.json({ results });
+  } catch (err: any) {
+    console.error('Search error:', err);
+    res.status(500).json({ error: 'Search failed' });
+  }
+});
+
 async function startServer() {
   await initDb();
 
