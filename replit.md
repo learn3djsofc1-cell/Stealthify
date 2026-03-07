@@ -62,6 +62,16 @@ Stealthify — A privacy-native Web3 access layer. Landing page + web applicatio
 ### Assets
 - `src/assets/logo.png` - Stealthify logo (imported in components)
 - `public/favicon.png` - Favicon
+- `public/og-image.png` - Open Graph social sharing image (1200x630)
+- `public/robots.txt` - Search engine crawl directives
+- `public/sitemap.xml` - XML sitemap for https://stealthify.cloud
+
+### SEO (index.html)
+- Canonical URL: https://stealthify.cloud/
+- Open Graph + Twitter Card meta tags with OG image
+- JSON-LD structured data (WebApplication + Organization schemas)
+- PWA meta tags (theme-color, apple-mobile-web-app)
+- Twitter handle: @StealthifyX
 
 ## Database Schema
 
