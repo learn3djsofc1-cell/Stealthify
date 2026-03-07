@@ -21,15 +21,15 @@ export default function LaunchSession() {
   const [relayerDropdownOpen, setRelayerDropdownOpen] = useState(false);
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6 sm:space-y-8">
       <div>
-        <h1 className="text-2xl font-semibold text-white">Launch Session</h1>
+        <h1 className="text-xl sm:text-2xl font-semibold text-white">Launch Session</h1>
         <p className="mt-1 text-sm text-white/40">Start a stealth browsing session with full anonymity</p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2 space-y-6">
-          <Card>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
+        <div className="lg:col-span-2 space-y-4 sm:space-y-6">
+          <Card tilt glow="rgba(168, 85, 247, 0.08)">
             <h2 className="text-sm font-medium text-white mb-4">Target dApp</h2>
             <Input
               icon={<Globe className="h-4 w-4" />}
@@ -39,7 +39,7 @@ export default function LaunchSession() {
             />
           </Card>
 
-          <Card>
+          <Card tilt glow="rgba(59, 130, 246, 0.08)">
             <h2 className="text-sm font-medium text-white mb-4">Relayer Preference</h2>
             <div className="relative">
               <button
@@ -60,7 +60,7 @@ export default function LaunchSession() {
             </div>
           </Card>
 
-          <Card>
+          <Card tilt glow="rgba(16, 185, 129, 0.08)">
             <h2 className="text-sm font-medium text-white mb-5">Session Configuration</h2>
             <div className="space-y-5">
               <Toggle
@@ -91,8 +91,8 @@ export default function LaunchSession() {
           <p className="text-xs text-white/25 text-center -mt-4">Connect to the network to launch sessions</p>
         </div>
 
-        <div className="space-y-6">
-          <Card className="border-purple-500/10">
+        <div className="space-y-4 sm:space-y-6">
+          <Card tilt glow="rgba(168, 85, 247, 0.1)" className="border-purple-500/10">
             <div className="flex items-center gap-2 mb-4">
               <Info className="h-4 w-4 text-purple-400" />
               <h3 className="text-sm font-medium text-purple-400">How it works</h3>
@@ -133,9 +133,9 @@ export default function LaunchSession() {
             </div>
           </Card>
 
-          <Card>
+          <Card tilt glow="rgba(255,255,255,0.04)">
             <h3 className="text-sm font-medium text-white mb-3">Session Defaults</h3>
-            <div className="space-y-2">
+            <div className="space-y-2.5">
               <div className="flex items-center justify-between">
                 <span className="text-xs text-white/40">Fingerprint</span>
                 <Badge label={fingerprintRandomization ? 'Randomized' : 'Off'} variant={fingerprintRandomization ? 'active' : 'inactive'} />

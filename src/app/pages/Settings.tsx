@@ -19,14 +19,14 @@ export default function Settings() {
   const [devMode, setDevMode] = useState(false);
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6 sm:space-y-8">
       <div>
-        <h1 className="text-2xl font-semibold text-white">Settings</h1>
+        <h1 className="text-xl sm:text-2xl font-semibold text-white">Settings</h1>
         <p className="mt-1 text-sm text-white/40">Configure your Stealthify preferences</p>
       </div>
 
-      <div className="space-y-6">
-        <Card>
+      <div className="space-y-4 sm:space-y-6">
+        <Card tilt glow="rgba(255,255,255,0.04)">
           <div className="flex items-center gap-3 mb-5">
             <div className="rounded-lg bg-white/[0.04] border border-white/[0.06] p-2">
               <SettingsIcon className="h-4 w-4 text-white/40" />
@@ -54,7 +54,7 @@ export default function Settings() {
           </div>
         </Card>
 
-        <Card>
+        <Card tilt glow="rgba(168, 85, 247, 0.08)">
           <div className="flex items-center gap-3 mb-5">
             <div className="rounded-lg bg-purple-500/10 border border-purple-500/20 p-2">
               <Shield className="h-4 w-4 text-purple-400" />
@@ -88,7 +88,7 @@ export default function Settings() {
           </div>
         </Card>
 
-        <Card>
+        <Card tilt glow="rgba(59, 130, 246, 0.08)">
           <div className="flex items-center gap-3 mb-5">
             <div className="rounded-lg bg-blue-500/10 border border-blue-500/20 p-2">
               <Wifi className="h-4 w-4 text-blue-400" />
@@ -108,7 +108,7 @@ export default function Settings() {
           </div>
         </Card>
 
-        <Card>
+        <Card tilt glow="rgba(255,255,255,0.04)">
           <div className="flex items-center gap-3 mb-5">
             <div className="rounded-lg bg-white/[0.04] border border-white/[0.06] p-2">
               <Wrench className="h-4 w-4 text-white/40" />
@@ -128,7 +128,7 @@ export default function Settings() {
           </div>
         </Card>
 
-        <Card className="border-red-500/10">
+        <Card tilt glow="rgba(239, 68, 68, 0.08)" className="border-red-500/10">
           <div className="flex items-center gap-3 mb-5">
             <div className="rounded-lg bg-red-500/10 border border-red-500/20 p-2">
               <Trash2 className="h-4 w-4 text-red-400" />

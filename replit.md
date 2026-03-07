@@ -24,8 +24,8 @@ Stealthify — A privacy-native Web3 access layer. Landing page + web applicatio
   - `Nucleus3D.tsx`, `Infrastructure3D.tsx` - Three.js visualizations
 
 ### Web App (`/app`)
-- `src/app/AppLayout.tsx` - Layout shell with sidebar + top bar
-- `src/app/Sidebar.tsx` - Navigation sidebar (collapsible desktop, drawer mobile)
+- `src/app/AppLayout.tsx` - Layout shell with top bar + bottom nav
+- `src/app/BottomNav.tsx` - Bottom navigation bar (both mobile and desktop)
 - `src/app/TopBar.tsx` - Top header bar with status indicators
 - `src/app/pages/` - App pages:
   - `Dashboard.tsx` (`/app`) - Overview with stats, quick actions, network status

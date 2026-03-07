@@ -18,10 +18,10 @@ export default function Relayers() {
   const [searchQuery, setSearchQuery] = useState('');
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6 sm:space-y-8">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-semibold text-white">Relayers</h1>
+          <h1 className="text-xl sm:text-2xl font-semibold text-white">Relayers</h1>
           <p className="mt-1 text-sm text-white/40">Discover and manage OpenClaw relayer nodes</p>
         </div>
         <Button
@@ -33,7 +33,7 @@ export default function Relayers() {
         </Button>
       </div>
 
-      <div className="flex flex-col sm:flex-row gap-4">
+      <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
         <div className="flex-1">
           <Input
             icon={<Search className="h-4 w-4" />}
@@ -55,7 +55,7 @@ export default function Relayers() {
         </div>
       </div>
 
-      <Card>
+      <Card tilt glow="rgba(59, 130, 246, 0.08)">
         <EmptyState
           icon={<Radio className="h-7 w-7" />}
           title="No relayers discovered yet"
@@ -67,15 +67,15 @@ export default function Relayers() {
 
       <div>
         <h2 className="text-sm font-medium text-white/60 uppercase tracking-wider mb-4">Relayer Node Preview</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 opacity-40 pointer-events-none">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 opacity-40 pointer-events-none">
           {[
             { name: 'Relay Alpha', region: 'US-East', status: 'Offline' },
             { name: 'Relay Beta', region: 'EU-West', status: 'Offline' },
           ].map((relayer) => (
-            <Card key={relayer.name} hover>
+            <Card key={relayer.name} tilt hover glow="rgba(59, 130, 246, 0.1)">
               <div className="flex items-start justify-between mb-4">
                 <div className="flex items-center gap-3">
-                  <div className="rounded-xl bg-blue-500/10 border border-blue-500/20 p-2.5">
+                  <div className="rounded-xl bg-blue-500/10 border border-blue-500/20 p-2.5 shadow-[0_0_16px_rgba(59,130,246,0.08)]">
                     <Signal className="h-4 w-4 text-blue-400" />
                   </div>
                   <div>
@@ -85,7 +85,7 @@ export default function Relayers() {
                 </div>
                 <Badge label={relayer.status} variant="inactive" dot />
               </div>
-              <div className="grid grid-cols-3 gap-3">
+              <div className="grid grid-cols-3 gap-2 sm:gap-3">
                 <div className="rounded-lg bg-white/[0.02] border border-white/[0.04] px-3 py-2">
                   <div className="flex items-center gap-1.5 mb-1">
                     <Clock className="h-3 w-3 text-white/25" />
