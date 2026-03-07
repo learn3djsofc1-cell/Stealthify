@@ -1,10 +1,10 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 
 const CTASection: React.FC = () => {
   return (
     <section className="py-32 px-6 bg-black relative overflow-hidden">
-      {/* Background Glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-purple-900/20 rounded-full blur-[120px] pointer-events-none" />
 
       <div className="max-w-5xl mx-auto text-center relative z-10">
@@ -38,12 +38,12 @@ const CTASection: React.FC = () => {
           transition={{ duration: 0.8, delay: 0.4 }}
           className="flex flex-col sm:flex-row items-center justify-center gap-4"
         >
-          <button className="px-8 py-4 bg-white text-black rounded-full font-medium hover:bg-gray-100 transition-all duration-300 hover:scale-105 active:scale-95 shadow-[0_0_20px_rgba(255,255,255,0.3)]">
+          <Link to="/app" className="px-8 py-4 bg-white text-black rounded-full font-medium hover:bg-gray-100 transition-all duration-300 hover:scale-105 active:scale-95 shadow-[0_0_20px_rgba(255,255,255,0.3)]">
             Launch App
-          </button>
-          <button className="px-8 py-4 bg-white/5 text-white rounded-full font-medium border border-white/10 hover:bg-white/10 transition-all duration-300 hover:scale-105 active:scale-95 backdrop-blur-sm">
+          </Link>
+          <Link to="/app" className="px-8 py-4 bg-white/5 text-white rounded-full font-medium border border-white/10 hover:bg-white/10 transition-all duration-300 hover:scale-105 active:scale-95 backdrop-blur-sm">
             Read Documentation
-          </button>
+          </Link>
         </motion.div>
       </div>
     </section>
