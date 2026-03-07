@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Globe,
   Rocket,
@@ -16,14 +17,19 @@ import Card from '../components/Card';
 import Button from '../components/Button';
 import Toggle from '../components/Toggle';
 import Badge from '../components/Badge';
-import { searchDapps, type SearchResult } from '../../lib/api';
+import { searchDapps, createSession, type SearchResult } from '../../lib/api';
+import { getSessionId } from '../../lib/session';
 
 export default function LaunchSession() {
+  const navigate = useNavigate();
   const [query, setQuery] = useState('');
   const [selectedUrl, setSelectedUrl] = useState('');
+  const [selectedTitle, setSelectedTitle] = useState('');
   const [results, setResults] = useState<SearchResult[]>([]);
   const [searching, setSearching] = useState(false);
   const [showResults, setShowResults] = useState(false);
+  const [launching, setLaunching] = useState(false);
+  const [launchError, setLaunchError] = useState('');
   const [fingerprintRandomization, setFingerprintRandomization] = useState(true);
   const [ipCloaking, setIpCloaking] = useState(true);
   const [relayerDropdownOpen, setRelayerDropdownOpen] = useState(false);
@@ -70,24 +76,67 @@ export default function LaunchSession() {
     }
   }, []);
 
+  const isValidUrl = (str: string): boolean => {
+    try {
+      const url = new URL(str);
+      return url.protocol === 'http:' || url.protocol === 'https:';
+    } catch {
+      return false;
+    }
+  };
+
   const handleQueryChange = (value: string) => {
     setQuery(value);
+    setLaunchError('');
+    if (isValidUrl(value.trim())) {
+      setSelectedUrl(value.trim());
+      setSelectedTitle('');
+      setShowResults(false);
+      if (debounceRef.current) clearTimeout(debounceRef.current);
+      return;
+    }
     setSelectedUrl('');
+    setSelectedTitle('');
     if (debounceRef.current) clearTimeout(debounceRef.current);
     debounceRef.current = setTimeout(() => handleSearch(value), 500);
   };
 
   const handleSelectResult = (result: SearchResult) => {
     setSelectedUrl(result.link);
+    setSelectedTitle(result.title);
     setQuery(result.title);
     setShowResults(false);
+    setLaunchError('');
   };
 
   const handleClearSearch = () => {
     setQuery('');
     setSelectedUrl('');
+    setSelectedTitle('');
     setResults([]);
     setShowResults(false);
+    setLaunchError('');
+  };
+
+  const handleLaunch = async () => {
+    if (!selectedUrl || launching) return;
+    setLaunching(true);
+    setLaunchError('');
+    try {
+      const session = await createSession({
+        browserSessionId: getSessionId(),
+        targetUrl: selectedUrl,
+        targetTitle: selectedTitle || undefined,
+        fingerprintRandomization,
+        ipCloaking,
+      });
+      window.open(selectedUrl, `stealth_${session.id}`);
+      navigate(`/app/session/${session.id}`);
+    } catch (err: any) {
+      setLaunchError(err.message || 'Failed to launch session');
+    } finally {
+      setLaunching(false);
+    }
   };
 
   const extractDomain = (url: string) => {
@@ -234,13 +283,17 @@ export default function LaunchSession() {
           <Button
             variant="primary"
             fullWidth
-            disabled={!selectedUrl}
-            icon={<Rocket className="h-4 w-4" />}
+            disabled={!selectedUrl || launching}
+            onClick={handleLaunch}
+            icon={launching ? <Loader2 className="h-4 w-4 animate-spin" /> : <Rocket className="h-4 w-4" />}
             className="py-3.5 text-sm rounded-xl"
           >
-            Launch Stealth Session
+            {launching ? 'Launching...' : 'Launch Stealth Session'}
           </Button>
-          {!selectedUrl && (
+          {launchError && (
+            <p className="text-xs text-red-400 text-center -mt-4">{launchError}</p>
+          )}
+          {!selectedUrl && !launchError && (
             <p className="text-xs text-white/25 text-center -mt-4">Search and select a dApp to launch</p>
           )}
         </div>

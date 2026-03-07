@@ -10,24 +10,43 @@ import {
   Clock,
   Zap,
   ArrowRight,
+  Globe,
 } from 'lucide-react';
 import StatCard from '../components/StatCard';
 import Card from '../components/Card';
 import Button from '../components/Button';
 import Badge from '../components/Badge';
 import EmptyState from '../components/EmptyState';
-import { fetchWallet, type WalletData } from '../../lib/api';
+import { fetchWallet, fetchSessions, type WalletData, type StealthSession } from '../../lib/api';
 import { getSessionId } from '../../lib/session';
+
+function extractDomain(url: string): string {
+  try {
+    return new URL(url).hostname;
+  } catch {
+    return url;
+  }
+}
+
+function timeAgo(dateStr: string): string {
+  const diff = Math.floor((Date.now() - new Date(dateStr).getTime()) / 1000);
+  if (diff < 60) return 'Just now';
+  if (diff < 3600) return `${Math.floor(diff / 60)}m ago`;
+  if (diff < 86400) return `${Math.floor(diff / 3600)}h ago`;
+  return `${Math.floor(diff / 86400)}d ago`;
+}
 
 export default function Dashboard() {
   const navigate = useNavigate();
   const [wallet, setWallet] = useState<WalletData | null>(null);
   const [walletLoaded, setWalletLoaded] = useState(false);
+  const [sessions, setSessions] = useState<StealthSession[]>([]);
+  const [sessionsLoaded, setSessionsLoaded] = useState(false);
 
   useEffect(() => {
+    const sessionId = getSessionId();
     async function loadWallet() {
       try {
-        const sessionId = getSessionId();
         const w = await fetchWallet(sessionId);
         setWallet(w);
       } catch {
@@ -35,10 +54,23 @@ export default function Dashboard() {
         setWalletLoaded(true);
       }
     }
+    async function loadSessions() {
+      try {
+        const s = await fetchSessions(sessionId);
+        setSessions(s);
+      } catch {
+      } finally {
+        setSessionsLoaded(true);
+      }
+    }
     loadWallet();
+    loadSessions();
   }, []);
 
   const formatAddress = (addr: string) => `${addr.slice(0, 4)}...${addr.slice(-4)}`;
+
+  const activeSessions = sessions.filter(s => s.status === 'active');
+  const totalSessions = sessions.length;
 
   return (
     <div className="space-y-6 sm:space-y-8">
@@ -50,25 +82,25 @@ export default function Dashboard() {
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         <StatCard
           label="Active Sessions"
-          value="0"
+          value={sessionsLoaded ? String(activeSessions.length) : '...'}
           icon={<Activity className="h-5 w-5" />}
-          trend="No sessions running"
+          trend={activeSessions.length > 0 ? `${activeSessions.length} running now` : 'No sessions running'}
           glow="rgba(168, 85, 247, 0.12)"
           accentColor="#a855f7"
         />
         <StatCard
-          label="Relayer Nodes"
-          value="0"
+          label="Total Sessions"
+          value={sessionsLoaded ? String(totalSessions) : '...'}
           icon={<Radio className="h-5 w-5" />}
-          trend="Connect to discover"
+          trend={totalSessions > 0 ? `${totalSessions} launched` : 'Launch your first'}
           glow="rgba(59, 130, 246, 0.12)"
           accentColor="#3b82f6"
         />
         <StatCard
           label="Privacy Score"
-          value="—"
+          value={totalSessions > 0 ? '100' : '—'}
           icon={<ShieldCheck className="h-5 w-5" />}
-          trend="Launch a session to score"
+          trend={totalSessions > 0 ? 'Full anonymity' : 'Launch a session to score'}
           glow="rgba(16, 185, 129, 0.12)"
           accentColor="#10b981"
         />
@@ -134,11 +166,37 @@ export default function Dashboard() {
               View All
             </Button>
           </div>
-          <EmptyState
-            icon={<Clock className="h-6 w-6" />}
-            title="No recent activity"
-            description="Your session history will appear here once you launch your first stealth session."
-          />
+          {sessions.length === 0 ? (
+            <EmptyState
+              icon={<Clock className="h-6 w-6" />}
+              title="No recent activity"
+              description="Your session history will appear here once you launch your first stealth session."
+            />
+          ) : (
+            <div className="space-y-2">
+              {sessions.slice(0, 5).map((s) => (
+                <div
+                  key={s.id}
+                  className="flex items-center gap-3 rounded-xl bg-white/[0.02] border border-white/[0.04] px-4 py-3 hover:bg-white/[0.04] cursor-pointer transition-colors"
+                  onClick={() => navigate(`/app/session/${s.id}`)}
+                >
+                  <Globe className="h-4 w-4 text-white/20 shrink-0" />
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm text-white/60 truncate">{s.target_title || extractDomain(s.target_url)}</p>
+                    <p className="text-xs text-white/20 font-mono truncate">{extractDomain(s.target_url)}</p>
+                  </div>
+                  <div className="flex items-center gap-2 shrink-0">
+                    <Badge
+                      label={s.status === 'active' ? 'Active' : s.status === 'ended' ? 'Ended' : 'Error'}
+                      variant={s.status === 'active' ? 'active' : s.status === 'ended' ? 'inactive' : 'error'}
+                      dot
+                    />
+                    <span className="text-[10px] text-white/20 hidden sm:block">{timeAgo(s.started_at)}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </Card>
 
         <Card glow="rgba(255,255,255,0.04)">

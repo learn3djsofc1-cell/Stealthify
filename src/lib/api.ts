@@ -46,3 +46,62 @@ export async function searchDapps(query: string): Promise<SearchResult[]> {
   const data = await res.json();
   return data.results;
 }
+
+export interface StealthSession {
+  id: string;
+  browser_session_id: string;
+  target_url: string;
+  target_title: string | null;
+  status: 'active' | 'ended' | 'error';
+  fingerprint_randomization: boolean;
+  ip_cloaking: boolean;
+  relayer: string;
+  started_at: string;
+  ended_at: string | null;
+}
+
+export async function createSession(params: {
+  browserSessionId: string;
+  targetUrl: string;
+  targetTitle?: string;
+  fingerprintRandomization: boolean;
+  ipCloaking: boolean;
+  relayer?: string;
+}): Promise<StealthSession> {
+  const res = await fetch(`${API_BASE}/sessions`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(params),
+  });
+  if (!res.ok) {
+    const err = await res.json();
+    throw new Error(err.error || 'Failed to create session');
+  }
+  const data = await res.json();
+  return data.session;
+}
+
+export async function fetchSessions(browserSessionId: string): Promise<StealthSession[]> {
+  const res = await fetch(`${API_BASE}/sessions?browserSessionId=${encodeURIComponent(browserSessionId)}`);
+  if (!res.ok) throw new Error('Failed to fetch sessions');
+  const data = await res.json();
+  return data.sessions;
+}
+
+export async function fetchSession(id: string): Promise<StealthSession> {
+  const res = await fetch(`${API_BASE}/sessions/${id}`);
+  if (!res.ok) throw new Error('Failed to fetch session');
+  const data = await res.json();
+  return data.session;
+}
+
+export async function updateSessionStatus(id: string, status: 'active' | 'ended' | 'error'): Promise<StealthSession> {
+  const res = await fetch(`${API_BASE}/sessions/${id}`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ status }),
+  });
+  if (!res.ok) throw new Error('Failed to update session');
+  const data = await res.json();
+  return data.session;
+}

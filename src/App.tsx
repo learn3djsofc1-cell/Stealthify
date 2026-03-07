@@ -13,6 +13,7 @@ import LaunchSession from './app/pages/LaunchSession';
 import Wallet from './app/pages/Wallet';
 import Relayers from './app/pages/Relayers';
 import Sessions from './app/pages/Sessions';
+import ActiveSession from './app/pages/ActiveSession';
 import Settings from './app/pages/Settings';
 
 function LandingPage() {
@@ -40,6 +41,7 @@ export default function App() {
         <Route path="wallet" element={<Wallet />} />
         <Route path="relayers" element={<Relayers />} />
         <Route path="sessions" element={<Sessions />} />
+        <Route path="session/:id" element={<ActiveSession />} />
         <Route path="settings" element={<Settings />} />
         <Route path="*" element={<Navigate to="/app" replace />} />
       </Route>

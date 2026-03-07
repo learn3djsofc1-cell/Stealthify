@@ -22,6 +22,10 @@ Stealthify — A privacy-native Web3 access layer. Landing page + web applicatio
   - `GET /api/wallet/:sessionId` - Fetch wallet by session ID
   - `DELETE /api/wallet/:sessionId` - Delete wallet record
   - `GET /api/search?q=` - Search dApps/protocols via server-side search API
+  - `POST /api/sessions` - Create stealth browsing session
+  - `GET /api/sessions?browserSessionId=` - List sessions for browser session
+  - `GET /api/sessions/:id` - Fetch single session by ID
+  - `PATCH /api/sessions/:id` - Update session status (active/ended/error)
 
 ### Landing Page (`/`)
 - `src/App.tsx` - Root component with route definitions
@@ -38,11 +42,12 @@ Stealthify — A privacy-native Web3 access layer. Landing page + web applicatio
 - `src/app/BottomNav.tsx` - Bottom navigation bar (both mobile and desktop)
 - `src/app/TopBar.tsx` - Top header bar with status indicators
 - `src/app/pages/` - App pages:
-  - `Dashboard.tsx` (`/app`) - Overview with stats, quick actions, network status
-  - `LaunchSession.tsx` (`/app/launch`) - Launch stealth browsing sessions
+  - `Dashboard.tsx` (`/app`) - Overview with live stats, quick actions, recent activity, network status
+  - `LaunchSession.tsx` (`/app/launch`) - Search/paste dApp URL, configure privacy, launch session
+  - `ActiveSession.tsx` (`/app/session/:id`) - Active session view with controls, timer, details
   - `Wallet.tsx` (`/app/wallet`) - Solana wallet creation and management
   - `Relayers.tsx` (`/app/relayers`) - OpenClaw relayer node discovery
-  - `Sessions.tsx` (`/app/sessions`) - Session history
+  - `Sessions.tsx` (`/app/sessions`) - Session history with active/past sections
   - `Settings.tsx` (`/app/settings`) - App preferences and privacy settings
 - `src/app/components/` - Reusable UI components:
   - `Card.tsx`, `Button.tsx`, `Badge.tsx`, `EmptyState.tsx`
@@ -50,7 +55,7 @@ Stealthify — A privacy-native Web3 access layer. Landing page + web applicatio
 
 ### Shared Libraries (`src/lib/`)
 - `src/lib/solana.ts` - Solana keypair generation (client-side only)
-- `src/lib/api.ts` - API client for wallet CRUD
+- `src/lib/api.ts` - API client for wallet CRUD + session CRUD + search
 - `src/lib/session.ts` - Browser session ID management (localStorage)
 
 ### Assets
@@ -66,6 +71,18 @@ Stealthify — A privacy-native Web3 access layer. Landing page + web applicatio
 - `created_at` TIMESTAMP DEFAULT NOW()
 
 Note: Private keys are generated client-side and never stored server-side.
+
+### stealth_sessions
+- `id` VARCHAR(36) PRIMARY KEY — UUID generated server-side
+- `browser_session_id` VARCHAR(64) NOT NULL — links to browser session
+- `target_url` TEXT NOT NULL — target dApp URL
+- `target_title` TEXT — display title for the target
+- `status` VARCHAR(16) NOT NULL DEFAULT 'active' — active/ended/error
+- `fingerprint_randomization` BOOLEAN NOT NULL DEFAULT true
+- `ip_cloaking` BOOLEAN NOT NULL DEFAULT true
+- `relayer` VARCHAR(64) DEFAULT 'auto'
+- `started_at` TIMESTAMP DEFAULT NOW()
+- `ended_at` TIMESTAMP — set when session is ended
 
 ## Development
 

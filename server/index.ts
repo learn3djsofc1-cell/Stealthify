@@ -24,6 +24,20 @@ async function initDb() {
       created_at TIMESTAMP DEFAULT NOW()
     )
   `);
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS stealth_sessions (
+      id VARCHAR(36) PRIMARY KEY,
+      browser_session_id VARCHAR(64) NOT NULL,
+      target_url TEXT NOT NULL,
+      target_title TEXT,
+      status VARCHAR(16) NOT NULL DEFAULT 'active',
+      fingerprint_randomization BOOLEAN NOT NULL DEFAULT true,
+      ip_cloaking BOOLEAN NOT NULL DEFAULT true,
+      relayer VARCHAR(64) DEFAULT 'auto',
+      started_at TIMESTAMP DEFAULT NOW(),
+      ended_at TIMESTAMP
+    )
+  `);
 }
 
 const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
@@ -78,6 +92,87 @@ app.delete('/api/wallet/:sessionId', async (req, res) => {
   } catch (err: any) {
     console.error('Error deleting wallet:', err);
     res.status(500).json({ error: 'Failed to delete wallet' });
+  }
+});
+
+app.post('/api/sessions', async (req, res) => {
+  const { browserSessionId, targetUrl, targetTitle, fingerprintRandomization, ipCloaking, relayer } = req.body;
+  if (!browserSessionId || !targetUrl) {
+    return res.status(400).json({ error: 'browserSessionId and targetUrl are required' });
+  }
+  if (!UUID_REGEX.test(browserSessionId)) {
+    return res.status(400).json({ error: 'Invalid browser session ID format' });
+  }
+  try {
+    new URL(targetUrl);
+  } catch {
+    return res.status(400).json({ error: 'Invalid target URL' });
+  }
+  const id = crypto.randomUUID();
+  try {
+    const result = await pool.query(
+      `INSERT INTO stealth_sessions (id, browser_session_id, target_url, target_title, fingerprint_randomization, ip_cloaking, relayer)
+       VALUES ($1, $2, $3, $4, $5, $6, $7)
+       RETURNING *`,
+      [id, browserSessionId, targetUrl, targetTitle || null, fingerprintRandomization !== false, ipCloaking !== false, relayer || 'auto']
+    );
+    res.json({ session: result.rows[0] });
+  } catch (err: any) {
+    console.error('Error creating session:', err);
+    res.status(500).json({ error: 'Failed to create session' });
+  }
+});
+
+app.get('/api/sessions', async (req, res) => {
+  const { browserSessionId } = req.query;
+  if (!browserSessionId || typeof browserSessionId !== 'string') {
+    return res.status(400).json({ error: 'browserSessionId query parameter is required' });
+  }
+  try {
+    const result = await pool.query(
+      'SELECT * FROM stealth_sessions WHERE browser_session_id = $1 ORDER BY started_at DESC',
+      [browserSessionId]
+    );
+    res.json({ sessions: result.rows });
+  } catch (err: any) {
+    console.error('Error fetching sessions:', err);
+    res.status(500).json({ error: 'Failed to fetch sessions' });
+  }
+});
+
+app.get('/api/sessions/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const result = await pool.query('SELECT * FROM stealth_sessions WHERE id = $1', [id]);
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'Session not found' });
+    }
+    res.json({ session: result.rows[0] });
+  } catch (err: any) {
+    console.error('Error fetching session:', err);
+    res.status(500).json({ error: 'Failed to fetch session' });
+  }
+});
+
+app.patch('/api/sessions/:id', async (req, res) => {
+  const { id } = req.params;
+  const { status } = req.body;
+  if (!status || !['active', 'ended', 'error'].includes(status)) {
+    return res.status(400).json({ error: 'Valid status is required (active, ended, error)' });
+  }
+  try {
+    const endedAt = status === 'ended' || status === 'error' ? 'NOW()' : 'NULL';
+    const result = await pool.query(
+      `UPDATE stealth_sessions SET status = $1, ended_at = ${endedAt} WHERE id = $2 RETURNING *`,
+      [status, id]
+    );
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'Session not found' });
+    }
+    res.json({ session: result.rows[0] });
+  } catch (err: any) {
+    console.error('Error updating session:', err);
+    res.status(500).json({ error: 'Failed to update session' });
   }
 });
 
