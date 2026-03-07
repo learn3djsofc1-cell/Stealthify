@@ -19,6 +19,13 @@ import Toggle from '../components/Toggle';
 import Badge from '../components/Badge';
 import { searchDapps, createSession, type SearchResult } from '../../lib/api';
 import { getSessionId } from '../../lib/session';
+import {
+  RELAYER_NODES,
+  getActiveRelayers,
+  getStatusVariant,
+  getStatusLabel,
+  type RelayerNode,
+} from '../../lib/relayers';
 
 export default function LaunchSession() {
   const navigate = useNavigate();
@@ -33,6 +40,7 @@ export default function LaunchSession() {
   const [fingerprintRandomization, setFingerprintRandomization] = useState(true);
   const [ipCloaking, setIpCloaking] = useState(true);
   const [relayerDropdownOpen, setRelayerDropdownOpen] = useState(false);
+  const [selectedRelayer, setSelectedRelayer] = useState<string>('auto');
   const dropdownRef = useRef<HTMLDivElement>(null);
   const searchRef = useRef<HTMLDivElement>(null);
   const debounceRef = useRef<ReturnType<typeof setTimeout>>();
@@ -251,14 +259,60 @@ export default function LaunchSession() {
                   onClick={() => setRelayerDropdownOpen(!relayerDropdownOpen)}
                   className="flex w-full items-center justify-between rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 text-sm transition-all duration-200 hover:border-white/20"
                 >
-                  <span className="text-white/40">Auto-select best relayer</span>
-                  <ChevronDown className={`h-4 w-4 text-white/30 transition-transform duration-200 ${relayerDropdownOpen ? 'rotate-180' : ''}`} />
+                  <span className="text-white/60">
+                    {selectedRelayer === 'auto'
+                      ? 'Auto-select best relayer'
+                      : RELAYER_NODES.find(r => r.id === selectedRelayer)?.name || 'Auto-select best relayer'}
+                  </span>
+                  <div className="flex items-center gap-2">
+                    {selectedRelayer !== 'auto' && (() => {
+                      const r = RELAYER_NODES.find(n => n.id === selectedRelayer);
+                      return r ? (
+                        <Badge label={getStatusLabel(r.status)} variant={getStatusVariant(r.status)} dot />
+                      ) : null;
+                    })()}
+                    <ChevronDown className={`h-4 w-4 text-white/30 transition-transform duration-200 ${relayerDropdownOpen ? 'rotate-180' : ''}`} />
+                  </div>
                 </button>
                 {relayerDropdownOpen && (
-                  <div className="absolute top-full left-0 right-0 mt-2 rounded-xl border border-white/10 bg-[#0A0A0A] p-2 shadow-2xl z-50">
-                    <div className="flex flex-col items-center justify-center py-6 text-center">
-                      <p className="text-sm text-white/30">No relayers available</p>
-                      <p className="text-xs text-white/20 mt-1">Connect to the network to discover relayers</p>
+                  <div className="absolute top-full left-0 right-0 mt-2 rounded-xl border border-white/10 bg-[#0A0A0A] shadow-2xl z-50 max-h-80 overflow-y-auto">
+                    <div className="p-2">
+                      <button
+                        onClick={() => { setSelectedRelayer('auto'); setRelayerDropdownOpen(false); }}
+                        className={`w-full text-left rounded-lg px-3 py-2.5 transition-colors ${selectedRelayer === 'auto' ? 'bg-purple-500/10 border border-purple-500/20' : 'hover:bg-white/[0.06] border border-transparent'}`}
+                      >
+                        <div className="flex items-center justify-between">
+                          <div>
+                            <p className="text-sm text-white/80">Auto-select best relayer</p>
+                            <p className="text-xs text-white/30 mt-0.5">Lowest latency, highest uptime</p>
+                          </div>
+                          {selectedRelayer === 'auto' && <div className="h-2 w-2 rounded-full bg-purple-400" />}
+                        </div>
+                      </button>
+                      <div className="h-px bg-white/[0.06] my-1" />
+                      {getActiveRelayers().map((relayer) => (
+                        <button
+                          key={relayer.id}
+                          onClick={() => { setSelectedRelayer(relayer.id); setRelayerDropdownOpen(false); }}
+                          className={`w-full text-left rounded-lg px-3 py-2.5 transition-colors ${selectedRelayer === relayer.id ? 'bg-purple-500/10 border border-purple-500/20' : 'hover:bg-white/[0.06] border border-transparent'}`}
+                        >
+                          <div className="flex items-center justify-between">
+                            <div className="flex-1 min-w-0">
+                              <div className="flex items-center gap-2">
+                                <p className="text-sm text-white/80">{relayer.name}</p>
+                                <Badge label={getStatusLabel(relayer.status)} variant={getStatusVariant(relayer.status)} dot />
+                                {relayer.verified && <Badge label="Verified" variant="verified" />}
+                              </div>
+                              <div className="flex items-center gap-3 mt-0.5">
+                                <span className="text-xs text-white/30">{relayer.region}</span>
+                                <span className="text-xs text-white/20 font-mono">{relayer.latencyMs}ms</span>
+                                <span className="text-xs text-white/20">{relayer.uptimePercent.toFixed(1)}%</span>
+                              </div>
+                            </div>
+                            {selectedRelayer === relayer.id && <div className="h-2 w-2 rounded-full bg-purple-400 shrink-0" />}
+                          </div>
+                        </button>
+                      ))}
                     </div>
                   </div>
                 )}
@@ -358,7 +412,10 @@ export default function LaunchSession() {
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-xs text-white/40">Relayer</span>
-                <Badge label="Auto" variant="inactive" />
+                <Badge
+                  label={selectedRelayer === 'auto' ? 'Auto' : RELAYER_NODES.find(r => r.id === selectedRelayer)?.name || 'Auto'}
+                  variant={selectedRelayer === 'auto' ? 'inactive' : 'active'}
+                />
               </div>
             </div>
           </Card>

@@ -57,6 +57,7 @@ Stealthify — A privacy-native Web3 access layer. Landing page + web applicatio
 - `src/lib/solana.ts` - Solana keypair generation (client-side only)
 - `src/lib/api.ts` - API client for wallet CRUD + session CRUD + search
 - `src/lib/session.ts` - Browser session ID management (localStorage)
+- `src/lib/relayers.ts` - Mock relayer node data (8 nodes across global regions with realistic stats)
 
 ### Assets
 - `src/assets/logo.png` - Stealthify logo (imported in components)

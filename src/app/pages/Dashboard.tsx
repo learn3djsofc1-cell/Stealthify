@@ -19,6 +19,7 @@ import Badge from '../components/Badge';
 import EmptyState from '../components/EmptyState';
 import { fetchWallet, fetchSessions, type WalletData, type StealthSession } from '../../lib/api';
 import { getSessionId } from '../../lib/session';
+import { getOnlineRelayers, RELAYER_NODES, formatNumber } from '../../lib/relayers';
 
 function extractDomain(url: string): string {
   try {
@@ -205,25 +206,36 @@ export default function Dashboard() {
               <Zap className="h-4 w-4 text-white/30" />
               <h3 className="text-sm font-medium text-white">Network Status</h3>
             </div>
-            <Badge label="Offline" variant="inactive" dot />
+            <Badge label={`${getOnlineRelayers().length} Online`} variant="active" dot />
           </div>
           <div className="space-y-2.5">
-            {[
-              { name: 'Relay Network', status: 'Disconnected' },
-              { name: 'OpenClaw Registry', status: 'Disconnected' },
-              { name: 'Session Sandbox', status: 'Idle' },
-            ].map(({ name, status }) => (
-              <div
-                key={name}
-                className="flex items-center justify-between rounded-xl bg-white/[0.02] border border-white/[0.04] px-4 py-3"
-              >
-                <div className="flex items-center gap-2.5">
-                  <div className="h-2 w-2 rounded-full bg-white/10" />
-                  <span className="text-sm text-white/50">{name}</span>
-                </div>
-                <Badge label={status} variant="inactive" />
+            <div
+              className="flex items-center justify-between rounded-xl bg-white/[0.02] border border-white/[0.04] px-4 py-3"
+            >
+              <div className="flex items-center gap-2.5">
+                <div className="h-2 w-2 rounded-full bg-emerald-400" />
+                <span className="text-sm text-white/50">Relay Network</span>
               </div>
-            ))}
+              <Badge label={`${getOnlineRelayers().length}/${RELAYER_NODES.length} nodes`} variant="active" />
+            </div>
+            <div
+              className="flex items-center justify-between rounded-xl bg-white/[0.02] border border-white/[0.04] px-4 py-3"
+            >
+              <div className="flex items-center gap-2.5">
+                <div className="h-2 w-2 rounded-full bg-emerald-400" />
+                <span className="text-sm text-white/50">OpenClaw Registry</span>
+              </div>
+              <Badge label="Connected" variant="active" />
+            </div>
+            <div
+              className="flex items-center justify-between rounded-xl bg-white/[0.02] border border-white/[0.04] px-4 py-3"
+            >
+              <div className="flex items-center gap-2.5">
+                <div className="h-2 w-2 rounded-full bg-emerald-400" />
+                <span className="text-sm text-white/50">Active Sessions</span>
+              </div>
+              <Badge label={formatNumber(RELAYER_NODES.reduce((s, r) => s + r.activeSessions, 0))} variant="active" />
+            </div>
           </div>
         </Card>
       </div>
