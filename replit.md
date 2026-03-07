@@ -26,7 +26,6 @@ Stealthify — A privacy-native Web3 access layer. Landing page + web applicatio
   - `GET /api/sessions?browserSessionId=` - List sessions for browser session
   - `GET /api/sessions/:id` - Fetch single session by ID
   - `PATCH /api/sessions/:id` - Update session status (active/ended/error)
-  - `GET /api/proxy?url=` - Server-side proxy for embedding websites (strips X-Frame-Options/CSP headers)
 
 ### Landing Page (`/`)
 - `src/App.tsx` - Root component with route definitions
@@ -45,7 +44,7 @@ Stealthify — A privacy-native Web3 access layer. Landing page + web applicatio
 - `src/app/pages/` - App pages:
   - `Dashboard.tsx` (`/app`) - Overview with live stats, quick actions, recent activity, network status
   - `LaunchSession.tsx` (`/app/launch`) - Search/paste dApp URL, configure privacy, launch session
-  - `ActiveSession.tsx` (`/app/session/:id`) - Active session view with controls, timer, details
+  - `ActiveSession.tsx` (`/app/session/:id`) - Session control panel (opens target in managed popup window)
   - `Wallet.tsx` (`/app/wallet`) - Solana wallet creation and management
   - `Relayers.tsx` (`/app/relayers`) - OpenClaw relayer node discovery
   - `Sessions.tsx` (`/app/sessions`) - Session history with active/past sections

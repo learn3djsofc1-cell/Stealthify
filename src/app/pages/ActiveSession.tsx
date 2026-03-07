@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
 import {
   Globe,
   Shield,
@@ -11,12 +11,12 @@ import {
   AlertTriangle,
   Loader2,
   ArrowLeft,
-  RefreshCw,
   Lock,
-  Maximize2,
-  Minimize2,
+  Monitor,
+  MonitorOff,
 } from 'lucide-react';
 import Badge from '../components/Badge';
+import Card from '../components/Card';
 import { fetchSession, updateSessionStatus, type StealthSession } from '../../lib/api';
 
 function formatDuration(startedAt: string, endedAt?: string | null): string {
@@ -38,17 +38,39 @@ function extractDomain(url: string): string {
   }
 }
 
+const POPUP_WINDOW_NAME_PREFIX = 'stealthify_session_';
+const POPUP_FEATURES = 'width=1200,height=800,menubar=no,toolbar=no,location=yes,status=no,scrollbars=yes,resizable=yes';
+
+function getPopupWindowName(sessionId: string) {
+  return `${POPUP_WINDOW_NAME_PREFIX}${sessionId}`;
+}
+
+function tryFindExistingPopup(sessionId: string): Window | null {
+  try {
+    const name = getPopupWindowName(sessionId);
+    const existing = window.open('', name);
+    if (existing && existing.location && existing.location.href !== 'about:blank' && !existing.closed) {
+      return existing;
+    }
+    return null;
+  } catch {
+    return null;
+  }
+}
+
 export default function ActiveSession() {
   const { id } = useParams<{ id: string }>();
+  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const [session, setSession] = useState<StealthSession | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [ending, setEnding] = useState(false);
   const [duration, setDuration] = useState('0:00');
-  const [iframeLoaded, setIframeLoaded] = useState(false);
-  const [expanded, setExpanded] = useState(false);
-  const iframeRef = useRef<HTMLIFrameElement>(null);
+  const [windowOpen, setWindowOpen] = useState(false);
+  const [needsUserAction, setNeedsUserAction] = useState(false);
+  const popupRef = useRef<Window | null>(null);
+  const popupCheckRef = useRef<ReturnType<typeof setInterval>>();
 
   useEffect(() => {
     if (!id) return;
@@ -56,6 +78,21 @@ export default function ActiveSession() {
       try {
         const s = await fetchSession(id!);
         setSession(s);
+        if (s.status === 'active') {
+          const popupParam = searchParams.get('popup');
+          if (popupParam === 'launched') {
+            const existing = tryFindExistingPopup(id!);
+            if (existing) {
+              popupRef.current = existing;
+              setWindowOpen(true);
+            } else {
+              setWindowOpen(false);
+              setNeedsUserAction(true);
+            }
+          } else {
+            setNeedsUserAction(true);
+          }
+        }
       } catch {
         setError('Session not found');
       } finally {
@@ -64,6 +101,40 @@ export default function ActiveSession() {
     }
     load();
   }, [id]);
+
+  const openPopup = useCallback((url: string) => {
+    if (popupRef.current && !popupRef.current.closed) {
+      popupRef.current.focus();
+      setWindowOpen(true);
+      setNeedsUserAction(false);
+      return;
+    }
+    const popup = window.open(url, getPopupWindowName(id || ''), POPUP_FEATURES);
+    if (popup) {
+      popupRef.current = popup;
+      setWindowOpen(true);
+      setNeedsUserAction(false);
+    } else {
+      setWindowOpen(false);
+      setNeedsUserAction(true);
+    }
+  }, [id]);
+
+  useEffect(() => {
+    if (!session || session.status !== 'active') return;
+    popupCheckRef.current = setInterval(() => {
+      if (popupRef.current) {
+        if (popupRef.current.closed) {
+          setWindowOpen(false);
+          setNeedsUserAction(true);
+          popupRef.current = null;
+        }
+      }
+    }, 1000);
+    return () => {
+      if (popupCheckRef.current) clearInterval(popupCheckRef.current);
+    };
+  }, [session]);
 
   useEffect(() => {
     if (!session) return;
@@ -84,6 +155,12 @@ export default function ActiveSession() {
     try {
       const updated = await updateSessionStatus(session.id, 'ended');
       setSession(updated);
+      if (popupRef.current && !popupRef.current.closed) {
+        popupRef.current.close();
+      }
+      popupRef.current = null;
+      setWindowOpen(false);
+      setNeedsUserAction(false);
     } catch {
       setError('Failed to end session');
     } finally {
@@ -91,14 +168,24 @@ export default function ActiveSession() {
     }
   }, [session, ending]);
 
-  const handleRefresh = () => {
-    if (iframeRef.current && session) {
-      setIframeLoaded(false);
-      iframeRef.current.src = `/api/proxy?url=${encodeURIComponent(session.target_url)}`;
+  const handleOpenWindow = useCallback(() => {
+    if (session) {
+      openPopup(session.target_url);
     }
-  };
+  }, [session, openPopup]);
 
-  const proxyUrl = session ? `/api/proxy?url=${encodeURIComponent(session.target_url)}` : '';
+  const handleFocusWindow = useCallback(() => {
+    if (popupRef.current && !popupRef.current.closed) {
+      popupRef.current.focus();
+    }
+  }, []);
+
+  const handleOpenDirect = useCallback(() => {
+    if (session) {
+      window.open(session.target_url, '_blank');
+    }
+  }, [session]);
+
   const isActive = session?.status === 'active';
 
   if (loading) {
@@ -206,103 +293,142 @@ export default function ActiveSession() {
   }
 
   return (
-    <div className={`flex flex-col ${expanded ? 'fixed inset-0 z-[100] bg-[#050505]' : '-mx-4 -my-6 lg:-mx-8 lg:-my-8'}`} style={expanded ? undefined : { height: 'calc(100vh - 56px)' }}>
-      <div className="flex items-center gap-2 px-3 py-2 bg-[#0A0A0A] border-b border-white/[0.06] shrink-0">
+    <div className="space-y-6">
+      <div className="flex items-center gap-3">
         <button
           onClick={() => navigate('/app/sessions')}
-          className="rounded-lg bg-white/[0.05] p-1.5 hover:bg-white/[0.1] transition-colors"
-          title="Back"
+          className="rounded-xl bg-white/[0.05] border border-white/[0.08] p-2 hover:bg-white/[0.08] transition-colors"
         >
-          <ArrowLeft className="h-3.5 w-3.5 text-white/50" />
+          <ArrowLeft className="h-4 w-4 text-white/60" />
         </button>
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-2">
+            <h1 className="text-lg font-semibold text-white truncate">
+              {session.target_title || extractDomain(session.target_url)}
+            </h1>
+            <Badge label="Active" variant="active" dot />
+          </div>
+          <p className="text-xs text-white/30 truncate mt-0.5">{session.target_url}</p>
+        </div>
+      </div>
 
-        <div className="flex items-center gap-2 flex-1 min-w-0 rounded-lg bg-white/[0.04] border border-white/[0.06] px-3 py-1.5">
-          <Lock className="h-3 w-3 text-emerald-400 shrink-0" />
-          <span className="text-xs text-white/50 truncate font-mono">{extractDomain(session.target_url)}</span>
-          <div className="flex items-center gap-1.5 ml-auto shrink-0">
-            {session.fingerprint_randomization && (
-              <Fingerprint className="h-3 w-3 text-purple-400" title="Fingerprint randomized" />
+      <Card glow="rgba(168, 85, 247, 0.08)">
+        <div className="flex flex-col items-center py-6">
+          <div className={`rounded-2xl p-4 mb-4 border ${windowOpen ? 'bg-emerald-500/10 border-emerald-500/20' : 'bg-yellow-500/10 border-yellow-500/20'}`}>
+            {windowOpen ? (
+              <Monitor className="h-10 w-10 text-emerald-400" />
+            ) : (
+              <MonitorOff className="h-10 w-10 text-yellow-400" />
             )}
-            {session.ip_cloaking && (
-              <EyeOff className="h-3 w-3 text-blue-400" title="IP cloaked" />
+          </div>
+
+          <h2 className="text-base font-medium text-white mb-1">
+            {windowOpen ? 'Stealth window active' : needsUserAction ? 'Open stealth window' : 'Stealth window closed'}
+          </h2>
+          <p className="text-sm text-white/30 mb-4 text-center max-w-sm">
+            {windowOpen
+              ? 'Your target dApp is running in a separate stealth window'
+              : needsUserAction
+                ? 'Click the button below to open the target dApp in a stealth window'
+                : 'The stealth window was closed. Reopen to continue browsing.'}
+          </p>
+
+          <div className="flex items-center gap-2 rounded-xl bg-white/[0.04] border border-white/[0.06] px-4 py-2.5 mb-6 max-w-md w-full">
+            <Lock className="h-3.5 w-3.5 text-emerald-400 shrink-0" />
+            <span className="text-sm text-white/50 truncate font-mono">{extractDomain(session.target_url)}</span>
+            <div className="flex items-center gap-2 ml-auto shrink-0">
+              {session.fingerprint_randomization && (
+                <Fingerprint className="h-3.5 w-3.5 text-purple-400" title="Fingerprint randomized" />
+              )}
+              {session.ip_cloaking && (
+                <EyeOff className="h-3.5 w-3.5 text-blue-400" title="IP cloaked" />
+              )}
+              <Shield className="h-3.5 w-3.5 text-emerald-400" title="Stealth active" />
+            </div>
+          </div>
+
+          <div className="flex items-center gap-3 flex-wrap justify-center">
+            {!windowOpen && (
+              <button
+                onClick={handleOpenWindow}
+                className="inline-flex items-center gap-2 rounded-xl bg-purple-600 text-white px-5 py-2.5 text-sm font-medium hover:bg-purple-500 transition-colors"
+              >
+                <Monitor className="h-4 w-4" />
+                Open Stealth Window
+              </button>
             )}
-            <Shield className="h-3 w-3 text-emerald-400" title="Stealth active" />
+            {windowOpen && (
+              <button
+                onClick={handleFocusWindow}
+                className="inline-flex items-center gap-2 rounded-xl bg-white/[0.05] text-white border border-white/10 px-5 py-2.5 text-sm font-medium hover:bg-white/[0.1] transition-colors"
+              >
+                <ExternalLink className="h-4 w-4" />
+                Focus Window
+              </button>
+            )}
+            {!windowOpen && (
+              <button
+                onClick={handleOpenDirect}
+                className="inline-flex items-center gap-2 rounded-xl bg-white/[0.05] text-white border border-white/10 px-5 py-2.5 text-sm font-medium hover:bg-white/[0.1] transition-colors"
+              >
+                <ExternalLink className="h-4 w-4" />
+                Open in New Tab
+              </button>
+            )}
+            <button
+              onClick={handleEndSession}
+              disabled={ending}
+              className="inline-flex items-center gap-2 rounded-xl bg-red-500/10 border border-red-500/20 px-5 py-2.5 text-sm font-medium text-red-400 hover:bg-red-500/20 transition-colors disabled:opacity-40"
+            >
+              {ending ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                <Square className="h-4 w-4" />
+              )}
+              {ending ? 'Ending...' : 'End Session'}
+            </button>
           </div>
         </div>
+      </Card>
 
-        <button
-          onClick={handleRefresh}
-          className="rounded-lg bg-white/[0.05] p-1.5 hover:bg-white/[0.1] transition-colors"
-          title="Refresh"
-        >
-          <RefreshCw className="h-3.5 w-3.5 text-white/50" />
-        </button>
-
-        <button
-          onClick={() => window.open(session.target_url, '_blank')}
-          className="rounded-lg bg-white/[0.05] p-1.5 hover:bg-white/[0.1] transition-colors"
-          title="Open in new tab"
-        >
-          <ExternalLink className="h-3.5 w-3.5 text-white/50" />
-        </button>
-
-        <button
-          onClick={() => setExpanded(!expanded)}
-          className="rounded-lg bg-white/[0.05] p-1.5 hover:bg-white/[0.1] transition-colors"
-          title={expanded ? 'Exit fullscreen' : 'Fullscreen'}
-        >
-          {expanded ? (
-            <Minimize2 className="h-3.5 w-3.5 text-white/50" />
-          ) : (
-            <Maximize2 className="h-3.5 w-3.5 text-white/50" />
-          )}
-        </button>
-
-        <div className="flex items-center gap-1.5 rounded-lg bg-white/[0.04] border border-white/[0.06] px-2.5 py-1.5 shrink-0">
-          <Clock className="h-3 w-3 text-purple-400" />
-          <span className="text-xs text-white/50 font-mono tabular-nums">{duration}</span>
-        </div>
-
-        <button
-          onClick={handleEndSession}
-          disabled={ending}
-          className="inline-flex items-center gap-1.5 rounded-lg bg-red-500/10 border border-red-500/20 px-3 py-1.5 text-xs font-medium text-red-400 hover:bg-red-500/20 transition-colors disabled:opacity-40 shrink-0"
-        >
-          {ending ? (
-            <Loader2 className="h-3 w-3 animate-spin" />
-          ) : (
-            <Square className="h-3 w-3" />
-          )}
-          <span className="hidden sm:inline">{ending ? 'Ending...' : 'End'}</span>
-        </button>
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+        <Card>
+          <div className="text-center py-2">
+            <div className="flex items-center justify-center gap-1.5 mb-2">
+              <Clock className="h-3.5 w-3.5 text-purple-400" />
+              <span className="text-[10px] text-white/25 uppercase tracking-wider">Duration</span>
+            </div>
+            <p className="text-lg font-mono font-semibold text-white tabular-nums">{duration}</p>
+          </div>
+        </Card>
+        <Card>
+          <div className="text-center py-2">
+            <div className="flex items-center justify-center gap-1.5 mb-2">
+              <Fingerprint className="h-3.5 w-3.5 text-purple-400" />
+              <span className="text-[10px] text-white/25 uppercase tracking-wider">Fingerprint</span>
+            </div>
+            <p className="text-sm font-medium text-white">{session.fingerprint_randomization ? 'Randomized' : 'Off'}</p>
+          </div>
+        </Card>
+        <Card>
+          <div className="text-center py-2">
+            <div className="flex items-center justify-center gap-1.5 mb-2">
+              <EyeOff className="h-3.5 w-3.5 text-blue-400" />
+              <span className="text-[10px] text-white/25 uppercase tracking-wider">IP Cloak</span>
+            </div>
+            <p className="text-sm font-medium text-white">{session.ip_cloaking ? 'Enabled' : 'Off'}</p>
+          </div>
+        </Card>
+        <Card>
+          <div className="text-center py-2">
+            <div className="flex items-center justify-center gap-1.5 mb-2">
+              <Shield className="h-3.5 w-3.5 text-emerald-400" />
+              <span className="text-[10px] text-white/25 uppercase tracking-wider">Relayer</span>
+            </div>
+            <p className="text-sm font-medium text-white capitalize">{session.relayer}</p>
+          </div>
+        </Card>
       </div>
-
-      {!iframeLoaded && (
-        <div className="h-0.5 bg-white/[0.03] shrink-0 overflow-hidden">
-          <div className="h-full bg-purple-500 animate-pulse" style={{ width: '60%', animation: 'loading-bar 2s ease-in-out infinite' }} />
-        </div>
-      )}
-
-      <div className="flex-1 relative">
-        <iframe
-          ref={iframeRef}
-          src={proxyUrl}
-          className="w-full h-full border-0 bg-white"
-          sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox allow-presentation allow-modals"
-          referrerPolicy="no-referrer"
-          allow="clipboard-write"
-          onLoad={() => setIframeLoaded(true)}
-          title={session.target_title || extractDomain(session.target_url)}
-        />
-      </div>
-
-      <style>{`
-        @keyframes loading-bar {
-          0% { width: 0%; margin-left: 0; }
-          50% { width: 60%; margin-left: 20%; }
-          100% { width: 0%; margin-left: 100%; }
-        }
-      `}</style>
     </div>
   );
 }

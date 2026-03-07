@@ -122,6 +122,8 @@ export default function LaunchSession() {
     if (!selectedUrl || launching) return;
     setLaunching(true);
     setLaunchError('');
+
+    let sessionId: string | null = null;
     try {
       const session = await createSession({
         browserSessionId: getSessionId(),
@@ -130,12 +132,17 @@ export default function LaunchSession() {
         fingerprintRandomization,
         ipCloaking,
       });
-      navigate(`/app/session/${session.id}`);
+      sessionId = session.id;
     } catch (err: any) {
       setLaunchError(err.message || 'Failed to launch session');
-    } finally {
       setLaunching(false);
+      return;
     }
+
+    const windowName = `stealthify_session_${sessionId}`;
+    const popup = window.open(selectedUrl, windowName, 'width=1200,height=800,menubar=no,toolbar=no,location=yes,status=no,scrollbars=yes,resizable=yes');
+    setLaunching(false);
+    navigate(`/app/session/${sessionId}${popup ? '?popup=launched' : ''}`);
   };
 
   const extractDomain = (url: string) => {
