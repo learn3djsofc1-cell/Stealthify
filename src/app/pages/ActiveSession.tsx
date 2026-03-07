@@ -1,5 +1,5 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
-import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
+import { useState, useEffect, useCallback } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import {
   Globe,
   Shield,
@@ -12,8 +12,7 @@ import {
   Loader2,
   ArrowLeft,
   Lock,
-  Monitor,
-  MonitorOff,
+  CheckCircle2,
 } from 'lucide-react';
 import Badge from '../components/Badge';
 import Card from '../components/Card';
@@ -38,39 +37,15 @@ function extractDomain(url: string): string {
   }
 }
 
-const POPUP_WINDOW_NAME_PREFIX = 'stealthify_session_';
-const POPUP_FEATURES = 'width=1200,height=800,menubar=no,toolbar=no,location=yes,status=no,scrollbars=yes,resizable=yes';
-
-function getPopupWindowName(sessionId: string) {
-  return `${POPUP_WINDOW_NAME_PREFIX}${sessionId}`;
-}
-
-function tryFindExistingPopup(sessionId: string): Window | null {
-  try {
-    const name = getPopupWindowName(sessionId);
-    const existing = window.open('', name);
-    if (existing && existing.location && existing.location.href !== 'about:blank' && !existing.closed) {
-      return existing;
-    }
-    return null;
-  } catch {
-    return null;
-  }
-}
-
 export default function ActiveSession() {
   const { id } = useParams<{ id: string }>();
-  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const [session, setSession] = useState<StealthSession | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [ending, setEnding] = useState(false);
   const [duration, setDuration] = useState('0:00');
-  const [windowOpen, setWindowOpen] = useState(false);
-  const [needsUserAction, setNeedsUserAction] = useState(false);
-  const popupRef = useRef<Window | null>(null);
-  const popupCheckRef = useRef<ReturnType<typeof setInterval>>();
+  const [tabOpened, setTabOpened] = useState(false);
 
   useEffect(() => {
     if (!id) return;
@@ -78,21 +53,6 @@ export default function ActiveSession() {
       try {
         const s = await fetchSession(id!);
         setSession(s);
-        if (s.status === 'active') {
-          const popupParam = searchParams.get('popup');
-          if (popupParam === 'launched') {
-            const existing = tryFindExistingPopup(id!);
-            if (existing) {
-              popupRef.current = existing;
-              setWindowOpen(true);
-            } else {
-              setWindowOpen(false);
-              setNeedsUserAction(true);
-            }
-          } else {
-            setNeedsUserAction(true);
-          }
-        }
       } catch {
         setError('Session not found');
       } finally {
@@ -101,40 +61,6 @@ export default function ActiveSession() {
     }
     load();
   }, [id]);
-
-  const openPopup = useCallback((url: string) => {
-    if (popupRef.current && !popupRef.current.closed) {
-      popupRef.current.focus();
-      setWindowOpen(true);
-      setNeedsUserAction(false);
-      return;
-    }
-    const popup = window.open(url, getPopupWindowName(id || ''), POPUP_FEATURES);
-    if (popup) {
-      popupRef.current = popup;
-      setWindowOpen(true);
-      setNeedsUserAction(false);
-    } else {
-      setWindowOpen(false);
-      setNeedsUserAction(true);
-    }
-  }, [id]);
-
-  useEffect(() => {
-    if (!session || session.status !== 'active') return;
-    popupCheckRef.current = setInterval(() => {
-      if (popupRef.current) {
-        if (popupRef.current.closed) {
-          setWindowOpen(false);
-          setNeedsUserAction(true);
-          popupRef.current = null;
-        }
-      }
-    }, 1000);
-    return () => {
-      if (popupCheckRef.current) clearInterval(popupCheckRef.current);
-    };
-  }, [session]);
 
   useEffect(() => {
     if (!session) return;
@@ -155,12 +81,6 @@ export default function ActiveSession() {
     try {
       const updated = await updateSessionStatus(session.id, 'ended');
       setSession(updated);
-      if (popupRef.current && !popupRef.current.closed) {
-        popupRef.current.close();
-      }
-      popupRef.current = null;
-      setWindowOpen(false);
-      setNeedsUserAction(false);
     } catch {
       setError('Failed to end session');
     } finally {
@@ -168,21 +88,10 @@ export default function ActiveSession() {
     }
   }, [session, ending]);
 
-  const handleOpenWindow = useCallback(() => {
-    if (session) {
-      openPopup(session.target_url);
-    }
-  }, [session, openPopup]);
-
-  const handleFocusWindow = useCallback(() => {
-    if (popupRef.current && !popupRef.current.closed) {
-      popupRef.current.focus();
-    }
-  }, []);
-
-  const handleOpenDirect = useCallback(() => {
+  const handleOpenTab = useCallback(() => {
     if (session) {
       window.open(session.target_url, '_blank');
+      setTabOpened(true);
     }
   }, [session]);
 
@@ -314,23 +223,21 @@ export default function ActiveSession() {
 
       <Card glow="rgba(168, 85, 247, 0.08)">
         <div className="flex flex-col items-center py-6">
-          <div className={`rounded-2xl p-4 mb-4 border ${windowOpen ? 'bg-emerald-500/10 border-emerald-500/20' : 'bg-yellow-500/10 border-yellow-500/20'}`}>
-            {windowOpen ? (
-              <Monitor className="h-10 w-10 text-emerald-400" />
+          <div className={`rounded-2xl p-4 mb-4 border ${tabOpened ? 'bg-emerald-500/10 border-emerald-500/20' : 'bg-purple-500/10 border-purple-500/20'}`}>
+            {tabOpened ? (
+              <CheckCircle2 className="h-10 w-10 text-emerald-400" />
             ) : (
-              <MonitorOff className="h-10 w-10 text-yellow-400" />
+              <Globe className="h-10 w-10 text-purple-400" />
             )}
           </div>
 
           <h2 className="text-base font-medium text-white mb-1">
-            {windowOpen ? 'Stealth window active' : needsUserAction ? 'Open stealth window' : 'Stealth window closed'}
+            {tabOpened ? 'dApp running in stealth tab' : 'Stealth session ready'}
           </h2>
           <p className="text-sm text-white/30 mb-4 text-center max-w-sm">
-            {windowOpen
-              ? 'Your target dApp is running in a separate stealth window'
-              : needsUserAction
-                ? 'Click the button below to open the target dApp in a stealth window'
-                : 'The stealth window was closed. Reopen to continue browsing.'}
+            {tabOpened
+              ? 'Your target dApp is running in a separate tab. Return here to manage or end the session.'
+              : 'Open the target dApp in a new tab to start browsing privately.'}
           </p>
 
           <div className="flex items-center gap-2 rounded-xl bg-white/[0.04] border border-white/[0.06] px-4 py-2.5 mb-6 max-w-md w-full">
@@ -348,33 +255,13 @@ export default function ActiveSession() {
           </div>
 
           <div className="flex items-center gap-3 flex-wrap justify-center">
-            {!windowOpen && (
-              <button
-                onClick={handleOpenWindow}
-                className="inline-flex items-center gap-2 rounded-xl bg-purple-600 text-white px-5 py-2.5 text-sm font-medium hover:bg-purple-500 transition-colors"
-              >
-                <Monitor className="h-4 w-4" />
-                Open Stealth Window
-              </button>
-            )}
-            {windowOpen && (
-              <button
-                onClick={handleFocusWindow}
-                className="inline-flex items-center gap-2 rounded-xl bg-white/[0.05] text-white border border-white/10 px-5 py-2.5 text-sm font-medium hover:bg-white/[0.1] transition-colors"
-              >
-                <ExternalLink className="h-4 w-4" />
-                Focus Window
-              </button>
-            )}
-            {!windowOpen && (
-              <button
-                onClick={handleOpenDirect}
-                className="inline-flex items-center gap-2 rounded-xl bg-white/[0.05] text-white border border-white/10 px-5 py-2.5 text-sm font-medium hover:bg-white/[0.1] transition-colors"
-              >
-                <ExternalLink className="h-4 w-4" />
-                Open in New Tab
-              </button>
-            )}
+            <button
+              onClick={handleOpenTab}
+              className="inline-flex items-center gap-2 rounded-xl bg-purple-600 text-white px-5 py-2.5 text-sm font-medium hover:bg-purple-500 transition-colors"
+            >
+              <ExternalLink className="h-4 w-4" />
+              {tabOpened ? 'Open Again' : 'Open dApp'}
+            </button>
             <button
               onClick={handleEndSession}
               disabled={ending}

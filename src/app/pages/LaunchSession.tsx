@@ -139,10 +139,9 @@ export default function LaunchSession() {
       return;
     }
 
-    const windowName = `stealthify_session_${sessionId}`;
-    const popup = window.open(selectedUrl, windowName, 'width=1200,height=800,menubar=no,toolbar=no,location=yes,status=no,scrollbars=yes,resizable=yes');
+    window.open(selectedUrl, '_blank');
     setLaunching(false);
-    navigate(`/app/session/${sessionId}${popup ? '?popup=launched' : ''}`);
+    navigate(`/app/session/${sessionId}`);
   };
 
   const extractDomain = (url: string) => {
