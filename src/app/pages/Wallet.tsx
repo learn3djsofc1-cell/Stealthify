@@ -16,7 +16,7 @@ import Card from '../components/Card';
 import Button from '../components/Button';
 import EmptyState from '../components/EmptyState';
 import Badge from '../components/Badge';
-import { generateSolanaWallet, type GeneratedWallet } from '../../lib/solana';
+import { generateEvmWallet, type GeneratedWallet } from '../../lib/evm';
 import { fetchWallet, createWalletRecord, deleteWalletRecord, type WalletData } from '../../lib/api';
 import { getSessionId } from '../../lib/session';
 
@@ -53,7 +53,7 @@ export default function Wallet() {
   }, [loadWallet]);
 
   const handleGenerate = () => {
-    const generated = generateSolanaWallet();
+    const generated = generateEvmWallet();
     setNewWallet(generated);
     setState('reveal');
     setAcknowledged(false);
@@ -114,7 +114,7 @@ export default function Wallet() {
       <div className="space-y-6 sm:space-y-8">
         <div>
           <h1 className="text-xl sm:text-2xl font-semibold text-white">Wallet</h1>
-          <p className="mt-1 text-sm text-white/40">Manage your anonymous Solana wallet</p>
+          <p className="mt-1 text-sm text-white/40">Manage your anonymous BNB Chain wallet</p>
         </div>
         <Card>
           <div className="flex items-center justify-center py-12">
@@ -233,7 +233,7 @@ export default function Wallet() {
       <div className="space-y-6 sm:space-y-8">
         <div>
           <h1 className="text-xl sm:text-2xl font-semibold text-white">Wallet</h1>
-          <p className="mt-1 text-sm text-white/40">Manage your anonymous Solana wallet</p>
+          <p className="mt-1 text-sm text-white/40">Manage your anonymous BNB Chain wallet</p>
         </div>
 
         <Card glow="rgba(168, 85, 247, 0.08)">
@@ -243,7 +243,7 @@ export default function Wallet() {
             </div>
             <div>
               <h2 className="text-sm font-medium text-white">Wallet Details</h2>
-              <p className="text-xs text-white/35">Your Solana wallet information</p>
+              <p className="text-xs text-white/35">Your BNB Chain wallet information</p>
             </div>
           </div>
 
@@ -265,7 +265,7 @@ export default function Wallet() {
             <div className="grid grid-cols-2 gap-3">
               <div className="rounded-xl bg-white/[0.03] border border-white/[0.06] px-4 py-3">
                 <p className="text-xs text-white/40 mb-1">Network</p>
-                <p className="text-sm text-white">Solana</p>
+                <p className="text-sm text-white">BNB Chain</p>
               </div>
               <div className="rounded-xl bg-white/[0.03] border border-white/[0.06] px-4 py-3">
                 <p className="text-xs text-white/40 mb-1">Created</p>
@@ -274,7 +274,7 @@ export default function Wallet() {
             </div>
 
             <div className="flex items-center gap-2 flex-wrap">
-              <Badge label="Solana" variant="active" />
+              <Badge label="BNB Chain" variant="active" />
               <Badge label="Anonymous" variant="active" />
               <Badge label="In-Browser" variant="verified" />
             </div>
@@ -344,15 +344,15 @@ export default function Wallet() {
     <div className="space-y-6 sm:space-y-8">
       <div>
         <h1 className="text-xl sm:text-2xl font-semibold text-white">Wallet</h1>
-        <p className="mt-1 text-sm text-white/40">Manage your anonymous Solana wallet</p>
+        <p className="mt-1 text-sm text-white/40">Manage your anonymous BNB Chain wallet</p>
       </div>
 
       <Card glow="rgba(245, 158, 11, 0.08)">
         <EmptyState
           icon={<WalletIcon className="h-7 w-7" />}
           title="No wallet created yet"
-          description="Generate an anonymous Solana wallet directly in your browser. No login, no seed phrase storage on servers, no identity linkage."
-          actionLabel="Create Solana Wallet"
+          description="Generate an anonymous BNB Chain wallet directly in your browser. No login, no seed phrase storage on servers, no identity linkage."
+          actionLabel="Create BNB Chain Wallet"
           onAction={handleGenerate}
         />
       </Card>

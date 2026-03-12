@@ -14,11 +14,10 @@ export default defineConfig(({mode}) => {
     resolve: {
       alias: {
         '@': path.resolve(__dirname, '.'),
-        buffer: 'buffer',
       },
     },
     optimizeDeps: {
-      include: ['buffer', '@solana/web3.js', 'bs58'],
+      include: ['ethers'],
       esbuildOptions: {
         define: {
           global: 'globalThis',
