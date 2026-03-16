@@ -56,8 +56,8 @@ const Hero = () => {
               Launch App
               <ArrowRight className="w-4 h-4" />
             </Link>
-            <Link to="/app" className="px-7 py-3.5 bg-white border border-black/10 text-black rounded-full font-medium text-sm hover:bg-black/[0.03] hover:border-black/20 transition-all duration-300">
-              Start Building
+            <Link to="/docs" className="px-7 py-3.5 bg-white border border-black/10 text-black rounded-full font-medium text-sm hover:bg-black/[0.03] hover:border-black/20 transition-all duration-300">
+              Documentation
             </Link>
           </motion.div>
         </div>

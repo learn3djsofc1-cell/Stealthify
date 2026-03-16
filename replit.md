@@ -33,11 +33,15 @@ RelayForge — A privacy-native Web3 access layer. Landing page + web applicatio
 - `src/App.tsx` - Root component with route definitions
 - `src/main.tsx` - Entry point with BrowserRouter
 - `src/components/` - Landing page sections
+
   - `Hero.tsx`, `Navbar.tsx`, `Footer.tsx`
   - `PrecisionSection.tsx`, `CytopathologySection.tsx`
   - `ComparisonSection.tsx`, `InfrastructureSection.tsx`
   - `CaseStudySection.tsx`, `CTASection.tsx`
   - `Nucleus3D.tsx`, `Infrastructure3D.tsx` - Three.js visualizations
+
+### Documentation (`/docs`)
+- `src/pages/Documentation.tsx` - Comprehensive technical documentation page with sticky sidebar TOC, covering overview, architecture, stealth sessions, anonymous wallet, OpenClaw network, privacy/security, getting started, and API reference
 
 ### Web App (`/app`)
 - `src/app/AppLayout.tsx` - Layout shell with top bar + bottom nav

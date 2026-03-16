@@ -41,7 +41,7 @@ const CTASection: React.FC = () => {
           <Link to="/app" className="px-8 py-4 bg-black text-white rounded-full font-medium hover:bg-black/80 transition-all duration-300 hover:scale-105 active:scale-95 shadow-[0_4px_20px_rgba(0,0,0,0.2)]">
             Launch App
           </Link>
-          <Link to="/app" className="px-8 py-4 bg-white text-black rounded-full font-medium border border-black/10 hover:bg-black/[0.03] transition-all duration-300 hover:scale-105 active:scale-95">
+          <Link to="/docs" className="px-8 py-4 bg-white text-black rounded-full font-medium border border-black/10 hover:bg-black/[0.03] transition-all duration-300 hover:scale-105 active:scale-95">
             Read Documentation
           </Link>
         </motion.div>

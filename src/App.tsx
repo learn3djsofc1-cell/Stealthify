@@ -7,6 +7,7 @@ import InfrastructureSection from './components/InfrastructureSection';
 import CaseStudySection from './components/CaseStudySection';
 import CTASection from './components/CTASection';
 import Footer from './components/Footer';
+import Documentation from './pages/Documentation';
 import AppLayout from './app/AppLayout';
 import Dashboard from './app/pages/Dashboard';
 import LaunchSession from './app/pages/LaunchSession';
@@ -35,6 +36,7 @@ export default function App() {
   return (
     <Routes>
       <Route path="/" element={<LandingPage />} />
+      <Route path="/docs" element={<Documentation />} />
       <Route path="/app" element={<AppLayout />}>
         <Route index element={<Dashboard />} />
         <Route path="launch" element={<LaunchSession />} />
