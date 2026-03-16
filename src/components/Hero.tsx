@@ -1,13 +1,22 @@
 import { motion, useInView } from 'motion/react';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Copy, Check } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Scene from './Nucleus3D';
 import Navbar from './Navbar';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
+
+const CA = "CCZ82whciPVkMdUj3Uqn4TX76F6BZ7rEstWHUEKwpump";
 
 const Hero = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { margin: "0px 0px -200px 0px" });
+  const [copied, setCopied] = useState(false);
+
+  const copyCA = () => {
+    navigator.clipboard.writeText(CA);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
 
   return (
     <div ref={ref} className="relative w-full min-h-screen bg-[#FFF6E5] overflow-hidden flex flex-col font-sans selection:bg-black/20">
@@ -59,6 +68,26 @@ const Hero = () => {
             <Link to="/docs" className="px-7 py-3.5 bg-white border border-black/10 text-black rounded-full font-medium text-sm hover:bg-black/[0.03] hover:border-black/20 transition-all duration-300">
               Documentation
             </Link>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.8, ease: [0.22, 1, 0.36, 1] }}
+            className="mt-6"
+          >
+            <span className="text-[10px] uppercase tracking-widest text-black/40 font-medium mb-1.5 block">Contract Address</span>
+            <button
+              onClick={copyCA}
+              className="flex items-center gap-2 px-4 py-2.5 bg-black/[0.04] border border-black/[0.08] rounded-xl hover:bg-black/[0.07] hover:border-black/[0.14] transition-all duration-300 group cursor-pointer max-w-full"
+            >
+              <code className="text-xs sm:text-sm font-mono text-black/70 truncate">{CA}</code>
+              {copied ? (
+                <Check className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
+              ) : (
+                <Copy className="w-3.5 h-3.5 text-black/30 group-hover:text-black/60 transition-colors shrink-0" />
+              )}
+            </button>
           </motion.div>
         </div>
 
