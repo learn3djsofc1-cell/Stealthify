@@ -15,7 +15,7 @@ export default function Card({ children, className, hover = false, glow, onClick
     <div
       onClick={onClick}
       className={twMerge(
-        'relative rounded-2xl border border-black/[0.12] bg-white backdrop-blur-sm p-6',
+        'relative rounded-2xl border border-black/[0.12] bg-white backdrop-blur-sm p-4 sm:p-6',
         !overflow && 'overflow-hidden',
         hover && 'transition-all duration-300 hover:border-black/[0.20] hover:shadow-[0_8px_40px_rgba(0,0,0,0.08)] cursor-pointer',
         className
