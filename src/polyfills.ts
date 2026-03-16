@@ -1,3 +1,6 @@
+import { Buffer } from 'buffer';
+
 if (typeof window !== 'undefined') {
-  (window as any).global = window;
+  window.global = window;
+  window.Buffer = Buffer;
 }

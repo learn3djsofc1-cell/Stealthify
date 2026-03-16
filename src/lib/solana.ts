@@ -1,8 +1,3 @@
-import { Buffer } from 'buffer';
-if (typeof window !== 'undefined' && !window.Buffer) {
-  (window as any).Buffer = Buffer;
-}
-
 import { Keypair } from '@solana/web3.js';
 import bs58 from 'bs58';
 
