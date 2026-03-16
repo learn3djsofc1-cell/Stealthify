@@ -1,13 +1,13 @@
 # Project Overview
 
-RelayForge — A privacy-native Web3 access layer. Landing page + web application for launching stealth browsing sessions, managing anonymous BNB Chain wallets, and connecting to OpenClaw relayer nodes.
+RelayForge — A privacy-native Web3 access layer. Landing page + web application for launching stealth browsing sessions, managing anonymous Solana wallets (Phantom-compatible), and connecting to OpenClaw relayer nodes.
 
 ## Architecture
 
 - **Frontend**: React 19, TypeScript, Vite 6
 - **Backend**: Express.js server (serves Vite in dev, static files in prod)
 - **Database**: PostgreSQL (Replit built-in)
-- **Blockchain**: BNB Chain (EVM) via ethers.js (client-side keypair generation)
+- **Blockchain**: Solana via @solana/web3.js + bs58 (client-side Ed25519 keypair generation, Phantom-compatible)
 - **Routing**: React Router DOM v7 (client-side SPA)
 - **3D**: Three.js via @react-three/fiber + @react-three/drei (landing page only)
 - **Styling**: Tailwind CSS v4 (via @tailwindcss/vite plugin), tailwind-merge
@@ -47,7 +47,7 @@ RelayForge — A privacy-native Web3 access layer. Landing page + web applicatio
   - `Dashboard.tsx` (`/app`) - Overview with live stats, quick actions, recent activity, network status
   - `LaunchSession.tsx` (`/app/launch`) - Search/paste dApp URL, configure privacy, launch session
   - `ActiveSession.tsx` (`/app/session/:id`) - Session control panel (opens target in managed popup window)
-  - `Wallet.tsx` (`/app/wallet`) - BNB Chain wallet creation and management
+  - `Wallet.tsx` (`/app/wallet`) - Solana wallet creation and management (Phantom-importable)
   - `Relayers.tsx` (`/app/relayers`) - OpenClaw relayer node discovery
   - `Sessions.tsx` (`/app/sessions`) - Session history with active/past sections
   - `Settings.tsx` (`/app/settings`) - App preferences and privacy settings
@@ -56,7 +56,7 @@ RelayForge — A privacy-native Web3 access layer. Landing page + web applicatio
   - `Toggle.tsx`, `Input.tsx`, `StatCard.tsx`
 
 ### Shared Libraries (`src/lib/`)
-- `src/lib/evm.ts` - EVM wallet generation via ethers.js (client-side only)
+- `src/lib/solana.ts` - Solana wallet generation via @solana/web3.js (client-side only, Phantom-compatible Base58 private key)
 - `src/lib/api.ts` - API client for wallet CRUD + session CRUD + search
 - `src/lib/session.ts` - Browser session ID management (localStorage)
 - `src/lib/relayers.ts` - Mock relayer node data (8 nodes across global regions with realistic stats)
@@ -80,7 +80,7 @@ RelayForge — A privacy-native Web3 access layer. Landing page + web applicatio
 ### wallets
 - `id` SERIAL PRIMARY KEY
 - `session_id` VARCHAR(64) UNIQUE NOT NULL — browser session identifier
-- `public_key` VARCHAR(64) NOT NULL — EVM wallet address (0x...)
+- `public_key` VARCHAR(64) NOT NULL — Solana wallet address (Base58)
 - `created_at` TIMESTAMP DEFAULT NOW()
 
 Note: Private keys are generated client-side and never stored server-side.

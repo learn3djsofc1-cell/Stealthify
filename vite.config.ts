@@ -17,7 +17,7 @@ export default defineConfig(({mode}) => {
       },
     },
     optimizeDeps: {
-      include: ['ethers'],
+      include: ['@solana/web3.js', 'bs58'],
       esbuildOptions: {
         define: {
           global: 'globalThis',

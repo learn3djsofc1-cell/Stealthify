@@ -41,7 +41,7 @@ async function initDb() {
 }
 
 const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-const EVM_ADDRESS_REGEX = /^0x[0-9a-fA-F]{40}$/;
+const SOLANA_ADDRESS_REGEX = /^[1-9A-HJ-NP-Za-km-z]{32,44}$/;
 
 app.post('/api/wallet', async (req, res) => {
   const { sessionId, publicKey } = req.body;
@@ -51,8 +51,8 @@ app.post('/api/wallet', async (req, res) => {
   if (!UUID_REGEX.test(sessionId)) {
     return res.status(400).json({ error: 'Invalid session ID format' });
   }
-  if (!EVM_ADDRESS_REGEX.test(publicKey)) {
-    return res.status(400).json({ error: 'Invalid EVM wallet address format' });
+  if (!SOLANA_ADDRESS_REGEX.test(publicKey)) {
+    return res.status(400).json({ error: 'Invalid Solana wallet address format' });
   }
   try {
     const existing = await pool.query('SELECT * FROM wallets WHERE session_id = $1', [sessionId]);

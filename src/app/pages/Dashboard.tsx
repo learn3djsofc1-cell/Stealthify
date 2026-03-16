@@ -136,7 +136,7 @@ export default function Dashboard() {
             </div>
             <div className="flex-1 min-w-0">
               <h3 className="text-sm font-medium text-black">{wallet ? 'View Wallet' : 'Create Wallet'}</h3>
-              <p className="text-xs text-black/55 mt-0.5">{wallet ? 'Manage BNB Chain wallet' : 'Generate anonymous wallet'}</p>
+              <p className="text-xs text-black/55 mt-0.5">{wallet ? 'Manage Solana wallet' : 'Generate anonymous wallet'}</p>
             </div>
             <ArrowRight className="h-4 w-4 text-black/40 shrink-0" />
           </div>

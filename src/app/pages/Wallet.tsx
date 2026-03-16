@@ -16,7 +16,7 @@ import Card from '../components/Card';
 import Button from '../components/Button';
 import EmptyState from '../components/EmptyState';
 import Badge from '../components/Badge';
-import { generateEvmWallet, type GeneratedWallet } from '../../lib/evm';
+import { generateSolanaWallet, type GeneratedWallet } from '../../lib/solana';
 import { fetchWallet, createWalletRecord, deleteWalletRecord, type WalletData } from '../../lib/api';
 import { getSessionId } from '../../lib/session';
 
@@ -53,7 +53,7 @@ export default function Wallet() {
   }, [loadWallet]);
 
   const handleGenerate = () => {
-    const generated = generateEvmWallet();
+    const generated = generateSolanaWallet();
     setNewWallet(generated);
     setState('reveal');
     setAcknowledged(false);
@@ -114,7 +114,7 @@ export default function Wallet() {
       <div className="space-y-6 sm:space-y-8">
         <div>
           <h1 className="text-xl sm:text-2xl font-semibold text-black">Wallet</h1>
-          <p className="mt-1 text-sm text-black/60">Manage your anonymous BNB Chain wallet</p>
+          <p className="mt-1 text-sm text-black/60">Manage your anonymous Solana wallet</p>
         </div>
         <Card>
           <div className="flex items-center justify-center py-12">
@@ -130,7 +130,7 @@ export default function Wallet() {
       <div className="space-y-6 sm:space-y-8">
         <div>
           <h1 className="text-xl sm:text-2xl font-semibold text-black">Wallet Created</h1>
-          <p className="mt-1 text-sm text-black/60">Save your private key before continuing</p>
+          <p className="mt-1 text-sm text-black/60">Save your private key before continuing — you can import it into Phantom</p>
         </div>
 
         <Card glow="rgba(245, 158, 11, 0.08)" className="border-amber-500/20">
@@ -142,14 +142,14 @@ export default function Wallet() {
               <h3 className="text-sm font-medium text-amber-600">Important</h3>
               <p className="text-xs text-black/55 mt-1 leading-relaxed">
                 Your private key will only be shown once. Save it securely — it cannot be recovered.
-                Never share your private key with anyone.
+                Never share your private key with anyone. You can import this key directly into Phantom wallet.
               </p>
             </div>
           </div>
 
           <div className="space-y-4">
             <div>
-              <label className="text-xs text-black/55 mb-2 block">Wallet Address (Public Key)</label>
+              <label className="text-xs text-black/55 mb-2 block">Solana Address (Public Key)</label>
               <div className="flex items-center gap-2 rounded-xl bg-black/[0.04] border border-black/[0.10] px-4 py-3">
                 <p className="text-sm text-black font-mono flex-1 break-all">{newWallet.publicKey}</p>
                 <button
@@ -162,7 +162,7 @@ export default function Wallet() {
             </div>
 
             <div>
-              <label className="text-xs text-black/55 mb-2 block">Private Key</label>
+              <label className="text-xs text-black/55 mb-2 block">Private Key (Phantom-compatible)</label>
               <div className="flex items-center gap-2 rounded-xl bg-black/[0.04] border border-black/[0.10] px-4 py-3">
                 <p className="text-sm text-black font-mono flex-1 break-all">
                   {showPrivateKey ? newWallet.privateKey : '•'.repeat(44)}
@@ -233,7 +233,7 @@ export default function Wallet() {
       <div className="space-y-6 sm:space-y-8">
         <div>
           <h1 className="text-xl sm:text-2xl font-semibold text-black">Wallet</h1>
-          <p className="mt-1 text-sm text-black/60">Manage your anonymous BNB Chain wallet</p>
+          <p className="mt-1 text-sm text-black/60">Manage your anonymous Solana wallet</p>
         </div>
 
         <Card glow="rgba(0, 0, 0, 0.03)">
@@ -243,7 +243,7 @@ export default function Wallet() {
             </div>
             <div>
               <h2 className="text-sm font-medium text-black">Wallet Details</h2>
-              <p className="text-xs text-black/50">Your BNB Chain wallet information</p>
+              <p className="text-xs text-black/50">Your Solana wallet information</p>
             </div>
           </div>
 
@@ -265,7 +265,7 @@ export default function Wallet() {
             <div className="grid grid-cols-2 gap-3">
               <div className="rounded-xl bg-black/[0.04] border border-black/[0.10] px-4 py-3">
                 <p className="text-xs text-black/55 mb-1">Network</p>
-                <p className="text-sm text-black">BNB Chain</p>
+                <p className="text-sm text-black">Solana</p>
               </div>
               <div className="rounded-xl bg-black/[0.04] border border-black/[0.10] px-4 py-3">
                 <p className="text-xs text-black/55 mb-1">Created</p>
@@ -274,7 +274,7 @@ export default function Wallet() {
             </div>
 
             <div className="flex items-center gap-2 flex-wrap">
-              <Badge label="BNB Chain" variant="active" />
+              <Badge label="Solana" variant="active" />
               <Badge label="Anonymous" variant="active" />
               <Badge label="In-Browser" variant="verified" />
             </div>
@@ -344,15 +344,15 @@ export default function Wallet() {
     <div className="space-y-6 sm:space-y-8">
       <div>
         <h1 className="text-xl sm:text-2xl font-semibold text-black">Wallet</h1>
-        <p className="mt-1 text-sm text-black/60">Manage your anonymous BNB Chain wallet</p>
+        <p className="mt-1 text-sm text-black/60">Manage your anonymous Solana wallet</p>
       </div>
 
       <Card glow="rgba(245, 158, 11, 0.06)">
         <EmptyState
           icon={<WalletIcon className="h-7 w-7" />}
           title="No wallet created yet"
-          description="Generate an anonymous BNB Chain wallet directly in your browser. No login, no seed phrase storage on servers, no identity linkage."
-          actionLabel="Create BNB Chain Wallet"
+          description="Generate an anonymous Solana wallet directly in your browser. No login, no seed phrase storage on servers, no identity linkage. Import directly into Phantom."
+          actionLabel="Create Solana Wallet"
           onAction={handleGenerate}
         />
       </Card>
