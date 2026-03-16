@@ -18,8 +18,8 @@ export default function Toggle({ checked, onChange, label, description, disabled
     >
       {(label || description) && (
         <div className="flex-1 min-w-0">
-          {label && <div className="text-sm font-medium text-black/70 group-hover:text-black transition-colors">{label}</div>}
-          {description && <div className="text-xs text-black/40 mt-0.5">{description}</div>}
+          {label && <div className="text-sm font-medium text-black/90 group-hover:text-black transition-colors">{label}</div>}
+          {description && <div className="text-xs text-black/60 mt-0.5">{description}</div>}
         </div>
       )}
       <button
@@ -32,7 +32,7 @@ export default function Toggle({ checked, onChange, label, description, disabled
           'relative inline-flex h-6 w-11 shrink-0 rounded-full border transition-colors duration-200',
           checked
             ? 'bg-black border-black/40'
-            : 'bg-black/10 border-black/10'
+            : 'bg-black/20 border-black/20'
         )}
       >
         <span

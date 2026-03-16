@@ -12,13 +12,13 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 const variants: Record<Variant, string> = {
   primary:
-    'bg-black text-white hover:bg-black/80 shadow-[0_4px_20px_rgba(0,0,0,0.1)]',
+    'bg-black text-white hover:bg-black/80 shadow-[0_4px_20px_rgba(0,0,0,0.12)]',
   secondary:
-    'bg-black/[0.04] text-black border border-black/[0.08] hover:bg-black/[0.08] hover:border-black/[0.12]',
+    'bg-black/[0.06] text-black border border-black/[0.15] hover:bg-black/[0.10] hover:border-black/[0.20]',
   danger:
-    'bg-red-500/10 text-red-500 border border-red-500/20 hover:bg-red-500/20',
+    'bg-red-500/15 text-red-600 border border-red-500/30 hover:bg-red-500/25',
   ghost:
-    'bg-transparent text-black/50 hover:text-black hover:bg-black/[0.04]',
+    'bg-transparent text-black/70 hover:text-black hover:bg-black/[0.06]',
 };
 
 export default function Button({

@@ -77,7 +77,7 @@ export default function Dashboard() {
     <div className="space-y-6 sm:space-y-8">
       <div>
         <h1 className="text-xl sm:text-2xl font-semibold text-black">Dashboard</h1>
-        <p className="mt-1 text-sm text-black/40">Overview of your RelayForge network activity</p>
+        <p className="mt-1 text-sm text-black/60">Overview of your RelayForge network activity</p>
       </div>
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
@@ -118,14 +118,14 @@ export default function Dashboard() {
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
         <Card hover glow="rgba(0, 0, 0, 0.04)" onClick={() => navigate('/app/launch')}>
           <div className="flex items-center gap-4">
-            <div className="rounded-xl bg-black/[0.05] border border-black/[0.08] p-3">
-              <Rocket className="h-5 w-5 text-black/60" />
+            <div className="rounded-xl bg-black/[0.06] border border-black/[0.12] p-3">
+              <Rocket className="h-5 w-5 text-black/70" />
             </div>
             <div className="flex-1 min-w-0">
               <h3 className="text-sm font-medium text-black">Launch Session</h3>
-              <p className="text-xs text-black/40 mt-0.5">Start stealth browsing</p>
+              <p className="text-xs text-black/55 mt-0.5">Start stealth browsing</p>
             </div>
-            <ArrowRight className="h-4 w-4 text-black/20 shrink-0" />
+            <ArrowRight className="h-4 w-4 text-black/40 shrink-0" />
           </div>
         </Card>
 
@@ -136,9 +136,9 @@ export default function Dashboard() {
             </div>
             <div className="flex-1 min-w-0">
               <h3 className="text-sm font-medium text-black">{wallet ? 'View Wallet' : 'Create Wallet'}</h3>
-              <p className="text-xs text-black/40 mt-0.5">{wallet ? 'Manage BNB Chain wallet' : 'Generate anonymous wallet'}</p>
+              <p className="text-xs text-black/55 mt-0.5">{wallet ? 'Manage BNB Chain wallet' : 'Generate anonymous wallet'}</p>
             </div>
-            <ArrowRight className="h-4 w-4 text-black/20 shrink-0" />
+            <ArrowRight className="h-4 w-4 text-black/40 shrink-0" />
           </div>
         </Card>
 
@@ -149,9 +149,9 @@ export default function Dashboard() {
             </div>
             <div className="flex-1 min-w-0">
               <h3 className="text-sm font-medium text-black">View Relayers</h3>
-              <p className="text-xs text-black/40 mt-0.5">Browse OpenClaw nodes</p>
+              <p className="text-xs text-black/55 mt-0.5">Browse OpenClaw nodes</p>
             </div>
-            <ArrowRight className="h-4 w-4 text-black/20 shrink-0" />
+            <ArrowRight className="h-4 w-4 text-black/40 shrink-0" />
           </div>
         </Card>
       </div>
@@ -160,7 +160,7 @@ export default function Dashboard() {
         <Card glow="rgba(0,0,0,0.02)">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
-              <Clock className="h-4 w-4 text-black/30" />
+              <Clock className="h-4 w-4 text-black/55" />
               <h3 className="text-sm font-medium text-black">Recent Activity</h3>
             </div>
             <Button variant="ghost" className="text-xs px-3 py-1.5" onClick={() => navigate('/app/sessions')}>
@@ -178,13 +178,13 @@ export default function Dashboard() {
               {sessions.slice(0, 5).map((s) => (
                 <div
                   key={s.id}
-                  className="flex items-center gap-3 rounded-xl bg-black/[0.02] border border-black/[0.04] px-4 py-3 hover:bg-black/[0.04] cursor-pointer transition-colors"
+                  className="flex items-center gap-3 rounded-xl bg-black/[0.04] border border-black/[0.08] px-4 py-3 hover:bg-black/[0.06] cursor-pointer transition-colors"
                   onClick={() => navigate(`/app/session/${s.id}`)}
                 >
-                  <Globe className="h-4 w-4 text-black/20 shrink-0" />
+                  <Globe className="h-4 w-4 text-black/40 shrink-0" />
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm text-black/60 truncate">{s.target_title || extractDomain(s.target_url)}</p>
-                    <p className="text-xs text-black/25 font-mono truncate">{extractDomain(s.target_url)}</p>
+                    <p className="text-sm text-black/70 truncate">{s.target_title || extractDomain(s.target_url)}</p>
+                    <p className="text-xs text-black/45 font-mono truncate">{extractDomain(s.target_url)}</p>
                   </div>
                   <div className="flex items-center gap-2 shrink-0">
                     <Badge
@@ -192,7 +192,7 @@ export default function Dashboard() {
                       variant={s.status === 'active' ? 'active' : s.status === 'ended' ? 'inactive' : 'error'}
                       dot
                     />
-                    <span className="text-[10px] text-black/20 hidden sm:block">{timeAgo(s.started_at)}</span>
+                    <span className="text-[10px] text-black/40 hidden sm:block">{timeAgo(s.started_at)}</span>
                   </div>
                 </div>
               ))}
@@ -203,30 +203,30 @@ export default function Dashboard() {
         <Card glow="rgba(0,0,0,0.02)">
           <div className="flex items-center justify-between mb-5">
             <div className="flex items-center gap-2">
-              <Zap className="h-4 w-4 text-black/30" />
+              <Zap className="h-4 w-4 text-black/55" />
               <h3 className="text-sm font-medium text-black">Network Status</h3>
             </div>
             <Badge label={`${getOnlineRelayers().length} Online`} variant="active" dot />
           </div>
           <div className="space-y-2.5">
-            <div className="flex items-center justify-between rounded-xl bg-black/[0.02] border border-black/[0.04] px-4 py-3">
+            <div className="flex items-center justify-between rounded-xl bg-black/[0.04] border border-black/[0.08] px-4 py-3">
               <div className="flex items-center gap-2.5">
                 <div className="h-2 w-2 rounded-full bg-emerald-500" />
-                <span className="text-sm text-black/50">Relay Network</span>
+                <span className="text-sm text-black/60">Relay Network</span>
               </div>
               <Badge label={`${getOnlineRelayers().length}/${RELAYER_NODES.length} nodes`} variant="active" />
             </div>
-            <div className="flex items-center justify-between rounded-xl bg-black/[0.02] border border-black/[0.04] px-4 py-3">
+            <div className="flex items-center justify-between rounded-xl bg-black/[0.04] border border-black/[0.08] px-4 py-3">
               <div className="flex items-center gap-2.5">
                 <div className="h-2 w-2 rounded-full bg-emerald-500" />
-                <span className="text-sm text-black/50">OpenClaw Registry</span>
+                <span className="text-sm text-black/60">OpenClaw Registry</span>
               </div>
               <Badge label="Connected" variant="active" />
             </div>
-            <div className="flex items-center justify-between rounded-xl bg-black/[0.02] border border-black/[0.04] px-4 py-3">
+            <div className="flex items-center justify-between rounded-xl bg-black/[0.04] border border-black/[0.08] px-4 py-3">
               <div className="flex items-center gap-2.5">
                 <div className="h-2 w-2 rounded-full bg-emerald-500" />
-                <span className="text-sm text-black/50">Active Sessions</span>
+                <span className="text-sm text-black/60">Active Sessions</span>
               </div>
               <Badge label={formatNumber(RELAYER_NODES.reduce((s, r) => s + r.activeSessions, 0))} variant="active" />
             </div>

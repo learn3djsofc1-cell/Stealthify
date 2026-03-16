@@ -84,7 +84,7 @@ export default function Sessions() {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-[60vh]">
-        <Loader2 className="h-6 w-6 text-black/40 animate-spin" />
+        <Loader2 className="h-6 w-6 text-black/50 animate-spin" />
       </div>
     );
   }
@@ -94,7 +94,7 @@ export default function Sessions() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-xl sm:text-2xl font-semibold text-black">Sessions</h1>
-          <p className="mt-1 text-sm text-black/40">View and manage your stealth browsing sessions</p>
+          <p className="mt-1 text-sm text-black/60">View and manage your stealth browsing sessions</p>
         </div>
         <Button
           variant="primary"
@@ -137,12 +137,12 @@ export default function Sessions() {
                           </p>
                           <Badge label="Active" variant="active" dot />
                         </div>
-                        <p className="text-xs text-black/30 mt-0.5 truncate font-mono">{extractDomain(session.target_url)}</p>
+                        <p className="text-xs text-black/50 mt-0.5 truncate font-mono">{extractDomain(session.target_url)}</p>
                       </div>
                       <div className="hidden sm:flex items-center gap-3 shrink-0">
                         <div className="text-right">
-                          <p className="text-xs text-black/30">Duration</p>
-                          <p className="text-xs text-black/50 font-mono">{formatDuration(session.started_at, null)}</p>
+                          <p className="text-xs text-black/50">Duration</p>
+                          <p className="text-xs text-black/60 font-mono">{formatDuration(session.started_at, null)}</p>
                         </div>
                         <button
                           onClick={(e) => { e.stopPropagation(); handleEndSession(session.id); }}
@@ -165,49 +165,49 @@ export default function Sessions() {
 
           {pastSessions.length > 0 && (
             <div>
-              <h2 className="text-xs font-medium text-black/30 uppercase tracking-wider mb-3">
+              <h2 className="text-xs font-medium text-black/50 uppercase tracking-wider mb-3">
                 Past Sessions ({pastSessions.length})
               </h2>
               <Card className="overflow-hidden p-0">
                 <div className="overflow-x-auto">
                   <table className="w-full">
                     <thead>
-                      <tr className="border-b border-black/[0.06]">
-                        <th className="px-4 sm:px-6 py-3.5 text-left text-[11px] font-medium text-black/30 uppercase tracking-wider">
+                      <tr className="border-b border-black/[0.10]">
+                        <th className="px-4 sm:px-6 py-3.5 text-left text-[11px] font-medium text-black/50 uppercase tracking-wider">
                           <div className="flex items-center gap-1.5">
                             <Globe className="h-3 w-3" />
                             Target
                           </div>
                         </th>
-                        <th className="px-4 sm:px-6 py-3.5 text-left text-[11px] font-medium text-black/30 uppercase tracking-wider">Status</th>
-                        <th className="hidden sm:table-cell px-6 py-3.5 text-left text-[11px] font-medium text-black/30 uppercase tracking-wider">
+                        <th className="px-4 sm:px-6 py-3.5 text-left text-[11px] font-medium text-black/50 uppercase tracking-wider">Status</th>
+                        <th className="hidden sm:table-cell px-6 py-3.5 text-left text-[11px] font-medium text-black/50 uppercase tracking-wider">
                           <div className="flex items-center gap-1.5">
                             <Clock className="h-3 w-3" />
                             Duration
                           </div>
                         </th>
-                        <th className="hidden md:table-cell px-6 py-3.5 text-left text-[11px] font-medium text-black/30 uppercase tracking-wider">
+                        <th className="hidden md:table-cell px-6 py-3.5 text-left text-[11px] font-medium text-black/50 uppercase tracking-wider">
                           <div className="flex items-center gap-1.5">
                             <ShieldCheck className="h-3 w-3" />
                             Privacy
                           </div>
                         </th>
-                        <th className="px-4 sm:px-6 py-3.5 text-right text-[11px] font-medium text-black/30 uppercase tracking-wider">When</th>
+                        <th className="px-4 sm:px-6 py-3.5 text-right text-[11px] font-medium text-black/50 uppercase tracking-wider">When</th>
                       </tr>
                     </thead>
                     <tbody>
                       {pastSessions.map((session) => (
                         <tr
                           key={session.id}
-                          className="border-b border-black/[0.03] last:border-0 hover:bg-black/[0.02] cursor-pointer transition-colors"
+                          className="border-b border-black/[0.08] last:border-0 hover:bg-black/[0.05] cursor-pointer transition-colors"
                           onClick={() => navigate(`/app/session/${session.id}`)}
                         >
                           <td className="px-4 sm:px-6 py-4">
                             <div>
-                              <p className="text-sm text-black/60 truncate max-w-[200px]">
+                              <p className="text-sm text-black/70 truncate max-w-[200px]">
                                 {session.target_title || extractDomain(session.target_url)}
                               </p>
-                              <p className="text-xs text-black/25 font-mono truncate max-w-[200px]">{extractDomain(session.target_url)}</p>
+                              <p className="text-xs text-black/45 font-mono truncate max-w-[200px]">{extractDomain(session.target_url)}</p>
                             </div>
                           </td>
                           <td className="px-4 sm:px-6 py-4">
@@ -217,7 +217,7 @@ export default function Sessions() {
                               dot
                             />
                           </td>
-                          <td className="hidden sm:table-cell px-6 py-4 text-sm text-black/40 font-mono">
+                          <td className="hidden sm:table-cell px-6 py-4 text-sm text-black/55 font-mono">
                             {formatDuration(session.started_at, session.ended_at)}
                           </td>
                           <td className="hidden md:table-cell px-6 py-4">
@@ -231,7 +231,7 @@ export default function Sessions() {
                             </div>
                           </td>
                           <td className="px-4 sm:px-6 py-4 text-right">
-                            <span className="text-xs text-black/30">{timeAgo(session.started_at)}</span>
+                            <span className="text-xs text-black/50">{timeAgo(session.started_at)}</span>
                           </td>
                         </tr>
                       ))}

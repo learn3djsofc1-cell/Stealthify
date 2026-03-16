@@ -15,18 +15,18 @@ export default function StatCard({ label, value, icon, trend, glow, accentColor 
     <Card hover glow={glow}>
       <div className="flex items-start justify-between">
         <div>
-          <p className="text-[11px] font-medium text-black/40 uppercase tracking-wider">{label}</p>
+          <p className="text-[11px] font-medium text-black/60 uppercase tracking-wider">{label}</p>
           <p className="mt-2 text-2xl sm:text-3xl font-bold text-black tracking-tight">{value}</p>
           {trend && (
-            <p className="mt-1.5 text-xs text-black/30">{trend}</p>
+            <p className="mt-1.5 text-xs text-black/55">{trend}</p>
           )}
         </div>
         <div
           className="rounded-xl p-2.5"
           style={{
-            backgroundColor: accentColor ? `${accentColor}15` : 'rgba(0,0,0,0.03)',
-            border: `1px solid ${accentColor ? `${accentColor}30` : 'rgba(0,0,0,0.06)'}`,
-            color: accentColor || 'rgba(0,0,0,0.4)',
+            backgroundColor: accentColor ? `${accentColor}20` : 'rgba(0,0,0,0.06)',
+            border: `1px solid ${accentColor ? `${accentColor}40` : 'rgba(0,0,0,0.12)'}`,
+            color: accentColor || 'rgba(0,0,0,0.65)',
           }}
         >
           {icon}
