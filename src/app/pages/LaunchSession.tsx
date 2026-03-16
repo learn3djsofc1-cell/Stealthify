@@ -43,7 +43,7 @@ export default function LaunchSession() {
   const [selectedRelayer, setSelectedRelayer] = useState<string>('auto');
   const dropdownRef = useRef<HTMLDivElement>(null);
   const searchRef = useRef<HTMLDivElement>(null);
-  const debounceRef = useRef<ReturnType<typeof setTimeout>>();
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     if (!relayerDropdownOpen) return;
@@ -141,8 +141,8 @@ export default function LaunchSession() {
         ipCloaking,
       });
       sessionId = session.id;
-    } catch (err: any) {
-      setLaunchError(err.message || 'Failed to launch session');
+    } catch (err: unknown) {
+      setLaunchError(err instanceof Error ? err.message : 'Failed to launch session');
       setLaunching(false);
       return;
     }

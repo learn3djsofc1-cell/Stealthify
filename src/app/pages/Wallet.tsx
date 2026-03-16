@@ -69,8 +69,8 @@ export default function Wallet() {
       setWallet(saved);
       setNewWallet(null);
       setState('active');
-    } catch (err: any) {
-      setError(err.message || 'Failed to save wallet');
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Failed to save wallet');
     }
   };
 

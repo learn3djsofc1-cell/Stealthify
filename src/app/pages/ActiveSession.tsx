@@ -245,12 +245,12 @@ export default function ActiveSession() {
             <span className="text-sm text-black/50 truncate font-mono">{extractDomain(session.target_url)}</span>
             <div className="flex items-center gap-2 ml-auto shrink-0">
               {session.fingerprint_randomization && (
-                <Fingerprint className="h-3.5 w-3.5 text-black/40" title="Fingerprint randomized" />
+                <span title="Fingerprint randomized"><Fingerprint className="h-3.5 w-3.5 text-black/40" /></span>
               )}
               {session.ip_cloaking && (
-                <EyeOff className="h-3.5 w-3.5 text-blue-500" title="IP cloaked" />
+                <span title="IP cloaked"><EyeOff className="h-3.5 w-3.5 text-blue-500" /></span>
               )}
-              <Shield className="h-3.5 w-3.5 text-emerald-500" title="Stealth active" />
+              <span title="Stealth active"><Shield className="h-3.5 w-3.5 text-emerald-500" /></span>
             </div>
           </div>
 
