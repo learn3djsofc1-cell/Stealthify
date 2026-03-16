@@ -52,12 +52,12 @@ const Hero = () => {
             transition={{ duration: 0.8, delay: 0.6, ease: [0.22, 1, 0.36, 1] }}
             className="flex flex-wrap items-center gap-4"
           >
-            <Link to="/docs" className="px-7 py-3.5 bg-black text-white rounded-full font-medium text-sm flex items-center gap-2 hover:bg-black/80 transition-all duration-300 shadow-[0_4px_20px_rgba(0,0,0,0.15)]">
-              Documentation
+            <Link to="/app" className="px-7 py-3.5 bg-black text-white rounded-full font-medium text-sm flex items-center gap-2 hover:bg-black/80 transition-all duration-300 shadow-[0_4px_20px_rgba(0,0,0,0.15)]">
+              Launch App
               <ArrowRight className="w-4 h-4" />
             </Link>
-            <Link to="/app" className="px-7 py-3.5 bg-white border border-black/10 text-black rounded-full font-medium text-sm hover:bg-black/[0.03] hover:border-black/20 transition-all duration-300">
-              Launch App
+            <Link to="/docs" className="px-7 py-3.5 bg-white border border-black/10 text-black rounded-full font-medium text-sm hover:bg-black/[0.03] hover:border-black/20 transition-all duration-300">
+              Documentation
             </Link>
           </motion.div>
         </div>
