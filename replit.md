@@ -68,12 +68,12 @@ RelayForge — A privacy-native Web3 access layer. Landing page + web applicatio
 ### Assets
 - `src/assets/logo.png` - RelayForge logo (imported in components)
 - `public/favicon.png` - Favicon
-- `public/og-image.png` - Open Graph social sharing image (1200x630)
+- `public/og-image.png` - Open Graph social sharing image (RelayForge logo)
 - `public/robots.txt` - Search engine crawl directives
-- `public/sitemap.xml` - XML sitemap for https://relayforge.cloud
+- `public/sitemap.xml` - XML sitemap for https://relay-forge.io
 
 ### SEO (index.html)
-- Canonical URL: https://relayforge.cloud/
+- Canonical URL: https://relay-forge.io/
 - Open Graph + Twitter Card meta tags with OG image
 - JSON-LD structured data (WebApplication + Organization schemas)
 - PWA meta tags (theme-color, apple-mobile-web-app)
