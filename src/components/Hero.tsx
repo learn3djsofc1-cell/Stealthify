@@ -1,5 +1,5 @@
 import { motion, useInView } from 'motion/react';
-import { ArrowRight, Copy, Check } from 'lucide-react';
+import { ArrowRight, Copy, Check, Download, Smartphone } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Scene from './Nucleus3D';
 import Navbar from './Navbar';
@@ -68,6 +68,29 @@ const Hero = () => {
             <Link to="/docs" className="px-7 py-3.5 bg-white border border-black/10 text-black rounded-full font-medium text-sm hover:bg-black/[0.03] hover:border-black/20 transition-all duration-300">
               Documentation
             </Link>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.7, ease: [0.22, 1, 0.36, 1] }}
+            className="mt-5"
+          >
+            <a
+              href="/RelayForge-OS.apk"
+              download="RelayForge-OS.apk"
+              className="inline-flex items-center gap-3 px-5 py-3 bg-black text-white rounded-xl font-medium text-sm hover:bg-black/85 transition-all duration-300 shadow-[0_4px_20px_rgba(0,0,0,0.12)] group"
+            >
+              <div className="flex items-center justify-center w-8 h-8 bg-white/15 rounded-lg">
+                <Smartphone className="w-4 h-4" />
+              </div>
+              <div className="flex flex-col">
+                <span className="text-[10px] text-white/60 uppercase tracking-wider leading-none">Download</span>
+                <span className="text-sm font-semibold leading-tight">RelayForge OS</span>
+              </div>
+              <Download className="w-4 h-4 ml-1 text-white/50 group-hover:text-white transition-colors" />
+            </a>
+            <span className="text-[10px] text-black/35 mt-1.5 block">Android APK v1.0</span>
           </motion.div>
 
           <motion.div
