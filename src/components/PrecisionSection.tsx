@@ -18,7 +18,7 @@ const Card = ({ children, className, delay = 0 }: { children: React.ReactNode; c
   </motion.div>
 );
 
-const IconBox = ({ icon: Icon }: { icon: any }) => (
+const IconBox = ({ icon: Icon }: { icon: React.ComponentType<{ className?: string }> }) => (
   <div className="w-12 h-12 rounded-2xl bg-[#FFF6E5] border border-black/[0.06] flex items-center justify-center mb-6 group-hover:bg-black/[0.03] transition-colors">
     <Icon className="w-5 h-5 text-black/70 stroke-[1.5]" />
   </div>

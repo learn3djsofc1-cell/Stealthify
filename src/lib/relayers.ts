@@ -49,7 +49,7 @@ export const RELAYER_NODES: RelayerNode[] = [
     activeSessions: 8,
     bandwidthMbps: 850,
     lastSeen: new Date(Date.now() - 5000).toISOString(),
-    operator: 'Stealth Labs AG',
+    operator: 'Forge Labs AG',
     version: 'v2.4.1',
     protocols: ['HTTPS', 'WSS', 'SOCKS5'],
     stake: 18500,
