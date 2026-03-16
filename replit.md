@@ -69,6 +69,11 @@ RelayForge — A privacy-native Web3 access layer. Landing page + web applicatio
 - `src/assets/logo.png` - RelayForge logo (imported in components)
 - `public/favicon.png` - Favicon
 - `public/og-image.png` - Open Graph social sharing image (RelayForge logo)
+
+### Production Build & Deployment
+- `npm run build` → Vite builds frontend to `dist/`, then esbuild bundles `server/index.ts` to `dist/index.cjs`
+- Deployment runs `node ./dist/index.cjs` which serves the built frontend + API endpoints
+- Native Node.js modules (pg, better-sqlite3) and dev tools (vite, esbuild, lightningcss) are externalized from the server bundle
 - `public/robots.txt` - Search engine crawl directives
 - `public/sitemap.xml` - XML sitemap for https://relay-forge.io
 

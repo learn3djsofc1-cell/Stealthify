@@ -3,9 +3,10 @@ import cors from 'cors';
 import pg from 'pg';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import crypto from 'crypto';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const __filename = typeof __dirname !== 'undefined' ? path.join(__dirname, 'index.cjs') : fileURLToPath(import.meta.url);
+const __dirnameSafe = typeof __dirname !== 'undefined' ? __dirname : path.dirname(__filename);
 
 const app = express();
 app.use(cors());
@@ -217,7 +218,7 @@ async function startServer() {
   const PORT = 5000;
 
   if (process.env.NODE_ENV === 'production') {
-    const distPath = path.resolve(__dirname, '..', 'dist');
+    const distPath = path.resolve(__dirnameSafe);
     app.use(express.static(distPath));
     app.get('*', (_req, res) => {
       res.sendFile(path.join(distPath, 'index.html'));
