@@ -18,7 +18,7 @@ import Settings from './app/pages/Settings';
 
 function LandingPage() {
   return (
-    <div className="bg-[#050505] min-h-screen">
+    <div className="bg-[#FFF6E5] min-h-screen">
       <Hero />
       <PrecisionSection />
       <CytopathologySection />

@@ -16,8 +16,6 @@ import { useRef, useState, useMemo } from 'react';
 import * as THREE from 'three';
 import { useInView } from 'motion/react';
 
-// --- Components ---
-
 const SecureCore = () => {
   const mesh = useRef<THREE.Mesh>(null);
   const glow = useRef<THREE.Mesh>(null);
@@ -34,7 +32,6 @@ const SecureCore = () => {
 
   return (
     <group>
-      {/* Inner Encrypted Core */}
       <Icosahedron args={[1, 0]} ref={mesh}>
         <meshStandardMaterial 
           color="#1a1a1a" 
@@ -44,17 +41,15 @@ const SecureCore = () => {
         />
       </Icosahedron>
 
-      {/* Emissive Veins/Data */}
       <Icosahedron args={[1.01, 1]}>
         <meshBasicMaterial 
-          color="#8b5cf6" 
+          color="#8B7355" 
           wireframe 
           transparent 
           opacity={0.15} 
         />
       </Icosahedron>
 
-      {/* Outer Glass Shell (Sandboxing) */}
       <Sphere args={[1.4, 32, 32]}>
         <MeshTransmissionMaterial
           backside
@@ -70,14 +65,13 @@ const SecureCore = () => {
           clearcoat={1}
           color="#ffffff"
           resolution={256}
-          background={new THREE.Color('#000000')}
+          background={new THREE.Color('#FFF6E5')}
         />
       </Sphere>
 
-      {/* Glow */}
       <mesh ref={glow}>
         <sphereGeometry args={[1.8, 32, 32]} />
-        <meshBasicMaterial color="#8b5cf6" transparent opacity={0.05} blending={THREE.AdditiveBlending} depthWrite={false} />
+        <meshBasicMaterial color="#8B7355" transparent opacity={0.04} blending={THREE.AdditiveBlending} depthWrite={false} />
       </mesh>
     </group>
   );
@@ -89,9 +83,7 @@ const CloudModule = ({ position, delay = 0, label }: { position: [number, number
 
   useFrame((state) => {
     if (ref.current) {
-      // Bobbing animation
       ref.current.position.y = position[1] + Math.sin(state.clock.getElapsedTime() + delay) * 0.2;
-      // Look at center
       ref.current.lookAt(0, 0, 0);
     }
   });
@@ -99,31 +91,27 @@ const CloudModule = ({ position, delay = 0, label }: { position: [number, number
   return (
     <group ref={ref} position={position} onPointerOver={() => setHovered(true)} onPointerOut={() => setHovered(false)}>
       <Float speed={2} rotationIntensity={0.2} floatIntensity={0.2}>
-        {/* Module Body */}
         <RoundedBox args={[0.8, 0.8, 0.8]} radius={0.1} smoothness={4} castShadow receiveShadow>
           <meshStandardMaterial 
-            color={hovered ? "#a78bfa" : "#ffffff"} 
+            color={hovered ? "#D4A574" : "#1a1a1a"} 
             metalness={0.5} 
             roughness={0.2} 
           />
         </RoundedBox>
 
-        {/* Status Light */}
         <mesh position={[0, 0, 0.41]}>
           <circleGeometry args={[0.1, 32]} />
-          <meshBasicMaterial color={hovered ? "#10b981" : "#8b5cf6"} />
+          <meshBasicMaterial color={hovered ? "#10b981" : "#8B7355"} />
         </mesh>
 
-        {/* Connection Beam to Center */}
         <Line 
-          points={[[0, 0, -0.4], [0, 0, -position[2] + 1.4]]} // Rough approximation to center surface
-          color={hovered ? "#a78bfa" : "#4b5563"} 
+          points={[[0, 0, -0.4], [0, 0, -position[2] + 1.4]]}
+          color={hovered ? "#D4A574" : "#666666"} 
           transparent 
           opacity={0.2} 
           lineWidth={1} 
         />
         
-        {/* Label */}
         {label && (
           <Html position={[0, -0.6, 0]} center distanceFactor={8} style={{ pointerEvents: 'none', opacity: hovered ? 1 : 0.6, transition: 'opacity 0.2s' }}>
             <div className="bg-black/80 backdrop-blur-md border border-white/10 px-2 py-1 rounded text-[10px] text-white font-mono whitespace-nowrap">
@@ -143,7 +131,7 @@ const OrchestrationRing = () => {
       { pos: [-3, 0.5, 1], label: "Relayer Lane B" },
       { pos: [1.5, 2, -1.5], label: "Session Sandbox" },
       { pos: [-1.5, -2, -1.5], label: "Agent Orch" },
-      { pos: [0, 0, 3.5], label: "Key Mgmt" }, // Front module
+      { pos: [0, 0, 3.5], label: "Key Mgmt" },
     ];
   }, []);
 
@@ -195,7 +183,7 @@ const DataParticles = () => {
   return (
     <instancedMesh ref={mesh} args={[undefined, undefined, count]}>
       <sphereGeometry args={[1, 8, 8]} />
-      <meshBasicMaterial color="#8b5cf6" transparent opacity={0.4} />
+      <meshBasicMaterial color="#8B7355" transparent opacity={0.4} />
     </instancedMesh>
   );
 };
@@ -207,7 +195,6 @@ const Scene = () => {
 
   useFrame((state) => {
     if (groupRef.current) {
-      // Mouse interaction with Lerp
       const targetRotX = state.mouse.y * 0.1;
       const targetRotY = state.mouse.x * 0.1;
       
@@ -218,9 +205,8 @@ const Scene = () => {
 
   return (
     <>
-      <color attach="background" args={['#050505']} />
+      <color attach="background" args={['#FFF6E5']} />
       
-      {/* Dynamic Lighting (IBL + Spots) */}
       <Environment resolution={512}>
         <group rotation={[-Math.PI / 3, 0, 1]}>
           <Lightformer form="rect" intensity={4} position={[10, 0, -10]} scale={10} onUpdate={(self) => self.lookAt(0, 0, 0)} />
@@ -229,19 +215,17 @@ const Scene = () => {
         </group>
       </Environment>
 
-      <ambientLight intensity={0.2} />
+      <ambientLight intensity={0.3} />
       <SpotLight position={[5, 5, 5]} angle={0.5} penumbra={1} intensity={1} castShadow color="#ffffff" />
-      <pointLight position={[-5, -5, -5]} intensity={0.5} color="#8b5cf6" />
+      <pointLight position={[-5, -5, -5]} intensity={0.5} color="#8B7355" />
 
-      {/* Main Content Group - Scaled for Mobile */}
       <group ref={groupRef} scale={isMobile ? 0.6 : 1}>
         <SecureCore />
         <OrchestrationRing />
         <DataParticles />
       </group>
 
-      {/* Shadows */}
-      <ContactShadows position={[0, -3.5, 0]} opacity={0.4} scale={20} blur={2.5} far={4.5} />
+      <ContactShadows position={[0, -3.5, 0]} opacity={0.3} scale={20} blur={2.5} far={4.5} />
     </>
   );
 };

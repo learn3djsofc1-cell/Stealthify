@@ -8,9 +8,8 @@ const Node = ({ position, scale = 1, speed = 1, mouseFactor = 1 }: { position: [
   const groupRef = useRef<THREE.Group>(null);
   const coreRef = useRef<THREE.Mesh>(null);
   
-  // Create a geometric sphere for the node
   const geometry = useMemo(() => {
-    const geo = new THREE.IcosahedronGeometry(1, 1); // Low poly for tech look
+    const geo = new THREE.IcosahedronGeometry(1, 1);
     return geo;
   }, []);
 
@@ -18,15 +17,12 @@ const Node = ({ position, scale = 1, speed = 1, mouseFactor = 1 }: { position: [
     const time = state.clock.getElapsedTime() * speed;
     
     if (groupRef.current) {
-      // Mouse interaction (parallax)
       const mouseX = (state.pointer.x * window.innerWidth) / 100;
       const mouseY = (state.pointer.y * window.innerHeight) / 100;
       
-      // Smooth lerp for position
       groupRef.current.position.x = THREE.MathUtils.lerp(groupRef.current.position.x, position[0] + mouseX * mouseFactor * 0.5, 0.05);
       groupRef.current.position.y = THREE.MathUtils.lerp(groupRef.current.position.y, position[1] + mouseY * mouseFactor * 0.5, 0.05);
       
-      // Tech rotation
       groupRef.current.rotation.y = time * 0.2;
       groupRef.current.rotation.x = time * 0.1;
     }
@@ -34,25 +30,23 @@ const Node = ({ position, scale = 1, speed = 1, mouseFactor = 1 }: { position: [
 
   return (
     <group ref={groupRef} position={position} scale={scale}>
-      {/* Core (Purple geometric node) */}
       <mesh ref={coreRef} geometry={geometry}>
         <meshPhysicalMaterial
-          color="#6D28D9" // Purple-700
+          color="#1a1a1a"
           roughness={0.2}
           metalness={0.8}
           clearcoat={0.5}
           clearcoatRoughness={0.1}
-          emissive="#4C1D95"
+          emissive="#333333"
           emissiveIntensity={0.5}
           flatShading={true}
         />
       </mesh>
 
-      {/* Shield (Wireframe or Transparent shell) */}
       <mesh scale={1.4}>
         <icosahedronGeometry args={[1, 2]} />
         <meshPhysicalMaterial
-          color="#A855F7" // Purple-500
+          color="#8B7355"
           transparent
           opacity={0.15}
           roughness={0}
@@ -69,15 +63,12 @@ const NetworkScene = () => {
   return (
     <div className="w-full h-full absolute inset-0 z-0">
       <Canvas camera={{ position: [0, 0, 12], fov: 35 }} gl={{ antialias: true, alpha: true }} dpr={[1, 2]}>
-        <ambientLight intensity={0.2} />
-        <pointLight position={[10, 10, 10]} intensity={1.5} color="#C084FC" />
-        <pointLight position={[-10, -10, -5]} intensity={0.5} color="#4C1D95" />
+        <ambientLight intensity={0.3} />
+        <pointLight position={[10, 10, 10]} intensity={1.5} color="#D4A574" />
+        <pointLight position={[-10, -10, -5]} intensity={0.5} color="#8B7355" />
         <spotLight position={[0, 10, 0]} intensity={0.8} angle={0.5} penumbra={1} />
         
-        {/* Main large node (Center-Bottom) */}
         <Node position={[0, -2.5, 0]} scale={2.2} speed={0.5} mouseFactor={0.2} />
-        
-        {/* Floating smaller nodes */}
         <Node position={[-5, 2, -2]} scale={0.9} speed={0.8} mouseFactor={0.4} />
         <Node position={[5, 3, -3]} scale={0.8} speed={0.7} mouseFactor={0.3} />
         <Node position={[-3.5, -1, 2]} scale={0.6} speed={0.9} mouseFactor={0.5} />
@@ -95,12 +86,10 @@ const CytopathologySection = () => {
   const isInView = useInView(ref, { margin: "-100px", once: false });
 
   return (
-    <section ref={ref} className="w-full min-h-screen bg-[#020202] relative overflow-hidden flex flex-col items-center justify-center py-24">
+    <section ref={ref} className="w-full min-h-screen bg-black relative overflow-hidden flex flex-col items-center justify-center py-24">
       
-      {/* 3D Background - Render only when in view */}
       {isInView && <NetworkScene />}
       
-      {/* Content Overlay */}
       <div className="relative z-10 max-w-5xl mx-auto px-6 text-center mt-[-10vh]">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -108,49 +97,47 @@ const CytopathologySection = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
         >
-          <span className="text-purple-500 font-medium tracking-widest text-xs uppercase mb-4 block">
-            Stealthify Launch Interface
+          <span className="text-white/60 font-medium tracking-widest text-xs uppercase mb-4 block">
+            RelayForge Launch Interface
           </span>
-          <h2 className="text-5xl md:text-7xl font-medium text-white mb-6 tracking-tight leading-tight">
+          <h2 className="text-5xl md:text-7xl font-semibold text-white mb-6 tracking-tight leading-tight">
             The Product
           </h2>
-          <p className="text-gray-400 text-lg max-w-2xl mx-auto font-light leading-relaxed mb-16">
+          <p className="text-white/50 text-lg max-w-2xl mx-auto font-light leading-relaxed mb-16">
             A simple browser tool to access any dApp privately: paste a URL, launch a stealth session, and choose relayer preferences.
           </p>
         </motion.div>
 
-        {/* Stats Card */}
         <motion.div
           initial={{ opacity: 0, scale: 0.95, y: 20 }}
           whileInView={{ opacity: 1, scale: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="flex flex-col md:flex-row items-center bg-[#0A0A0A]/40 backdrop-blur-xl border border-white/5 rounded-[2rem] px-8 py-8 md:px-12 gap-8 md:gap-16 shadow-2xl relative z-20 w-full md:w-auto max-w-sm md:max-w-none mx-auto"
+          className="flex flex-col md:flex-row items-center bg-white/[0.06] backdrop-blur-xl border border-white/[0.08] rounded-[2rem] px-8 py-8 md:px-12 gap-8 md:gap-16 shadow-2xl relative z-20 w-full md:w-auto max-w-sm md:max-w-none mx-auto"
         >
           <div className="text-center w-full md:w-auto">
             <div className="text-4xl font-bold text-white mb-1 tracking-tight">0</div>
-            <div className="text-[10px] uppercase tracking-[0.2em] text-gray-500 font-medium">Wallet Connects</div>
+            <div className="text-[10px] uppercase tracking-[0.2em] text-white/40 font-medium">Wallet Connects</div>
           </div>
           <div className="w-full h-px md:w-px md:h-12 bg-white/10" />
           <div className="text-center w-full md:w-auto">
             <div className="text-4xl font-bold text-white mb-1 tracking-tight">100%</div>
-            <div className="text-[10px] uppercase tracking-[0.2em] text-gray-500 font-medium">Anonymous</div>
+            <div className="text-[10px] uppercase tracking-[0.2em] text-white/40 font-medium">Anonymous</div>
           </div>
           <div className="w-full h-px md:w-px md:h-12 bg-white/10" />
           <div className="text-center w-full md:w-auto">
             <div className="text-4xl font-bold text-white mb-1 tracking-tight">1-Click</div>
-            <div className="text-[10px] uppercase tracking-[0.2em] text-gray-500 font-medium">Launch</div>
+            <div className="text-[10px] uppercase tracking-[0.2em] text-white/40 font-medium">Launch</div>
           </div>
         </motion.div>
       </div>
 
-      {/* Bottom Status Indicator */}
       <div className="absolute bottom-6 left-6 md:bottom-12 md:left-12 flex items-center gap-3 z-10">
         <span className="relative flex h-2 w-2">
-          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-purple-500 opacity-75"></span>
-          <span className="relative inline-flex rounded-full h-2 w-2 bg-purple-500"></span>
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75"></span>
+          <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
         </span>
-        <span className="text-[10px] font-mono uppercase tracking-widest text-gray-500/70">
+        <span className="text-[10px] font-mono uppercase tracking-widest text-white/40">
           Relay Network Active
         </span>
       </div>

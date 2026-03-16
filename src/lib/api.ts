@@ -47,7 +47,7 @@ export async function searchDapps(query: string): Promise<SearchResult[]> {
   return data.results;
 }
 
-export interface StealthSession {
+export interface RelaySession {
   id: string;
   browser_session_id: string;
   target_url: string;
@@ -67,7 +67,7 @@ export async function createSession(params: {
   fingerprintRandomization: boolean;
   ipCloaking: boolean;
   relayer?: string;
-}): Promise<StealthSession> {
+}): Promise<RelaySession> {
   const res = await fetch(`${API_BASE}/sessions`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -81,21 +81,21 @@ export async function createSession(params: {
   return data.session;
 }
 
-export async function fetchSessions(browserSessionId: string): Promise<StealthSession[]> {
+export async function fetchSessions(browserSessionId: string): Promise<RelaySession[]> {
   const res = await fetch(`${API_BASE}/sessions?browserSessionId=${encodeURIComponent(browserSessionId)}`);
   if (!res.ok) throw new Error('Failed to fetch sessions');
   const data = await res.json();
   return data.sessions;
 }
 
-export async function fetchSession(id: string): Promise<StealthSession> {
+export async function fetchSession(id: string): Promise<RelaySession> {
   const res = await fetch(`${API_BASE}/sessions/${id}`);
   if (!res.ok) throw new Error('Failed to fetch session');
   const data = await res.json();
   return data.session;
 }
 
-export async function updateSessionStatus(id: string, status: 'active' | 'ended' | 'error'): Promise<StealthSession> {
+export async function updateSessionStatus(id: string, status: 'active' | 'ended' | 'error'): Promise<RelaySession> {
   const res = await fetch(`${API_BASE}/sessions/${id}`, {
     method: 'PATCH',
     headers: { 'Content-Type': 'application/json' },

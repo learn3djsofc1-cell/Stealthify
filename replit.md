@@ -1,6 +1,6 @@
 # Project Overview
 
-Stealthify — A privacy-native Web3 access layer. Landing page + web application for launching stealth browsing sessions, managing anonymous BNB Chain wallets, and connecting to OpenClaw relayer nodes.
+RelayForge — A privacy-native Web3 access layer. Landing page + web application for launching stealth browsing sessions, managing anonymous BNB Chain wallets, and connecting to OpenClaw relayer nodes.
 
 ## Architecture
 
@@ -13,6 +13,8 @@ Stealthify — A privacy-native Web3 access layer. Landing page + web applicatio
 - **Styling**: Tailwind CSS v4 (via @tailwindcss/vite plugin), tailwind-merge
 - **Animation**: Framer Motion (motion)
 - **Icons**: Lucide React
+- **Font**: Outfit (Google Fonts)
+- **Theme**: Light — warm cream (#FFF6E5) background, black (#000000) primary text/accents
 
 ## Project Structure
 
@@ -60,18 +62,18 @@ Stealthify — A privacy-native Web3 access layer. Landing page + web applicatio
 - `src/lib/relayers.ts` - Mock relayer node data (8 nodes across global regions with realistic stats)
 
 ### Assets
-- `src/assets/logo.png` - Stealthify logo (imported in components)
+- `src/assets/logo.png` - RelayForge logo (imported in components)
 - `public/favicon.png` - Favicon
 - `public/og-image.png` - Open Graph social sharing image (1200x630)
 - `public/robots.txt` - Search engine crawl directives
-- `public/sitemap.xml` - XML sitemap for https://stealthify.cloud
+- `public/sitemap.xml` - XML sitemap for https://relayforge.cloud
 
 ### SEO (index.html)
-- Canonical URL: https://stealthify.cloud/
+- Canonical URL: https://relayforge.cloud/
 - Open Graph + Twitter Card meta tags with OG image
 - JSON-LD structured data (WebApplication + Organization schemas)
 - PWA meta tags (theme-color, apple-mobile-web-app)
-- Twitter handle: @StealthifyX
+- Twitter handle: @RelayForge_
 
 ## Database Schema
 

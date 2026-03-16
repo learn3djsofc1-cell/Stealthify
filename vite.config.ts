@@ -32,7 +32,7 @@ export default defineConfig(({mode}) => {
     server: {
       host: '0.0.0.0',
       port: 5000,
-      allowedHosts: ['.replit.dev', '.repl.co', '.replit.app', 'stealthify.cloud', '.stealthify.cloud'],
+      allowedHosts: ['.replit.dev', '.repl.co', '.replit.app', 'relayforge.cloud', '.relayforge.cloud'],
       hmr: false,
     },
   };

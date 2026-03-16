@@ -20,7 +20,7 @@ const navItems = [
 
 export default function BottomNav() {
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 border-t border-white/[0.06] bg-[#0A0A0A]/90 backdrop-blur-xl safe-area-bottom">
+    <nav className="fixed bottom-0 left-0 right-0 z-50 border-t border-black/[0.06] bg-white/90 backdrop-blur-xl safe-area-bottom">
       <div className="mx-auto flex max-w-lg items-center justify-around px-2 py-1.5 sm:max-w-2xl">
         {navItems.map(({ to, icon: Icon, label, end }) => (
           <NavLink
@@ -31,8 +31,8 @@ export default function BottomNav() {
               twMerge(
                 'flex flex-col items-center gap-0.5 rounded-xl px-2 py-1.5 sm:px-4 sm:py-2 text-center transition-all duration-200 min-w-0',
                 isActive
-                  ? 'text-purple-400'
-                  : 'text-white/35 hover:text-white/60'
+                  ? 'text-black'
+                  : 'text-black/35 hover:text-black/60'
               )
             }
           >
@@ -41,7 +41,7 @@ export default function BottomNav() {
                 <div className="relative">
                   <Icon className="h-5 w-5 sm:h-[22px] sm:w-[22px]" />
                   {isActive && (
-                    <div className="absolute -top-1 left-1/2 -translate-x-1/2 h-0.5 w-4 rounded-full bg-purple-400 shadow-[0_0_8px_rgba(168,85,247,0.6)]" />
+                    <div className="absolute -top-1 left-1/2 -translate-x-1/2 h-0.5 w-4 rounded-full bg-black" />
                   )}
                 </div>
                 <span className="text-[10px] sm:text-xs font-medium leading-tight truncate max-w-full">{label}</span>

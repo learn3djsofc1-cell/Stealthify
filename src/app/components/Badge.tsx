@@ -10,19 +10,19 @@ interface BadgeProps {
 }
 
 const variantStyles: Record<BadgeVariant, string> = {
-  active: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20',
-  inactive: 'bg-white/5 text-white/40 border-white/10',
-  verified: 'bg-purple-500/10 text-purple-400 border-purple-500/20',
-  warning: 'bg-amber-500/10 text-amber-400 border-amber-500/20',
-  error: 'bg-red-500/10 text-red-400 border-red-500/20',
+  active: 'bg-emerald-500/10 text-emerald-600 border-emerald-500/20',
+  inactive: 'bg-black/[0.03] text-black/40 border-black/[0.06]',
+  verified: 'bg-black/[0.05] text-black/60 border-black/[0.08]',
+  warning: 'bg-amber-500/10 text-amber-600 border-amber-500/20',
+  error: 'bg-red-500/10 text-red-500 border-red-500/20',
 };
 
 const dotColors: Record<BadgeVariant, string> = {
-  active: 'bg-emerald-400',
-  inactive: 'bg-white/30',
-  verified: 'bg-purple-400',
-  warning: 'bg-amber-400',
-  error: 'bg-red-400',
+  active: 'bg-emerald-500',
+  inactive: 'bg-black/30',
+  verified: 'bg-black/50',
+  warning: 'bg-amber-500',
+  error: 'bg-red-500',
 };
 
 export default function Badge({ label, variant = 'inactive', dot = false, className }: BadgeProps) {
