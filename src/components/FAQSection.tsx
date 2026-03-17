@@ -84,43 +84,43 @@ const FAQSection = () => {
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/[0.06] to-transparent" />
 
       <div className="max-w-4xl mx-auto relative z-10">
-        <div className="flex flex-col lg:grid lg:grid-cols-[1fr,2fr] lg:gap-20">
-          <div className="mb-12 sm:mb-16 lg:mb-0 lg:sticky lg:top-32 lg:self-start">
-            <motion.span
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="text-[#F81719] font-medium tracking-widest text-xs uppercase mb-4 block"
-            >
-              FAQ
-            </motion.span>
-            <motion.h2
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight leading-[1.1]"
-            >
-              Frequently
-              <br />
-              Asked
-              <br />
-              Questions
-            </motion.h2>
-          </div>
-
-          <div>
-            {faqs.map((faq, index) => (
-              <FAQItem
-                key={index}
-                index={index}
-                question={faq.question}
-                answer={faq.answer}
-                isOpen={openIndex === index}
-                onToggle={() => setOpenIndex(openIndex === index ? null : index)}
-              />
-            ))}
-          </div>
+        <div className="mb-14 sm:mb-20 lg:mb-0 lg:float-left lg:w-[33%] lg:sticky lg:top-32 lg:pr-12">
+          <motion.span
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-[#F81719] font-medium tracking-widest text-xs uppercase mb-4 block"
+          >
+            FAQ
+          </motion.span>
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight leading-[1.1]"
+          >
+            Frequently
+            <br />
+            Asked
+            <br />
+            Questions
+          </motion.h2>
         </div>
+
+        <div className="lg:ml-[38%]">
+          <div className="h-px w-full bg-gradient-to-r from-white/[0.08] via-white/[0.04] to-transparent mb-2 lg:hidden" />
+          {faqs.map((faq, index) => (
+            <FAQItem
+              key={index}
+              index={index}
+              question={faq.question}
+              answer={faq.answer}
+              isOpen={openIndex === index}
+              onToggle={() => setOpenIndex(openIndex === index ? null : index)}
+            />
+          ))}
+        </div>
+        <div className="clear-both" />
       </div>
     </section>
   );
