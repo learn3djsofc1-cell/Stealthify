@@ -89,6 +89,23 @@ const Footer = () => {
           </div>
         </div>
 
+        <div className="border-t border-white/[0.05] py-10">
+          <div className="bg-white/[0.02] border border-white/[0.05] rounded-2xl p-8 sm:p-10 flex flex-col sm:flex-row items-center justify-between gap-6">
+            <div>
+              <h4 className="text-lg font-semibold text-white mb-1">Join the Community</h4>
+              <p className="text-sm text-white/35">Follow us on X for updates, releases, and privacy research.</p>
+            </div>
+            <a
+              href="https://x.com/Veilary"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-6 py-3 bg-[#F81719] text-white rounded-full font-semibold text-sm hover:bg-[#d91416] transition-all duration-300 shadow-[0_0_20px_rgba(248,23,25,0.2)] hover:shadow-[0_0_30px_rgba(248,23,25,0.35)] whitespace-nowrap shrink-0"
+            >
+              Follow @Veilary
+            </a>
+          </div>
+        </div>
+
         <div className="border-t border-white/[0.05] py-6 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-3 text-xs text-white/30">
             <div className="w-1.5 h-1.5 rounded-full bg-[#F81719] shadow-[0_0_8px_#F81719]" />
