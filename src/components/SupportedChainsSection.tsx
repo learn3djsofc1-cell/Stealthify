@@ -18,12 +18,42 @@ const chains = [
   { name: 'Tron', symbol: 'TRX' },
 ];
 
-const SupportedChainsSection = () => {
+const MarqueeRow = ({ items, direction = 'left', speed = 30 }: { items: typeof chains; direction?: 'left' | 'right'; speed?: number }) => {
+  const doubled = [...items, ...items];
   return (
-    <section className="w-full py-32 px-6 bg-black relative overflow-hidden">
-      <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-[#F81719]/[0.03] rounded-full blur-[120px] pointer-events-none" />
+    <div className="relative overflow-hidden py-2">
+      <div
+        className={`flex gap-4 w-max ${direction === 'left' ? 'animate-[marquee-left_var(--speed)_linear_infinite]' : 'animate-[marquee-right_var(--speed)_linear_infinite]'}`}
+        style={{ '--speed': `${speed}s` } as React.CSSProperties}
+      >
+        {doubled.map((chain, index) => (
+          <div
+            key={`${chain.symbol}-${index}`}
+            className="flex items-center gap-3 px-6 py-4 rounded-xl bg-white/[0.02] border border-white/[0.05] hover:border-[#F81719]/20 hover:bg-white/[0.04] transition-all duration-500 shrink-0"
+          >
+            <div className="w-8 h-8 rounded-lg bg-[#F81719]/[0.06] border border-[#F81719]/10 flex items-center justify-center">
+              <span className="text-[10px] font-bold text-[#F81719] tracking-wider">{chain.symbol.slice(0, 2)}</span>
+            </div>
+            <div className="flex flex-col">
+              <span className="text-sm font-medium text-white/80">{chain.name}</span>
+              <span className="text-[10px] text-white/30 font-mono">{chain.symbol}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
 
-      <div className="max-w-7xl mx-auto relative z-10">
+const SupportedChainsSection = () => {
+  const firstHalf = chains.slice(0, 8);
+  const secondHalf = chains.slice(8);
+
+  return (
+    <section className="w-full py-32 sm:py-40 bg-black relative overflow-hidden">
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/[0.06] to-transparent" />
+
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
         <div className="text-center mb-16">
           <motion.span
             initial={{ opacity: 0, y: 10 }}
@@ -37,7 +67,7 @@ const SupportedChainsSection = () => {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-4xl md:text-5xl font-semibold text-white mb-6 tracking-tight"
+            className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6 tracking-tight"
           >
             15+ Chains. One Private Layer.
           </motion.h2>
@@ -46,45 +76,37 @@ const SupportedChainsSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="text-white/50 text-lg max-w-2xl mx-auto font-light leading-relaxed"
+            className="text-white/45 text-lg max-w-2xl mx-auto font-light leading-relaxed"
           >
             Stealth access and ephemeral wallet generation across every major L1 and L2 blockchain.
           </motion.p>
         </div>
+      </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="flex flex-wrap justify-center gap-3"
-        >
-          {chains.map((chain, index) => (
-            <motion.div
-              key={chain.symbol}
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.3, delay: index * 0.03 }}
-              className="group px-5 py-3 rounded-xl bg-white/[0.03] border border-white/[0.06] hover:border-white/[0.14] hover:bg-white/[0.06] transition-all duration-300"
-            >
-              <span className="text-sm font-medium text-white/80 group-hover:text-white transition-colors">{chain.name}</span>
-              <span className="text-xs text-white/35 font-mono ml-2">{chain.symbol}</span>
-            </motion.div>
-          ))}
-        </motion.div>
+      <motion.div
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8 }}
+        className="relative"
+      >
+        <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-black to-transparent z-10 pointer-events-none" />
+        <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-black to-transparent z-10 pointer-events-none" />
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+        <MarqueeRow items={firstHalf} direction="left" speed={35} />
+        <MarqueeRow items={secondHalf} direction="right" speed={40} />
+      </motion.div>
+
+      <div className="max-w-7xl mx-auto px-6 mt-12">
+        <motion.p
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          transition={{ delay: 0.4 }}
-          className="mt-12 text-center"
+          transition={{ delay: 0.3 }}
+          className="text-center text-sm text-white/30"
         >
-          <p className="text-sm text-white/35">
-            New chains integrated continuously. Cross-chain ZK bridging in development.
-          </p>
-        </motion.div>
+          New chains integrated continuously. Cross-chain ZK bridging in development.
+        </motion.p>
       </div>
     </section>
   );

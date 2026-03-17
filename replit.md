@@ -13,7 +13,7 @@ Veilary: A privacy-native Web3 access layer. Landing page + web application for 
 - **Styling**: Tailwind CSS v4 (via @tailwindcss/vite plugin), tailwind-merge
 - **Animation**: Framer Motion (motion)
 - **Icons**: Lucide React
-- **Font**: Outfit (Google Fonts)
+- **Font**: Inter (Google Fonts)
 - **Theme**: Dark, black (#000000) background, red (#F81719) primary accent, white text
 
 ## Project Structure
@@ -39,7 +39,9 @@ Veilary: A privacy-native Web3 access layer. Landing page + web application for 
   - `ComparisonSection.tsx`, `InfrastructureSection.tsx`
   - `UseCasesSection.tsx`, `HowItWorksSection.tsx`, `FAQSection.tsx`
   - `CaseStudySection.tsx`, `CTASection.tsx`
-  - `Nucleus3D.tsx`, `Infrastructure3D.tsx` - Three.js visualizations
+  - `SupportedChainsSection.tsx` - Marquee-animated chain display
+  - `Nucleus3D.tsx` - Hero 3D scene (icosahedron core, lazy-loaded)
+  - `Infrastructure3D.tsx` - Architecture 3D scene (torus knot core, lazy-loaded)
 
 ### Documentation (`/docs`)
 - `src/pages/Documentation.tsx` - Comprehensive technical documentation page with sticky sidebar TOC, covering overview, architecture, stealth sessions, anonymous wallet, OpenClaw network, privacy/security, getting started, and API reference

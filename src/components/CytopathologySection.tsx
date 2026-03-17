@@ -1,142 +1,152 @@
-import { Canvas, useFrame } from '@react-three/fiber';
-import { useMemo, useRef } from 'react';
-import * as THREE from 'three';
-import { Environment } from '@react-three/drei';
-import { motion, useInView } from 'motion/react';
+import { useMemo } from 'react';
+import { motion } from 'motion/react';
 
-const RelayNode = ({ position, scale = 1, speed = 1, mouseFactor = 1 }: { position: [number, number, number], scale?: number, speed?: number, mouseFactor?: number }) => {
-  const groupRef = useRef<THREE.Group>(null);
-
-  const geometry = useMemo(() => new THREE.OctahedronGeometry(1, 0), []);
-
-  useFrame((state) => {
-    const time = state.clock.getElapsedTime() * speed;
-
-    if (groupRef.current) {
-      const mouseX = (state.pointer.x * window.innerWidth) / 100;
-      const mouseY = (state.pointer.y * window.innerHeight) / 100;
-
-      groupRef.current.position.x = THREE.MathUtils.lerp(groupRef.current.position.x, position[0] + mouseX * mouseFactor * 0.4, 0.04);
-      groupRef.current.position.y = THREE.MathUtils.lerp(groupRef.current.position.y, position[1] + mouseY * mouseFactor * 0.4, 0.04);
-
-      groupRef.current.rotation.y = time * 0.15;
-      groupRef.current.rotation.x = time * 0.08;
+const HexGrid = () => {
+  const hexagons = useMemo(() => {
+    const items: { x: number; y: number; size: number }[] = [];
+    for (let row = 0; row < 8; row++) {
+      for (let col = 0; col < 12; col++) {
+        const offsetX = row % 2 === 0 ? 0 : 40;
+        items.push({
+          x: col * 80 + offsetX,
+          y: row * 70,
+          size: 30 + Math.random() * 10,
+        });
+      }
     }
-  });
+    return items;
+  }, []);
 
   return (
-    <group ref={groupRef} position={position} scale={scale}>
-      <mesh geometry={geometry}>
-        <meshPhysicalMaterial
-          color="#1a1a1a"
-          roughness={0.15}
-          metalness={0.85}
-          clearcoat={0.4}
-          clearcoatRoughness={0.1}
-          emissive="#F81719"
-          emissiveIntensity={0.25}
-          flatShading
-        />
-      </mesh>
-
-      <mesh scale={1.3}>
-        <octahedronGeometry args={[1, 1]} />
-        <meshPhysicalMaterial
-          color="#F81719"
-          transparent
-          opacity={0.1}
-          roughness={0}
-          metalness={0.9}
-          wireframe
-        />
-      </mesh>
-    </group>
-  );
-};
-
-const NetworkScene = () => {
-  return (
-    <div className="w-full h-full absolute inset-0 z-0">
-      <Canvas camera={{ position: [0, 0, 12], fov: 35 }} gl={{ antialias: true, alpha: true }} dpr={[1, 2]}>
-        <ambientLight intensity={0.25} />
-        <pointLight position={[10, 10, 10]} intensity={1.2} color="#F81719" />
-        <pointLight position={[-10, -10, -5]} intensity={0.4} color="#F81719" />
-        <spotLight position={[0, 10, 0]} intensity={0.6} angle={0.5} penumbra={1} />
-
-        <RelayNode position={[0, -2.5, 0]} scale={2} speed={0.4} mouseFactor={0.15} />
-        <RelayNode position={[-5, 2, -2]} scale={0.8} speed={0.7} mouseFactor={0.35} />
-        <RelayNode position={[5, 3, -3]} scale={0.7} speed={0.6} mouseFactor={0.25} />
-        <RelayNode position={[-3.5, -1, 2]} scale={0.5} speed={0.8} mouseFactor={0.4} />
-        <RelayNode position={[4, -2, 1]} scale={0.6} speed={0.5} mouseFactor={0.35} />
-        <RelayNode position={[6, 0, -5]} scale={0.4} speed={0.9} mouseFactor={0.2} />
-
-        <Environment preset="city" />
-      </Canvas>
+    <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-[0.06]">
+      <svg className="w-full h-full" viewBox="0 0 960 560">
+        {hexagons.map((hex, i) => (
+          <polygon
+            key={i}
+            points={`${hex.x},${hex.y - hex.size} ${hex.x + hex.size * 0.866},${hex.y - hex.size * 0.5} ${hex.x + hex.size * 0.866},${hex.y + hex.size * 0.5} ${hex.x},${hex.y + hex.size} ${hex.x - hex.size * 0.866},${hex.y + hex.size * 0.5} ${hex.x - hex.size * 0.866},${hex.y - hex.size * 0.5}`}
+            fill="none"
+            stroke="#F81719"
+            strokeWidth="0.5"
+          />
+        ))}
+      </svg>
     </div>
   );
 };
 
 const CytopathologySection = () => {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { margin: "-100px", once: false });
-
   return (
-    <section ref={ref} className="w-full min-h-screen bg-black relative overflow-hidden flex flex-col items-center justify-center py-24">
+    <section className="w-full min-h-screen bg-black relative overflow-hidden flex items-center py-24 sm:py-32">
+      <HexGrid />
 
-      {isInView && <NetworkScene />}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_50%,rgba(248,23,25,0.06),transparent_70%)] pointer-events-none" />
 
-      <div className="relative z-10 max-w-5xl mx-auto px-6 text-center mt-[-10vh]">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-        >
-          <span className="text-[#F81719] font-medium tracking-widest text-xs uppercase mb-4 block">
-            Launch Interface
-          </span>
-          <h2 className="text-5xl md:text-7xl font-semibold text-white mb-6 tracking-tight leading-tight">
-            One Click to Privacy
-          </h2>
-          <p className="text-white/50 text-lg max-w-2xl mx-auto font-light leading-relaxed mb-16">
-            Paste any dApp URL, configure your privacy layer, and launch a fully isolated stealth session in seconds.
-          </p>
-        </motion.div>
+      <div className="relative z-10 max-w-7xl mx-auto px-6 w-full">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
 
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95, y: 20 }}
-          whileInView={{ opacity: 1, scale: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="flex flex-col md:flex-row items-center bg-white/[0.06] backdrop-blur-xl border border-white/[0.08] rounded-[2rem] px-8 py-8 md:px-12 gap-8 md:gap-16 shadow-2xl relative z-20 w-full md:w-auto max-w-sm md:max-w-none mx-auto"
-        >
-          <div className="text-center w-full md:w-auto">
-            <div className="text-4xl font-bold text-white mb-1 tracking-tight">0</div>
-            <div className="text-[10px] uppercase tracking-[0.2em] text-white/40 font-medium">Wallet Connects</div>
+          <div>
+            <motion.span
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-[#F81719] font-medium tracking-widest text-xs uppercase mb-5 block"
+            >
+              Launch Interface
+            </motion.span>
+
+            <motion.h2
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.1 }}
+              className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6 tracking-tight leading-[1.05]"
+            >
+              One Click to
+              <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#F81719] to-[#F81719]/50">Privacy</span>
+            </motion.h2>
+
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="text-white/45 text-lg max-w-lg font-light leading-relaxed mb-10"
+            >
+              Paste any dApp URL, configure your privacy layer, and launch a fully isolated stealth session in seconds.
+            </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.3 }}
+              className="flex items-center gap-3"
+            >
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#F81719] opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#F81719]"></span>
+              </span>
+              <span className="text-[10px] font-mono uppercase tracking-widest text-white/40">
+                Relay Network Online
+              </span>
+            </motion.div>
           </div>
-          <div className="w-full h-px md:w-px md:h-12 bg-white/10" />
-          <div className="text-center w-full md:w-auto">
-            <div className="text-4xl font-bold text-white mb-1 tracking-tight">100%</div>
-            <div className="text-[10px] uppercase tracking-[0.2em] text-white/40 font-medium">Untraceable</div>
-          </div>
-          <div className="w-full h-px md:w-px md:h-12 bg-white/10" />
-          <div className="text-center w-full md:w-auto">
-            <div className="text-4xl font-bold text-white mb-1 tracking-tight">1-Click</div>
-            <div className="text-[10px] uppercase tracking-[0.2em] text-white/40 font-medium">Stealth Launch</div>
-          </div>
-        </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="relative"
+          >
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              {[
+                { value: '0', label: 'Wallet Connects', color: 'text-white' },
+                { value: '100%', label: 'Untraceable', color: 'text-[#F81719]' },
+                { value: '1-Click', label: 'Stealth Launch', color: 'text-white' },
+              ].map((stat, i) => (
+                <motion.div
+                  key={stat.label}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: 0.3 + i * 0.1 }}
+                  className="bg-white/[0.03] border border-white/[0.06] rounded-2xl p-6 sm:p-8 text-center hover:border-[#F81719]/15 transition-all duration-500"
+                >
+                  <div className={`text-3xl sm:text-4xl font-bold mb-2 tracking-tight ${stat.color}`}>{stat.value}</div>
+                  <div className="text-[10px] uppercase tracking-[0.2em] text-white/35 font-medium">{stat.label}</div>
+                </motion.div>
+              ))}
+            </div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.6 }}
+              className="mt-4 bg-white/[0.02] border border-white/[0.05] rounded-2xl p-6"
+            >
+              <div className="flex flex-col gap-3 text-[11px] font-mono text-white/40">
+                {[
+                  { key: 'KEYPAIR_GEN', status: 'SEALED', statusColor: 'text-emerald-500' },
+                  { key: 'IDENTITY_MASK', status: 'APPLIED', statusColor: 'text-emerald-500' },
+                  { key: 'RELAY_TUNNEL', status: 'ROUTING', statusColor: 'text-[#F81719]' },
+                ].map((item) => (
+                  <div key={item.key} className="flex justify-between items-center">
+                    <span>{item.key}</span>
+                    <span className={`${item.statusColor} flex items-center gap-1.5`}>
+                      <span className={`w-1 h-1 rounded-full ${item.statusColor === 'text-emerald-500' ? 'bg-emerald-500' : 'bg-[#F81719]'}`} />
+                      {item.status}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+          </motion.div>
+
+        </div>
       </div>
-
-      <div className="absolute bottom-6 left-6 md:bottom-12 md:left-12 flex items-center gap-3 z-10">
-        <span className="relative flex h-2 w-2">
-          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#F81719] opacity-75"></span>
-          <span className="relative inline-flex rounded-full h-2 w-2 bg-[#F81719]"></span>
-        </span>
-        <span className="text-[10px] font-mono uppercase tracking-widest text-white/40">
-          Relay Network Online
-        </span>
-      </div>
-
     </section>
   );
 };
