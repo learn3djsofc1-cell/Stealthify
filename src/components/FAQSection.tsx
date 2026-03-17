@@ -84,8 +84,8 @@ const FAQSection = () => {
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/[0.06] to-transparent" />
 
       <div className="max-w-4xl mx-auto relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr,2fr] gap-16 lg:gap-20">
-          <div className="lg:sticky lg:top-32 lg:self-start">
+        <div className="flex flex-col lg:grid lg:grid-cols-[1fr,2fr] lg:gap-20">
+          <div className="mb-12 sm:mb-16 lg:mb-0 lg:sticky lg:top-32 lg:self-start">
             <motion.span
               initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0 }}

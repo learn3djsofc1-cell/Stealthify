@@ -5,7 +5,7 @@ interface ChainData {
   name: string;
   symbol: string;
   cgId: string;
-  logo?: string;
+  localLogo?: string;
 }
 
 const chains: ChainData[] = [
@@ -20,7 +20,7 @@ const chains: ChainData[] = [
   { name: 'BNB Chain', symbol: 'BNB', cgId: 'binancecoin' },
   { name: 'Cosmos', symbol: 'ATOM', cgId: 'cosmos' },
   { name: 'Sui', symbol: 'SUI', cgId: 'sui' },
-  { name: 'Aptos', symbol: 'APT', cgId: 'aptos' },
+  { name: 'Aptos', symbol: 'APT', cgId: 'aptos', localLogo: '/images/aptos-logo.png' },
   { name: 'Near', symbol: 'NEAR', cgId: 'near' },
   { name: 'Fantom', symbol: 'FTM', cgId: 'fantom' },
   { name: 'Tron', symbol: 'TRX', cgId: 'tron' },
@@ -107,8 +107,9 @@ function useChainLogos() {
 
 const ChainLogo = ({ chain, logoUrl }: { chain: ChainData; logoUrl?: string }) => {
   const [failed, setFailed] = useState(false);
+  const src = chain.localLogo || logoUrl;
 
-  if (!logoUrl || failed) {
+  if (!src || failed) {
     return (
       <div className="w-8 h-8 rounded-lg bg-[#F81719]/[0.06] border border-[#F81719]/10 flex items-center justify-center">
         <span className="text-[10px] font-bold text-[#F81719] tracking-wider">{chain.symbol.slice(0, 2)}</span>
@@ -118,9 +119,9 @@ const ChainLogo = ({ chain, logoUrl }: { chain: ChainData; logoUrl?: string }) =
 
   return (
     <img
-      src={logoUrl}
+      src={src}
       alt={chain.name}
-      className="w-8 h-8 rounded-lg object-contain"
+      className={`w-8 h-8 rounded-lg object-contain${chain.localLogo ? ' invert brightness-200' : ''}`}
       onError={() => setFailed(true)}
       loading="lazy"
       referrerPolicy="no-referrer"
