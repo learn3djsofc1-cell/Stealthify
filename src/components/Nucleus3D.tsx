@@ -3,138 +3,67 @@ import { useMemo, useRef } from 'react';
 import * as THREE from 'three';
 import { Sparkles } from '@react-three/drei';
 
-const GlowingCore = () => {
+const FlowRibbon = ({ offset, radius, speed, color, width }: { offset: number; radius: number; speed: number; color: string; width: number }) => {
   const meshRef = useRef<THREE.Mesh>(null);
-  const wireRef = useRef<THREE.Mesh>(null);
-  const ringARef = useRef<THREE.Mesh>(null);
-  const ringBRef = useRef<THREE.Mesh>(null);
-  const ringCRef = useRef<THREE.Mesh>(null);
+  const geometry = useMemo(() => {
+    const points: THREE.Vector3[] = [];
+    const segments = 80;
+    for (let i = 0; i <= segments; i++) {
+      const t = (i / segments) * Math.PI * 2;
+      const x = Math.cos(t * 2 + offset) * radius * 0.6;
+      const y = Math.sin(t * 3 + offset * 0.7) * radius * 0.5;
+      const z = Math.sin(t + offset * 1.3) * radius * 0.8;
+      points.push(new THREE.Vector3(x, y, z));
+    }
+    const curve = new THREE.CatmullRomCurve3(points, true);
+    return new THREE.TubeGeometry(curve, 120, width, 6, true);
+  }, [offset, radius, width]);
 
   useFrame((state) => {
-    const t = state.clock.getElapsedTime();
     if (meshRef.current) {
-      meshRef.current.rotation.y = t * 0.12;
-      meshRef.current.rotation.x = Math.sin(t * 0.08) * 0.3;
-    }
-    if (wireRef.current) {
-      wireRef.current.rotation.y = -t * 0.08;
-      wireRef.current.rotation.z = t * 0.06;
-    }
-    if (ringARef.current) {
-      ringARef.current.rotation.z = t * 0.2;
-      ringARef.current.rotation.x = Math.PI / 2;
-    }
-    if (ringBRef.current) {
-      ringBRef.current.rotation.z = -t * 0.15;
-      ringBRef.current.rotation.x = Math.PI / 3;
-      ringBRef.current.rotation.y = Math.PI / 6;
-    }
-    if (ringCRef.current) {
-      ringCRef.current.rotation.z = t * 0.1;
-      ringCRef.current.rotation.x = -Math.PI / 4;
-      ringCRef.current.rotation.y = Math.PI / 3;
+      meshRef.current.rotation.y = state.clock.getElapsedTime() * speed * 0.3;
+      meshRef.current.rotation.x = Math.sin(state.clock.getElapsedTime() * speed * 0.2) * 0.1;
     }
   });
 
   return (
-    <group>
-      <mesh ref={meshRef}>
-        <icosahedronGeometry args={[1.2, 0]} />
-        <meshStandardMaterial
-          color="#0a0a0a"
-          emissive="#F81719"
-          emissiveIntensity={0.8}
-          roughness={0.1}
-          metalness={0.95}
-          flatShading
-        />
-      </mesh>
-
-      <mesh ref={wireRef}>
-        <icosahedronGeometry args={[1.8, 1]} />
-        <meshBasicMaterial
-          color="#F81719"
-          wireframe
-          transparent
-          opacity={0.06}
-        />
-      </mesh>
-
-      <mesh ref={ringARef}>
-        <torusGeometry args={[2.5, 0.008, 16, 128]} />
-        <meshBasicMaterial color="#F81719" transparent opacity={0.25} />
-      </mesh>
-      <mesh ref={ringBRef}>
-        <torusGeometry args={[3.0, 0.006, 16, 128]} />
-        <meshBasicMaterial color="#F81719" transparent opacity={0.12} />
-      </mesh>
-      <mesh ref={ringCRef}>
-        <torusGeometry args={[3.5, 0.004, 16, 128]} />
-        <meshBasicMaterial color="#ffffff" transparent opacity={0.06} />
-      </mesh>
-
-      <mesh>
-        <sphereGeometry args={[4, 32, 32]} />
-        <meshBasicMaterial color="#F81719" transparent opacity={0.015} blending={THREE.AdditiveBlending} depthWrite={false} />
-      </mesh>
-    </group>
+    <mesh ref={meshRef} geometry={geometry}>
+      <meshBasicMaterial color={color} transparent opacity={0.12} side={THREE.DoubleSide} blending={THREE.AdditiveBlending} depthWrite={false} />
+    </mesh>
   );
 };
 
-const VertexGlows = () => {
-  const positions = useMemo(() => {
-    const geo = new THREE.IcosahedronGeometry(1.2, 0);
-    const pos = geo.attributes.position;
-    const unique: [number, number, number][] = [];
-    const seen = new Set<string>();
-    for (let i = 0; i < pos.count; i++) {
-      const key = `${pos.getX(i).toFixed(2)},${pos.getY(i).toFixed(2)},${pos.getZ(i).toFixed(2)}`;
-      if (!seen.has(key)) {
-        seen.add(key);
-        unique.push([pos.getX(i), pos.getY(i), pos.getZ(i)]);
-      }
-    }
-    geo.dispose();
-    return unique;
-  }, []);
-
-  return (
-    <group>
-      {positions.map((pos, i) => (
-        <mesh key={i} position={pos}>
-          <sphereGeometry args={[0.04, 8, 8]} />
-          <meshBasicMaterial color="#F81719" toneMapped={false} />
-        </mesh>
-      ))}
-    </group>
-  );
-};
-
-const OrbitingParticles = () => {
-  const count = 40;
+const ParticleField = () => {
+  const count = 200;
   const meshRef = useRef<THREE.InstancedMesh>(null);
   const dummy = useMemo(() => new THREE.Object3D(), []);
 
   const particles = useMemo(() =>
-    Array.from({ length: count }, (_, i) => ({
-      angle: (i / count) * Math.PI * 2,
-      radius: 2 + Math.random() * 2.5,
-      speed: 0.1 + Math.random() * 0.15,
-      yOffset: (Math.random() - 0.5) * 3,
-      phase: Math.random() * Math.PI * 2,
-    })), []);
+    Array.from({ length: count }, () => {
+      const theta = Math.random() * Math.PI * 2;
+      const phi = Math.acos(Math.random() * 2 - 1);
+      const r = 1.5 + Math.random() * 3;
+      return {
+        baseX: r * Math.sin(phi) * Math.cos(theta),
+        baseY: r * Math.sin(phi) * Math.sin(theta),
+        baseZ: r * Math.cos(phi),
+        speed: 0.2 + Math.random() * 0.5,
+        phase: Math.random() * Math.PI * 2,
+        scale: 0.01 + Math.random() * 0.025,
+      };
+    }), []);
 
   useFrame((state) => {
     if (!meshRef.current) return;
     const t = state.clock.getElapsedTime();
     particles.forEach((p, i) => {
-      const a = p.angle + t * p.speed;
+      const wave = Math.sin(t * p.speed + p.phase) * 0.3;
       dummy.position.set(
-        Math.cos(a) * p.radius,
-        p.yOffset + Math.sin(t * 0.5 + p.phase) * 0.5,
-        Math.sin(a) * p.radius
+        p.baseX + wave * 0.5,
+        p.baseY + Math.sin(t * p.speed * 0.7 + p.phase) * 0.4,
+        p.baseZ + wave * 0.3
       );
-      dummy.scale.setScalar(0.025 + Math.sin(t * 2 + p.phase) * 0.01);
+      dummy.scale.setScalar(p.scale * (1 + Math.sin(t * 2 + p.phase) * 0.3));
       dummy.updateMatrix();
       meshRef.current!.setMatrixAt(i, dummy.matrix);
     });
@@ -144,25 +73,63 @@ const OrbitingParticles = () => {
   return (
     <instancedMesh ref={meshRef} args={[undefined, undefined, count]}>
       <sphereGeometry args={[1, 6, 6]} />
-      <meshBasicMaterial color="#F81719" transparent opacity={0.6} />
+      <meshBasicMaterial color="#F81719" transparent opacity={0.5} blending={THREE.AdditiveBlending} depthWrite={false} />
     </instancedMesh>
+  );
+};
+
+const VolumetricPlanes = () => {
+  const groupRef = useRef<THREE.Group>(null);
+
+  useFrame((state) => {
+    if (groupRef.current) {
+      groupRef.current.rotation.y = state.clock.getElapsedTime() * 0.05;
+    }
+  });
+
+  const planes = useMemo(() =>
+    Array.from({ length: 6 }, (_, i) => ({
+      rotation: [0, (i / 6) * Math.PI, 0] as [number, number, number],
+      scale: 3 + i * 0.3,
+      opacity: 0.02 - i * 0.002,
+    })), []);
+
+  return (
+    <group ref={groupRef}>
+      {planes.map((plane, i) => (
+        <mesh key={i} rotation={plane.rotation}>
+          <planeGeometry args={[plane.scale, plane.scale]} />
+          <meshBasicMaterial
+            color="#F81719"
+            transparent
+            opacity={Math.max(0.005, plane.opacity)}
+            side={THREE.DoubleSide}
+            blending={THREE.AdditiveBlending}
+            depthWrite={false}
+          />
+        </mesh>
+      ))}
+    </group>
   );
 };
 
 const Scene = () => {
   return (
     <div className="w-full h-full absolute inset-0 z-0">
-      <Canvas camera={{ position: [0, 0, 12], fov: 40 }} gl={{ antialias: true, alpha: true }} dpr={[1, 2]}>
-        <ambientLight intensity={0.2} />
-        <pointLight position={[8, 8, 8]} intensity={1.5} color="#F81719" />
-        <pointLight position={[-8, -6, -4]} intensity={0.5} color="#F81719" />
-        <directionalLight position={[0, 5, 5]} intensity={0.2} />
+      <Canvas camera={{ position: [0, 0, 10], fov: 45 }} gl={{ antialias: true, alpha: true }} dpr={[1, 2]}>
+        <ambientLight intensity={0.1} />
+        <pointLight position={[5, 5, 5]} intensity={0.8} color="#F81719" />
+        <pointLight position={[-5, -3, -3]} intensity={0.3} color="#F81719" />
 
-        <GlowingCore />
-        <VertexGlows />
-        <OrbitingParticles />
+        <FlowRibbon offset={0} radius={3} speed={0.4} color="#F81719" width={0.015} />
+        <FlowRibbon offset={2} radius={3.5} speed={0.3} color="#F81719" width={0.01} />
+        <FlowRibbon offset={4} radius={2.8} speed={0.5} color="#ffffff" width={0.008} />
+        <FlowRibbon offset={1} radius={4} speed={0.25} color="#F81719" width={0.006} />
 
-        <Sparkles count={50} scale={16} size={1.5} speed={0.15} opacity={0.15} color="#F81719" />
+        <VolumetricPlanes />
+        <ParticleField />
+
+        <Sparkles count={40} scale={14} size={1.2} speed={0.12} opacity={0.12} color="#F81719" />
       </Canvas>
     </div>
   );
