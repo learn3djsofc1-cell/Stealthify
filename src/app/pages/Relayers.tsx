@@ -65,38 +65,38 @@ export default function Relayers() {
   return (
     <div className="space-y-6 sm:space-y-8">
       <div>
-        <h1 className="text-xl sm:text-2xl font-semibold text-black">Relayers</h1>
-        <p className="mt-1 text-sm text-black/60">Discover and manage OpenClaw relayer nodes</p>
+        <h1 className="text-xl sm:text-2xl font-semibold text-white">Relayers</h1>
+        <p className="mt-1 text-sm text-white/60">Discover and manage OpenClaw relayer nodes</p>
       </div>
 
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
         <Card>
           <div className="flex items-center gap-2 mb-2">
             <Signal className="h-3.5 w-3.5 text-emerald-500" />
-            <span className="text-[10px] text-black/45 uppercase tracking-wider">Online</span>
+            <span className="text-[10px] text-white/45 uppercase tracking-wider">Online</span>
           </div>
-          <p className="text-xl font-semibold text-black">{onlineCount}<span className="text-sm text-black/50 font-normal ml-1">/ {RELAYER_NODES.length}</span></p>
+          <p className="text-xl font-semibold text-white">{onlineCount}<span className="text-sm text-white/50 font-normal ml-1">/ {RELAYER_NODES.length}</span></p>
         </Card>
         <Card>
           <div className="flex items-center gap-2 mb-2">
-            <Users className="h-3.5 w-3.5 text-black/60" />
-            <span className="text-[10px] text-black/45 uppercase tracking-wider">Active</span>
+            <Users className="h-3.5 w-3.5 text-white/60" />
+            <span className="text-[10px] text-white/45 uppercase tracking-wider">Active</span>
           </div>
-          <p className="text-xl font-semibold text-black">{formatNumber(totalSessions)}<span className="text-sm text-black/50 font-normal ml-1">sessions</span></p>
+          <p className="text-xl font-semibold text-white">{formatNumber(totalSessions)}<span className="text-sm text-white/50 font-normal ml-1">sessions</span></p>
         </Card>
         <Card>
           <div className="flex items-center gap-2 mb-2">
             <Gauge className="h-3.5 w-3.5 text-blue-500" />
-            <span className="text-[10px] text-black/45 uppercase tracking-wider">Avg Latency</span>
+            <span className="text-[10px] text-white/45 uppercase tracking-wider">Avg Latency</span>
           </div>
-          <p className="text-xl font-semibold text-black">{avgLatency}<span className="text-sm text-black/50 font-normal ml-1">ms</span></p>
+          <p className="text-xl font-semibold text-white">{avgLatency}<span className="text-sm text-white/50 font-normal ml-1">ms</span></p>
         </Card>
         <Card>
           <div className="flex items-center gap-2 mb-2">
             <ShieldCheck className="h-3.5 w-3.5 text-emerald-500" />
-            <span className="text-[10px] text-black/45 uppercase tracking-wider">Verified</span>
+            <span className="text-[10px] text-white/45 uppercase tracking-wider">Verified</span>
           </div>
-          <p className="text-xl font-semibold text-black">{RELAYER_NODES.filter(r => r.verified).length}<span className="text-sm text-black/50 font-normal ml-1">nodes</span></p>
+          <p className="text-xl font-semibold text-white">{RELAYER_NODES.filter(r => r.verified).length}<span className="text-sm text-white/50 font-normal ml-1">nodes</span></p>
         </Card>
       </div>
 
@@ -116,8 +116,8 @@ export default function Relayers() {
               onClick={() => setFilter(f)}
               className={`rounded-xl border px-4 py-2.5 text-xs transition-colors ${
                 filter === f
-                  ? 'border-black/[0.12] bg-black/[0.06] text-black/70'
-                  : 'border-black/[0.10] bg-transparent text-black/50 hover:bg-black/[0.05]'
+                  ? 'border-white/[0.10] bg-white/[0.06] text-white/70'
+                  : 'border-white/[0.08] bg-transparent text-white/50 hover:bg-white/[0.04]'
               }`}
             >
               {f === 'all' ? 'All' : f === 'online' ? 'Online' : 'Verified'}
@@ -129,9 +129,9 @@ export default function Relayers() {
       {filteredRelayers.length === 0 ? (
         <Card glow="rgba(59, 130, 246, 0.04)">
           <div className="flex flex-col items-center justify-center py-10 text-center">
-            <Signal className="h-7 w-7 text-black/40 mb-3" />
-            <p className="text-sm text-black/55">No relayers match your search</p>
-            <p className="text-xs text-black/40 mt-1">Try adjusting your filters or search term</p>
+            <Signal className="h-7 w-7 text-white/40 mb-3" />
+            <p className="text-sm text-white/55">No relayers match your search</p>
+            <p className="text-xs text-white/40 mt-1">Try adjusting your filters or search term</p>
           </div>
         </Card>
       ) : (
@@ -160,74 +160,74 @@ function RelayerCard({ relayer }: { relayer: RelayerNode }) {
               ? 'bg-emerald-500/10 border-emerald-500/20'
               : isDegraded
                 ? 'bg-amber-500/10 border-amber-500/20'
-                : 'bg-black/[0.05] border-black/[0.10]'
+                : 'bg-white/[0.04] border-white/[0.08]'
           }`}>
             <Signal className={`h-4 w-4 ${
-              isOnline ? 'text-emerald-500' : isDegraded ? 'text-amber-500' : 'text-black/35'
+              isOnline ? 'text-emerald-500' : isDegraded ? 'text-amber-500' : 'text-white/35'
             }`} />
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <h3 className="text-sm font-medium text-black">{relayer.name}</h3>
+              <h3 className="text-sm font-medium text-white">{relayer.name}</h3>
               {relayer.verified && (
-                <CheckCircle2 className="h-3.5 w-3.5 text-black/55" />
+                <CheckCircle2 className="h-3.5 w-3.5 text-white/55" />
               )}
             </div>
-            <p className="text-xs text-black/50 mt-0.5">{relayer.region}</p>
+            <p className="text-xs text-white/50 mt-0.5">{relayer.region}</p>
           </div>
         </div>
         <Badge label={statusLabel} variant={statusVariant} dot />
       </div>
 
       <div className="grid grid-cols-3 gap-2 sm:gap-3 mb-4">
-        <div className="rounded-lg bg-black/[0.04] border border-black/[0.08] px-3 py-2">
+        <div className="rounded-lg bg-white/[0.04] border border-white/[0.06] px-3 py-2">
           <div className="flex items-center gap-1.5 mb-1">
-            <Clock className="h-3 w-3 text-black/45" />
-            <span className="text-[10px] text-black/50 uppercase">Uptime</span>
+            <Clock className="h-3 w-3 text-white/45" />
+            <span className="text-[10px] text-white/50 uppercase">Uptime</span>
           </div>
-          <p className={`text-xs font-mono ${relayer.uptimePercent >= 99 ? 'text-emerald-600' : relayer.uptimePercent >= 95 ? 'text-amber-600' : 'text-red-500'}`}>
+          <p className={`text-xs font-mono ${relayer.uptimePercent >= 99 ? 'text-emerald-400' : relayer.uptimePercent >= 95 ? 'text-amber-400' : 'text-red-500'}`}>
             {relayer.uptimePercent.toFixed(2)}%
           </p>
         </div>
-        <div className="rounded-lg bg-black/[0.04] border border-black/[0.08] px-3 py-2">
+        <div className="rounded-lg bg-white/[0.04] border border-white/[0.06] px-3 py-2">
           <div className="flex items-center gap-1.5 mb-1">
-            <Activity className="h-3 w-3 text-black/45" />
-            <span className="text-[10px] text-black/50 uppercase">Latency</span>
+            <Activity className="h-3 w-3 text-white/45" />
+            <span className="text-[10px] text-white/50 uppercase">Latency</span>
           </div>
-          <p className={`text-xs font-mono ${relayer.latencyMs <= 20 ? 'text-emerald-600' : relayer.latencyMs <= 50 ? 'text-blue-500' : 'text-amber-600'}`}>
+          <p className={`text-xs font-mono ${relayer.latencyMs <= 20 ? 'text-emerald-400' : relayer.latencyMs <= 50 ? 'text-blue-500' : 'text-amber-400'}`}>
             {relayer.latencyMs}ms
           </p>
         </div>
-        <div className="rounded-lg bg-black/[0.04] border border-black/[0.08] px-3 py-2">
+        <div className="rounded-lg bg-white/[0.04] border border-white/[0.06] px-3 py-2">
           <div className="flex items-center gap-1.5 mb-1">
-            <Globe className="h-3 w-3 text-black/45" />
-            <span className="text-[10px] text-black/50 uppercase">Sessions</span>
+            <Globe className="h-3 w-3 text-white/45" />
+            <span className="text-[10px] text-white/50 uppercase">Sessions</span>
           </div>
-          <p className="text-xs text-black/60 font-mono">{formatNumber(relayer.totalSessions)}</p>
+          <p className="text-xs text-white/60 font-mono">{formatNumber(relayer.totalSessions)}</p>
         </div>
       </div>
 
-      <div className="flex items-center justify-between pt-3 border-t border-black/[0.08]">
+      <div className="flex items-center justify-between pt-3 border-t border-white/[0.06]">
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-1.5">
-            <Wifi className="h-3 w-3 text-black/40" />
-            <span className="text-[10px] text-black/45">{relayer.bandwidthMbps} Mbps</span>
+            <Wifi className="h-3 w-3 text-white/40" />
+            <span className="text-[10px] text-white/45">{relayer.bandwidthMbps} Mbps</span>
           </div>
           <div className="flex items-center gap-1.5">
-            <Zap className="h-3 w-3 text-black/40" />
-            <span className="text-[10px] text-black/45">{relayer.activeSessions} active</span>
+            <Zap className="h-3 w-3 text-white/40" />
+            <span className="text-[10px] text-white/45">{relayer.activeSessions} active</span>
           </div>
         </div>
         <div className="flex items-center gap-1.5">
           {relayer.protocols.map((p) => (
-            <span key={p} className="text-[9px] text-black/40 bg-black/[0.04] border border-black/[0.08] rounded px-1.5 py-0.5">{p}</span>
+            <span key={p} className="text-[9px] text-white/40 bg-white/[0.04] border border-white/[0.06] rounded px-1.5 py-0.5">{p}</span>
           ))}
         </div>
       </div>
 
-      <div className="flex items-center justify-between mt-3 pt-3 border-t border-black/[0.08]">
-        <span className="text-[10px] text-black/40">Operator: {relayer.operator}</span>
-        <span className="text-[10px] text-black/40 font-mono">{relayer.version}</span>
+      <div className="flex items-center justify-between mt-3 pt-3 border-t border-white/[0.06]">
+        <span className="text-[10px] text-white/40">Operator: {relayer.operator}</span>
+        <span className="text-[10px] text-white/40 font-mono">{relayer.version}</span>
       </div>
     </Card>
   );

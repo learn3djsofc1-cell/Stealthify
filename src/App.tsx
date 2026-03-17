@@ -5,6 +5,9 @@ import CytopathologySection from './components/CytopathologySection';
 import ComparisonSection from './components/ComparisonSection';
 import InfrastructureSection from './components/InfrastructureSection';
 import CaseStudySection from './components/CaseStudySection';
+import UseCasesSection from './components/UseCasesSection';
+import HowItWorksSection from './components/HowItWorksSection';
+import FAQSection from './components/FAQSection';
 import CTASection from './components/CTASection';
 import Footer from './components/Footer';
 import Documentation from './pages/Documentation';
@@ -19,13 +22,16 @@ import Settings from './app/pages/Settings';
 
 function LandingPage() {
   return (
-    <div className="bg-[#FFF6E5] min-h-screen">
+    <div className="bg-black min-h-screen">
       <Hero />
       <PrecisionSection />
       <CytopathologySection />
+      <UseCasesSection />
+      <HowItWorksSection />
       <InfrastructureSection />
       <ComparisonSection />
       <CaseStudySection />
+      <FAQSection />
       <CTASection />
       <Footer />
     </div>

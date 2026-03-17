@@ -22,8 +22,8 @@ const CentralNode = () => {
       <Icosahedron args={[1.2, 0]}>
         <meshStandardMaterial 
           color="#1a1a1a" 
-          emissive="#333333"
-          emissiveIntensity={1.5}
+          emissive="#F81719"
+          emissiveIntensity={0.8}
           roughness={0.1}
           metalness={0.8}
           flatShading
@@ -32,7 +32,7 @@ const CentralNode = () => {
       
       <Icosahedron args={[1.8, 1]} ref={meshRef}>
         <meshBasicMaterial 
-          color="#000000" 
+          color="#F81719" 
           wireframe 
           transparent 
           opacity={0.12} 
@@ -41,7 +41,7 @@ const CentralNode = () => {
 
       <mesh ref={glowRef}>
         <sphereGeometry args={[2.2, 32, 32]} />
-        <meshBasicMaterial color="#8B7355" transparent opacity={0.04} blending={THREE.AdditiveBlending} depthWrite={false} />
+        <meshBasicMaterial color="#F81719" transparent opacity={0.04} blending={THREE.AdditiveBlending} depthWrite={false} />
       </mesh>
     </group>
   );
@@ -52,15 +52,15 @@ const SatelliteNode = ({ position }: { position: [number, number, number] }) => 
         <group position={position}>
             <Sphere args={[0.15, 16, 16]}>
                 <meshStandardMaterial 
-                    color="#D4A574" 
-                    emissive="#8B7355"
+                    color="#F81719" 
+                    emissive="#F81719"
                     emissiveIntensity={2}
                     toneMapped={false}
                 />
             </Sphere>
             <Line 
                 points={[[0, 0, 0], [-position[0], -position[1], -position[2]]]} 
-                color="#8B7355"
+                color="#F81719"
                 opacity={0.12}
                 transparent
                 lineWidth={1}
@@ -88,7 +88,7 @@ const DataPacket = ({ start, speed, delay }: { start: [number, number, number], 
     return (
         <mesh ref={ref} position={start}>
             <sphereGeometry args={[0.08, 8, 8]} />
-            <meshBasicMaterial color="#1a1a1a" />
+            <meshBasicMaterial color="#F81719" />
         </mesh>
     );
 };
@@ -128,12 +128,12 @@ const Scene = () => {
     <div className="w-full h-full absolute inset-0 z-0">
       <Canvas camera={{ position: [0, 0, 14], fov: 35 }} gl={{ antialias: true, alpha: true }} dpr={[1, 2]}>
         <ambientLight intensity={0.4} />
-        <pointLight position={[10, 10, 10]} intensity={1.5} color="#D4A574" />
-        <pointLight position={[-10, -10, -5]} intensity={0.5} color="#8B7355" />
+        <pointLight position={[10, 10, 10]} intensity={1.5} color="#F81719" />
+        <pointLight position={[-10, -10, -5]} intensity={0.5} color="#F81719" />
         
         <Network />
         
-        <Sparkles count={40} scale={12} size={3} speed={0.3} opacity={0.3} color="#8B7355" />
+        <Sparkles count={40} scale={12} size={3} speed={0.3} opacity={0.3} color="#F81719" />
       </Canvas>
     </div>
   );

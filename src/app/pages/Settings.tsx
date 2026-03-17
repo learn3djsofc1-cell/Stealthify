@@ -21,30 +21,30 @@ export default function Settings() {
   return (
     <div className="space-y-6 sm:space-y-8">
       <div>
-        <h1 className="text-xl sm:text-2xl font-semibold text-black">Settings</h1>
-        <p className="mt-1 text-sm text-black/60">Configure your RelayForge preferences</p>
+        <h1 className="text-xl sm:text-2xl font-semibold text-white">Settings</h1>
+        <p className="mt-1 text-sm text-white/50">Configure your Veilary preferences</p>
       </div>
 
       <div className="space-y-4 sm:space-y-6">
-        <Card glow="rgba(0,0,0,0.02)">
+        <Card glow="rgba(248, 23, 25, 0.02)">
           <div className="flex items-center gap-3 mb-5">
-            <div className="rounded-lg bg-black/[0.05] border border-black/[0.10] p-2">
-              <SettingsIcon className="h-4 w-4 text-black/55" />
+            <div className="rounded-lg bg-white/[0.05] border border-white/[0.10] p-2">
+              <SettingsIcon className="h-4 w-4 text-white/55" />
             </div>
             <div>
-              <h2 className="text-sm font-medium text-black">General</h2>
-              <p className="text-xs text-black/50">Basic application preferences</p>
+              <h2 className="text-sm font-medium text-white">General</h2>
+              <p className="text-xs text-white/50">Basic application preferences</p>
             </div>
           </div>
           <div className="space-y-5">
             <Toggle
               checked={true}
               onChange={() => {}}
-              label="Light Theme"
-              description="RelayForge uses a warm cream theme by default"
+              label="Dark Theme"
+              description="Veilary uses a dark theme for optimal privacy-focused browsing"
               disabled
             />
-            <div className="border-t border-black/[0.08]" />
+            <div className="border-t border-white/[0.06]" />
             <Toggle
               checked={autoConnect}
               onChange={setAutoConnect}
@@ -54,14 +54,14 @@ export default function Settings() {
           </div>
         </Card>
 
-        <Card glow="rgba(0, 0, 0, 0.03)">
+        <Card glow="rgba(248, 23, 25, 0.03)">
           <div className="flex items-center gap-3 mb-5">
-            <div className="rounded-lg bg-black/[0.06] border border-black/[0.10] p-2">
-              <Shield className="h-4 w-4 text-black/60" />
+            <div className="rounded-lg bg-[#F81719]/10 border border-[#F81719]/20 p-2">
+              <Shield className="h-4 w-4 text-[#F81719]" />
             </div>
             <div>
-              <h2 className="text-sm font-medium text-black">Privacy</h2>
-              <p className="text-xs text-black/50">Default privacy settings for new sessions</p>
+              <h2 className="text-sm font-medium text-white">Privacy</h2>
+              <p className="text-xs text-white/50">Default privacy settings for new sessions</p>
             </div>
           </div>
           <div className="space-y-5">
@@ -71,14 +71,14 @@ export default function Settings() {
               label="Default Fingerprint Randomization"
               description="Automatically enable fingerprint randomization for all new sessions"
             />
-            <div className="border-t border-black/[0.08]" />
+            <div className="border-t border-white/[0.06]" />
             <Toggle
               checked={defaultIpCloaking}
               onChange={setDefaultIpCloaking}
               label="Default IP Cloaking"
               description="Automatically enable IP cloaking for all new sessions"
             />
-            <div className="border-t border-black/[0.08]" />
+            <div className="border-t border-white/[0.06]" />
             <Toggle
               checked={gdprMode}
               onChange={setGdprMode}
@@ -94,8 +94,8 @@ export default function Settings() {
               <Wifi className="h-4 w-4 text-blue-500" />
             </div>
             <div>
-              <h2 className="text-sm font-medium text-black">Network</h2>
-              <p className="text-xs text-black/50">Relay network and connection settings</p>
+              <h2 className="text-sm font-medium text-white">Network</h2>
+              <p className="text-xs text-white/50">Relay network and connection settings</p>
             </div>
           </div>
           <div className="space-y-5">
@@ -108,14 +108,14 @@ export default function Settings() {
           </div>
         </Card>
 
-        <Card glow="rgba(0,0,0,0.02)">
+        <Card glow="rgba(248, 23, 25, 0.02)">
           <div className="flex items-center gap-3 mb-5">
-            <div className="rounded-lg bg-black/[0.05] border border-black/[0.10] p-2">
-              <Wrench className="h-4 w-4 text-black/55" />
+            <div className="rounded-lg bg-white/[0.05] border border-white/[0.10] p-2">
+              <Wrench className="h-4 w-4 text-white/55" />
             </div>
             <div>
-              <h2 className="text-sm font-medium text-black">Advanced</h2>
-              <p className="text-xs text-black/50">Developer and advanced settings</p>
+              <h2 className="text-sm font-medium text-white">Advanced</h2>
+              <p className="text-xs text-white/50">Developer and advanced settings</p>
             </div>
           </div>
           <div className="space-y-5">
@@ -134,11 +134,11 @@ export default function Settings() {
               <Trash2 className="h-4 w-4 text-red-500" />
             </div>
             <div>
-              <h2 className="text-sm font-medium text-red-500">Danger Zone</h2>
-              <p className="text-xs text-black/50">Irreversible actions</p>
+              <h2 className="text-sm font-medium text-red-400">Danger Zone</h2>
+              <p className="text-xs text-white/50">Irreversible actions</p>
             </div>
           </div>
-          <p className="text-sm text-black/55 mb-4">
+          <p className="text-sm text-white/45 mb-4">
             This will permanently delete your local wallet, session history, and all stored preferences. This action cannot be undone.
           </p>
           <Button variant="danger" icon={<Trash2 className="h-4 w-4" />}>

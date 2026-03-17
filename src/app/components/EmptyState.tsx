@@ -12,11 +12,11 @@ interface EmptyStateProps {
 export default function EmptyState({ icon, title, description, actionLabel, onAction }: EmptyStateProps) {
   return (
     <div className="flex flex-col items-center justify-center py-16 px-6 text-center">
-      <div className="mb-4 rounded-2xl bg-black/[0.05] border border-black/[0.12] p-4 text-black/55">
+      <div className="mb-4 rounded-2xl bg-white/[0.05] border border-white/[0.10] p-4 text-white/55">
         {icon}
       </div>
-      <h3 className="mt-2 text-lg font-medium text-black/90">{title}</h3>
-      <p className="mt-1.5 max-w-sm text-sm text-black/60 leading-relaxed">{description}</p>
+      <h3 className="mt-2 text-lg font-medium text-white/90">{title}</h3>
+      <p className="mt-1.5 max-w-sm text-sm text-white/50 leading-relaxed">{description}</p>
       {actionLabel && onAction && (
         <div className="mt-6">
           <Button variant="secondary" onClick={onAction}>

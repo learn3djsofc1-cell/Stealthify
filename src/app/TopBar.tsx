@@ -33,10 +33,10 @@ export default function TopBar() {
     : null;
 
   return (
-    <header className="sticky top-0 z-40 flex h-14 items-center justify-between border-b border-black/[0.12] bg-white/95 backdrop-blur-xl px-4 lg:px-6">
+    <header className="sticky top-0 z-40 flex h-14 items-center justify-between border-b border-white/[0.08] bg-black/95 backdrop-blur-xl px-4 lg:px-6">
       <Link to="/" className="flex items-center gap-2.5">
-        <img src={logoSrc} alt="RelayForge" className="h-6 w-6 object-contain" />
-        <span className="text-black font-bold tracking-widest text-xs uppercase">RelayForge</span>
+        <img src={logoSrc} alt="Veilary" className="h-6 w-6 object-contain" />
+        <span className="text-white font-bold tracking-widest text-xs uppercase">Veilary</span>
       </Link>
 
       <div className="flex items-center gap-2 sm:gap-3">
@@ -44,18 +44,18 @@ export default function TopBar() {
         {walletKey ? (
           <Link
             to="/app/wallet"
-            className="flex items-center gap-1.5 rounded-lg bg-black/[0.08] border border-black/[0.15] px-2.5 py-1.5 hover:bg-black/[0.12] transition-colors"
+            className="flex items-center gap-1.5 rounded-lg bg-white/[0.06] border border-white/[0.10] px-2.5 py-1.5 hover:bg-white/[0.10] transition-colors"
           >
-            <Wallet className="h-3.5 w-3.5 text-black/80" />
-            <span className="text-[11px] text-black/70 hidden sm:block font-mono">{truncatedKey}</span>
+            <Wallet className="h-3.5 w-3.5 text-white/80" />
+            <span className="text-[11px] text-white/70 hidden sm:block font-mono">{truncatedKey}</span>
           </Link>
         ) : (
           <Link
             to="/app/wallet"
-            className="flex items-center gap-1.5 rounded-lg bg-black/[0.05] border border-black/[0.12] px-2.5 py-1.5 hover:bg-black/[0.08] transition-colors"
+            className="flex items-center gap-1.5 rounded-lg bg-white/[0.04] border border-white/[0.08] px-2.5 py-1.5 hover:bg-white/[0.08] transition-colors"
           >
-            <WifiOff className="h-3.5 w-3.5 text-black/55" />
-            <span className="text-[11px] text-black/55 hidden sm:block">No Wallet</span>
+            <WifiOff className="h-3.5 w-3.5 text-white/55" />
+            <span className="text-[11px] text-white/55 hidden sm:block">No Wallet</span>
           </Link>
         )}
       </div>

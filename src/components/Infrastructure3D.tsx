@@ -43,7 +43,7 @@ const SecureCore = () => {
 
       <Icosahedron args={[1.01, 1]}>
         <meshBasicMaterial 
-          color="#8B7355" 
+          color="#F81719" 
           wireframe 
           transparent 
           opacity={0.15} 
@@ -65,13 +65,13 @@ const SecureCore = () => {
           clearcoat={1}
           color="#ffffff"
           resolution={256}
-          background={new THREE.Color('#FFF6E5')}
+          background={new THREE.Color('#000000')}
         />
       </Sphere>
 
       <mesh ref={glow}>
         <sphereGeometry args={[1.8, 32, 32]} />
-        <meshBasicMaterial color="#8B7355" transparent opacity={0.04} blending={THREE.AdditiveBlending} depthWrite={false} />
+        <meshBasicMaterial color="#F81719" transparent opacity={0.04} blending={THREE.AdditiveBlending} depthWrite={false} />
       </mesh>
     </group>
   );
@@ -93,7 +93,7 @@ const CloudModule = ({ position, delay = 0, label }: { position: [number, number
       <Float speed={2} rotationIntensity={0.2} floatIntensity={0.2}>
         <RoundedBox args={[0.8, 0.8, 0.8]} radius={0.1} smoothness={4} castShadow receiveShadow>
           <meshStandardMaterial 
-            color={hovered ? "#D4A574" : "#1a1a1a"} 
+            color={hovered ? "#F81719" : "#1a1a1a"} 
             metalness={0.5} 
             roughness={0.2} 
           />
@@ -101,12 +101,12 @@ const CloudModule = ({ position, delay = 0, label }: { position: [number, number
 
         <mesh position={[0, 0, 0.41]}>
           <circleGeometry args={[0.1, 32]} />
-          <meshBasicMaterial color={hovered ? "#10b981" : "#8B7355"} />
+          <meshBasicMaterial color={hovered ? "#10b981" : "#F81719"} />
         </mesh>
 
         <Line 
           points={[[0, 0, -0.4], [0, 0, -position[2] + 1.4]]}
-          color={hovered ? "#D4A574" : "#666666"} 
+          color={hovered ? "#F81719" : "#666666"} 
           transparent 
           opacity={0.2} 
           lineWidth={1} 
@@ -183,7 +183,7 @@ const DataParticles = () => {
   return (
     <instancedMesh ref={mesh} args={[undefined, undefined, count]}>
       <sphereGeometry args={[1, 8, 8]} />
-      <meshBasicMaterial color="#8B7355" transparent opacity={0.4} />
+      <meshBasicMaterial color="#F81719" transparent opacity={0.4} />
     </instancedMesh>
   );
 };
@@ -205,7 +205,7 @@ const Scene = () => {
 
   return (
     <>
-      <color attach="background" args={['#FFF6E5']} />
+      <color attach="background" args={['#000000']} />
       
       <Environment resolution={512}>
         <group rotation={[-Math.PI / 3, 0, 1]}>
@@ -217,7 +217,7 @@ const Scene = () => {
 
       <ambientLight intensity={0.3} />
       <SpotLight position={[5, 5, 5]} angle={0.5} penumbra={1} intensity={1} castShadow color="#ffffff" />
-      <pointLight position={[-5, -5, -5]} intensity={0.5} color="#8B7355" />
+      <pointLight position={[-5, -5, -5]} intensity={0.5} color="#F81719" />
 
       <group ref={groupRef} scale={isMobile ? 0.6 : 1}>
         <SecureCore />

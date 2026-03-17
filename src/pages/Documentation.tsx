@@ -50,8 +50,8 @@ function SidebarNav({ active, onSelect }: { active: string; onSelect?: () => voi
           onClick={onSelect}
           className={`block px-3 py-2 rounded-lg text-sm transition-all duration-200 ${
             active === id
-              ? 'bg-black/[0.07] text-black font-medium'
-              : 'text-black/50 hover:text-black/70 hover:bg-black/[0.03]'
+              ? 'bg-white/[0.06] text-white font-medium'
+              : 'text-white/50 hover:text-white/70 hover:bg-white/[0.03]'
           }`}
         >
           {label}
@@ -63,7 +63,7 @@ function SidebarNav({ active, onSelect }: { active: string; onSelect?: () => voi
 
 function CodeBlock({ children }: { children: string }) {
   return (
-    <pre className="bg-black/[0.04] border border-black/[0.08] rounded-xl p-4 overflow-x-auto text-sm font-mono text-black/80 leading-relaxed">
+    <pre className="bg-white/[0.04] border border-white/[0.06] rounded-xl p-4 overflow-x-auto text-sm font-mono text-white/80 leading-relaxed">
       <code>{children}</code>
     </pre>
   );
@@ -84,31 +84,31 @@ function EndpointBlock({
 }) {
   const methodColor =
     method === 'GET'
-      ? 'bg-emerald-500/15 text-emerald-700 border-emerald-500/20'
+      ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/20'
       : method === 'POST'
-        ? 'bg-blue-500/15 text-blue-700 border-blue-500/20'
+        ? 'bg-blue-500/15 text-blue-400 border-blue-500/20'
         : method === 'DELETE'
-          ? 'bg-red-500/15 text-red-700 border-red-500/20'
-          : 'bg-amber-500/15 text-amber-700 border-amber-500/20';
+          ? 'bg-red-500/15 text-red-400 border-red-500/20'
+          : 'bg-amber-500/15 text-amber-400 border-amber-500/20';
 
   return (
-    <div className="rounded-xl border border-black/[0.08] overflow-hidden">
-      <div className="flex items-center gap-3 px-4 py-3 bg-black/[0.03] border-b border-black/[0.06]">
+    <div className="rounded-xl border border-white/[0.06] overflow-hidden">
+      <div className="flex items-center gap-3 px-4 py-3 bg-white/[0.03] border-b border-white/[0.05]">
         <span className={`px-2.5 py-0.5 rounded-md text-xs font-bold border ${methodColor}`}>
           {method}
         </span>
-        <code className="text-sm font-mono text-black/70">{path}</code>
+        <code className="text-sm font-mono text-white/70">{path}</code>
       </div>
       <div className="p-4 space-y-3">
-        <p className="text-sm text-black/60">{description}</p>
+        <p className="text-sm text-white/60">{description}</p>
         {body && (
           <div>
-            <p className="text-xs font-medium text-black/50 uppercase tracking-wider mb-2">Request Body</p>
+            <p className="text-xs font-medium text-white/50 uppercase tracking-wider mb-2">Request Body</p>
             <CodeBlock>{body}</CodeBlock>
           </div>
         )}
         <div>
-          <p className="text-xs font-medium text-black/50 uppercase tracking-wider mb-2">Response</p>
+          <p className="text-xs font-medium text-white/50 uppercase tracking-wider mb-2">Response</p>
           <CodeBlock>{response}</CodeBlock>
         </div>
       </div>
@@ -134,32 +134,32 @@ export default function Documentation() {
   }, [mobileMenuOpen]);
 
   return (
-    <div className="bg-[#FFF6E5] min-h-screen font-sans">
-      <header className="sticky top-0 z-40 bg-[#FFF6E5]/90 backdrop-blur-md border-b border-black/[0.06]">
+    <div className="bg-black min-h-screen font-sans">
+      <header className="sticky top-0 z-40 bg-black/90 backdrop-blur-md border-b border-white/[0.05]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <Link
               to="/"
-              className="flex items-center gap-2 text-sm text-black/60 hover:text-black transition-colors"
+              className="flex items-center gap-2 text-sm text-white/60 hover:text-white transition-colors"
             >
               <ArrowLeft className="w-4 h-4" />
               <span className="hidden sm:inline">Back to Home</span>
             </Link>
             <div className="h-5 w-px bg-black/10 hidden sm:block" />
-            <h1 className="text-sm font-semibold text-black tracking-tight">Documentation</h1>
+            <h1 className="text-sm font-semibold text-white tracking-tight">Documentation</h1>
           </div>
 
           <div className="flex items-center gap-3">
             <Link
               to="/app"
-              className="hidden sm:flex items-center gap-1.5 px-4 py-2 bg-black text-white rounded-full text-xs font-medium hover:bg-black/80 transition-colors"
+              className="hidden sm:flex items-center gap-1.5 px-4 py-2 bg-[#F81719] text-white rounded-full text-xs font-medium hover:bg-[#F81719]/80 transition-colors"
             >
               Launch App
               <ExternalLink className="w-3 h-3" />
             </Link>
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="lg:hidden p-2 rounded-lg hover:bg-black/[0.04] transition-colors"
+              className="lg:hidden p-2 rounded-lg hover:bg-white/[0.04] transition-colors"
               aria-label="Toggle navigation"
             >
               {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -172,7 +172,7 @@ export default function Documentation() {
         <div className="fixed inset-0 z-30 lg:hidden" onClick={closeMobileMenu}>
           <div className="absolute inset-0 bg-black/20 backdrop-blur-sm" />
           <div
-            className="absolute top-16 left-0 right-0 bg-[#FFF6E5] border-b border-black/[0.08] p-4 shadow-lg"
+            className="absolute top-16 left-0 right-0 bg-black border-b border-white/[0.06] p-4 shadow-lg"
             onClick={(e) => e.stopPropagation()}
           >
             <SidebarNav active={activeSection} onSelect={closeMobileMenu} />
@@ -184,7 +184,7 @@ export default function Documentation() {
         <div className="lg:grid lg:grid-cols-[220px_1fr] lg:gap-12 xl:grid-cols-[240px_1fr]">
           <aside className="hidden lg:block">
             <div className="sticky top-24">
-              <p className="text-[11px] font-medium text-black/40 uppercase tracking-wider mb-4 px-3">
+              <p className="text-[11px] font-medium text-white/40 uppercase tracking-wider mb-4 px-3">
                 On This Page
               </p>
               <SidebarNav active={activeSection} />
@@ -195,17 +195,17 @@ export default function Documentation() {
             <div className="space-y-16">
               <section id="overview">
                 <div className="mb-8">
-                  <p className="text-xs font-medium text-black/40 uppercase tracking-wider mb-2">Introduction</p>
-                  <h2 className="text-3xl sm:text-4xl font-semibold text-black tracking-tight mb-4">Overview</h2>
-                  <div className="h-px bg-black/[0.08]" />
+                  <p className="text-xs font-medium text-white/40 uppercase tracking-wider mb-2">Introduction</p>
+                  <h2 className="text-3xl sm:text-4xl font-semibold text-white tracking-tight mb-4">Overview</h2>
+                  <div className="h-px bg-white/[0.06]" />
                 </div>
 
                 <div className="prose-doc space-y-4">
-                  <p className="text-black/70 leading-relaxed">
-                    RelayForge is a privacy-native Web3 access layer designed for users who require anonymous, untraceable interaction with decentralized applications. It provides three core capabilities: stealth browsing sessions with fingerprint randomization and IP cloaking, anonymous Solana wallet generation compatible with Phantom, and access to the OpenClaw relayer network for verified, decentralized traffic routing.
+                  <p className="text-white/70 leading-relaxed">
+                    Veilary is a privacy-native Web3 access layer designed for users who require anonymous, untraceable interaction with decentralized applications. It provides three core capabilities: stealth browsing sessions with fingerprint randomization and IP cloaking, anonymous Solana wallet generation compatible with Phantom, and access to the OpenClaw relayer network for verified, decentralized traffic routing.
                   </p>
-                  <p className="text-black/70 leading-relaxed">
-                    Unlike traditional VPN or proxy solutions, RelayForge operates at the application layer with a purpose-built architecture for Web3 workflows. Every session is cryptographically isolated. Wallet keypairs are generated entirely client-side using Ed25519 elliptic curve cryptography, and private keys are never transmitted to or stored on any server. The relay network is audited and discoverable through the OpenClaw protocol, ensuring transparent verification of node operators.
+                  <p className="text-white/70 leading-relaxed">
+                    Unlike traditional VPN or proxy solutions, Veilary operates at the application layer with a purpose-built architecture for Web3 workflows. Every session is cryptographically isolated. Wallet keypairs are generated entirely client-side using Ed25519 elliptic curve cryptography, and private keys are never transmitted to or stored on any server. The relay network is audited and discoverable through the OpenClaw protocol, ensuring transparent verification of node operators.
                   </p>
 
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-6">
@@ -216,10 +216,10 @@ export default function Documentation() {
                     ].map(({ title, desc }) => (
                       <div
                         key={title}
-                        className="rounded-xl border border-black/[0.08] bg-white/60 p-4"
+                        className="rounded-xl border border-white/[0.06] bg-white/[0.04] p-4"
                       >
-                        <h4 className="text-sm font-medium text-black mb-1">{title}</h4>
-                        <p className="text-xs text-black/50 leading-relaxed">{desc}</p>
+                        <h4 className="text-sm font-medium text-white mb-1">{title}</h4>
+                        <p className="text-xs text-white/50 leading-relaxed">{desc}</p>
                       </div>
                     ))}
                   </div>
@@ -228,33 +228,33 @@ export default function Documentation() {
 
               <section id="architecture">
                 <div className="mb-8">
-                  <p className="text-xs font-medium text-black/40 uppercase tracking-wider mb-2">System Design</p>
-                  <h2 className="text-3xl sm:text-4xl font-semibold text-black tracking-tight mb-4">Architecture</h2>
-                  <div className="h-px bg-black/[0.08]" />
+                  <p className="text-xs font-medium text-white/40 uppercase tracking-wider mb-2">System Design</p>
+                  <h2 className="text-3xl sm:text-4xl font-semibold text-white tracking-tight mb-4">Architecture</h2>
+                  <div className="h-px bg-white/[0.06]" />
                 </div>
 
                 <div className="space-y-6">
-                  <p className="text-black/70 leading-relaxed">
-                    RelayForge follows a client-heavy architecture where all sensitive cryptographic operations execute in the user's browser. The server layer is intentionally minimal — it stores only public keys and session metadata, never private keys or browsing content.
+                  <p className="text-white/70 leading-relaxed">
+                    Veilary follows a client-heavy architecture where all sensitive cryptographic operations execute in the user's browser. The server layer is intentionally minimal — it stores only public keys and session metadata, never private keys or browsing content.
                   </p>
 
-                  <h3 className="text-lg font-semibold text-black mt-8">Frontend</h3>
-                  <p className="text-black/70 leading-relaxed">
-                    The frontend is built with React 19 and TypeScript, bundled by Vite 6. Styling uses Tailwind CSS v4 with a custom warm cream and black theme. Animations are handled by Framer Motion, and the landing page features interactive 3D visualizations rendered with Three.js via React Three Fiber. Client-side routing is managed by React Router DOM v7, ensuring all navigation is instant without full page reloads.
+                  <h3 className="text-lg font-semibold text-white mt-8">Frontend</h3>
+                  <p className="text-white/70 leading-relaxed">
+                    The frontend is built with React 19 and TypeScript, bundled by Vite 6. Styling uses Tailwind CSS v4 with a custom dark theme with red accents. Animations are handled by Framer Motion, and the landing page features interactive 3D visualizations rendered with Three.js via React Three Fiber. Client-side routing is managed by React Router DOM v7, ensuring all navigation is instant without full page reloads.
                   </p>
 
-                  <h3 className="text-lg font-semibold text-black mt-8">Backend</h3>
-                  <p className="text-black/70 leading-relaxed">
-                    The backend is an Express.js server that provides RESTful API endpoints for wallet record management and stealth session tracking. In development, it serves the Vite dev server via middleware. In production, it serves the pre-built static assets. Data is persisted in PostgreSQL with two tables: <code className="px-1.5 py-0.5 bg-black/[0.04] rounded text-sm font-mono">wallets</code> for public key records and <code className="px-1.5 py-0.5 bg-black/[0.04] rounded text-sm font-mono">stealth_sessions</code> for session metadata.
+                  <h3 className="text-lg font-semibold text-white mt-8">Backend</h3>
+                  <p className="text-white/70 leading-relaxed">
+                    The backend is an Express.js server that provides RESTful API endpoints for wallet record management and stealth session tracking. In development, it serves the Vite dev server via middleware. In production, it serves the pre-built static assets. Data is persisted in PostgreSQL with two tables: <code className="px-1.5 py-0.5 bg-white/[0.04] rounded text-sm font-mono">wallets</code> for public key records and <code className="px-1.5 py-0.5 bg-white/[0.04] rounded text-sm font-mono">stealth_sessions</code> for session metadata.
                   </p>
 
-                  <h3 className="text-lg font-semibold text-black mt-8">Technology Stack</h3>
-                  <div className="rounded-xl border border-black/[0.08] overflow-hidden">
+                  <h3 className="text-lg font-semibold text-white mt-8">Technology Stack</h3>
+                  <div className="rounded-xl border border-white/[0.06] overflow-hidden">
                     <table className="w-full text-sm">
                       <thead>
-                        <tr className="bg-black/[0.03] border-b border-black/[0.06]">
-                          <th className="text-left px-4 py-3 font-medium text-black/60">Layer</th>
-                          <th className="text-left px-4 py-3 font-medium text-black/60">Technology</th>
+                        <tr className="bg-white/[0.03] border-b border-white/[0.05]">
+                          <th className="text-left px-4 py-3 font-medium text-white/60">Layer</th>
+                          <th className="text-left px-4 py-3 font-medium text-white/60">Technology</th>
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-black/[0.04]">
@@ -270,8 +270,8 @@ export default function Documentation() {
                           ['Font', 'Outfit (Google Fonts)'],
                         ].map(([layer, tech]) => (
                           <tr key={layer}>
-                            <td className="px-4 py-2.5 text-black/70 font-medium">{layer}</td>
-                            <td className="px-4 py-2.5 text-black/55">{tech}</td>
+                            <td className="px-4 py-2.5 text-white/70 font-medium">{layer}</td>
+                            <td className="px-4 py-2.5 text-white/55">{tech}</td>
                           </tr>
                         ))}
                       </tbody>
@@ -282,44 +282,44 @@ export default function Documentation() {
 
               <section id="stealth-sessions">
                 <div className="mb-8">
-                  <p className="text-xs font-medium text-black/40 uppercase tracking-wider mb-2">Core Feature</p>
-                  <h2 className="text-3xl sm:text-4xl font-semibold text-black tracking-tight mb-4">Stealth Sessions</h2>
-                  <div className="h-px bg-black/[0.08]" />
+                  <p className="text-xs font-medium text-white/40 uppercase tracking-wider mb-2">Core Feature</p>
+                  <h2 className="text-3xl sm:text-4xl font-semibold text-white tracking-tight mb-4">Stealth Sessions</h2>
+                  <div className="h-px bg-white/[0.06]" />
                 </div>
 
                 <div className="space-y-6">
-                  <p className="text-black/70 leading-relaxed">
+                  <p className="text-white/70 leading-relaxed">
                     A stealth session is an isolated browsing environment configured for maximum anonymity when interacting with decentralized applications. Each session applies multiple privacy layers simultaneously to prevent tracking, fingerprinting, and traffic correlation.
                   </p>
 
-                  <h3 className="text-lg font-semibold text-black">Fingerprint Randomization</h3>
-                  <p className="text-black/70 leading-relaxed">
+                  <h3 className="text-lg font-semibold text-white">Fingerprint Randomization</h3>
+                  <p className="text-white/70 leading-relaxed">
                     Every stealth session generates a unique browser fingerprint by randomizing identifying metadata including user agent string, screen resolution, installed fonts, WebGL renderer information, and canvas fingerprint hashes. This prevents cross-session tracking by websites that rely on browser fingerprinting techniques.
                   </p>
 
-                  <h3 className="text-lg font-semibold text-black mt-6">IP Cloaking</h3>
-                  <p className="text-black/70 leading-relaxed">
+                  <h3 className="text-lg font-semibold text-white mt-6">IP Cloaking</h3>
+                  <p className="text-white/70 leading-relaxed">
                     When IP cloaking is enabled, all session traffic is routed through the OpenClaw relayer network. The target application sees only the relayer node's IP address, not the user's actual IP. Relay nodes are distributed across multiple geographic regions (US, EU, APAC) to provide low-latency routing regardless of the user's location.
                   </p>
 
-                  <h3 className="text-lg font-semibold text-black mt-6">Session Isolation</h3>
-                  <p className="text-black/70 leading-relaxed">
-                    Each session operates as a sandboxed environment. Session state, cookies, and local storage are not shared between sessions or with the user's primary browser profile. When a session ends, all associated browsing data is discarded. The RelayForge control panel provides real-time monitoring of active sessions including duration, security status, and connected relay node.
+                  <h3 className="text-lg font-semibold text-white mt-6">Session Isolation</h3>
+                  <p className="text-white/70 leading-relaxed">
+                    Each session operates as a sandboxed environment. Session state, cookies, and local storage are not shared between sessions or with the user's primary browser profile. When a session ends, all associated browsing data is discarded. The Veilary control panel provides real-time monitoring of active sessions including duration, security status, and connected relay node.
                   </p>
 
-                  <h3 className="text-lg font-semibold text-black mt-6">Session Lifecycle</h3>
+                  <h3 className="text-lg font-semibold text-white mt-6">Session Lifecycle</h3>
                   <div className="flex flex-wrap items-center gap-2 mt-3">
                     {['Configure', 'Launch', 'Monitor', 'End'].map((step, i) => (
                       <div key={step} className="flex items-center gap-2">
-                        <span className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-black/[0.06] border border-black/[0.10] text-xs font-medium text-black/60">
+                        <span className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-white/[0.06] border border-white/[0.08] text-xs font-medium text-white/60">
                           {i + 1}
                         </span>
-                        <span className="text-sm text-black/70">{step}</span>
-                        {i < 3 && <ChevronRight className="w-3 h-3 text-black/30" />}
+                        <span className="text-sm text-white/70">{step}</span>
+                        {i < 3 && <ChevronRight className="w-3 h-3 text-white/30" />}
                       </div>
                     ))}
                   </div>
-                  <p className="text-black/60 text-sm mt-3 leading-relaxed">
+                  <p className="text-white/60 text-sm mt-3 leading-relaxed">
                     Users enter a target dApp URL, toggle fingerprint randomization and IP cloaking, select a relay node (or use auto-assignment), and launch the session. The target opens in a managed browser tab while the control panel displays session metrics in real time.
                   </p>
                 </div>
@@ -327,19 +327,19 @@ export default function Documentation() {
 
               <section id="anonymous-wallet">
                 <div className="mb-8">
-                  <p className="text-xs font-medium text-black/40 uppercase tracking-wider mb-2">Core Feature</p>
-                  <h2 className="text-3xl sm:text-4xl font-semibold text-black tracking-tight mb-4">Anonymous Wallet</h2>
-                  <div className="h-px bg-black/[0.08]" />
+                  <p className="text-xs font-medium text-white/40 uppercase tracking-wider mb-2">Core Feature</p>
+                  <h2 className="text-3xl sm:text-4xl font-semibold text-white tracking-tight mb-4">Anonymous Wallet</h2>
+                  <div className="h-px bg-white/[0.06]" />
                 </div>
 
                 <div className="space-y-6">
-                  <p className="text-black/70 leading-relaxed">
-                    RelayForge includes a built-in, non-custodial Solana wallet generator. Wallets are created entirely within the user's browser using cryptographically secure random number generation. No accounts, emails, phone numbers, or seed phrase storage on servers is involved.
+                  <p className="text-white/70 leading-relaxed">
+                    Veilary includes a built-in, non-custodial Solana wallet generator. Wallets are created entirely within the user's browser using cryptographically secure random number generation. No accounts, emails, phone numbers, or seed phrase storage on servers is involved.
                   </p>
 
-                  <h3 className="text-lg font-semibold text-black">Key Generation</h3>
-                  <p className="text-black/70 leading-relaxed">
-                    Wallet keypairs are generated using the Ed25519 elliptic curve algorithm via the <code className="px-1.5 py-0.5 bg-black/[0.04] rounded text-sm font-mono">@solana/web3.js</code> library. The process calls <code className="px-1.5 py-0.5 bg-black/[0.04] rounded text-sm font-mono">Keypair.generate()</code> which internally uses the browser's <code className="px-1.5 py-0.5 bg-black/[0.04] rounded text-sm font-mono">crypto.getRandomValues()</code> for entropy. The public key is encoded in Base58 format, and the private key (full 64-byte secret key) is encoded using the <code className="px-1.5 py-0.5 bg-black/[0.04] rounded text-sm font-mono">bs58</code> library.
+                  <h3 className="text-lg font-semibold text-white">Key Generation</h3>
+                  <p className="text-white/70 leading-relaxed">
+                    Wallet keypairs are generated using the Ed25519 elliptic curve algorithm via the <code className="px-1.5 py-0.5 bg-white/[0.04] rounded text-sm font-mono">@solana/web3.js</code> library. The process calls <code className="px-1.5 py-0.5 bg-white/[0.04] rounded text-sm font-mono">Keypair.generate()</code> which internally uses the browser's <code className="px-1.5 py-0.5 bg-white/[0.04] rounded text-sm font-mono">crypto.getRandomValues()</code> for entropy. The public key is encoded in Base58 format, and the private key (full 64-byte secret key) is encoded using the <code className="px-1.5 py-0.5 bg-white/[0.04] rounded text-sm font-mono">bs58</code> library.
                   </p>
 
                   <CodeBlock>{`import { Keypair } from '@solana/web3.js';
@@ -349,22 +349,22 @@ const keypair = Keypair.generate();
 const publicKey = keypair.publicKey.toBase58();
 const privateKey = bs58.encode(keypair.secretKey);`}</CodeBlock>
 
-                  <h3 className="text-lg font-semibold text-black mt-6">Phantom Compatibility</h3>
-                  <p className="text-black/70 leading-relaxed">
-                    The generated private key uses the full 64-byte secret key format (32 bytes private scalar + 32 bytes public key), encoded in Base58. This is the exact format accepted by Phantom wallet's "Import Private Key" feature. Users can copy the private key from RelayForge and paste it directly into Phantom to import the wallet.
+                  <h3 className="text-lg font-semibold text-white mt-6">Phantom Compatibility</h3>
+                  <p className="text-white/70 leading-relaxed">
+                    The generated private key uses the full 64-byte secret key format (32 bytes private scalar + 32 bytes public key), encoded in Base58. This is the exact format accepted by Phantom wallet's "Import Private Key" feature. Users can copy the private key from Veilary and paste it directly into Phantom to import the wallet.
                   </p>
 
-                  <h3 className="text-lg font-semibold text-black mt-6">Security Model</h3>
-                  <div className="rounded-xl border border-black/[0.08] bg-white/60 p-5 space-y-3">
+                  <h3 className="text-lg font-semibold text-white mt-6">Security Model</h3>
+                  <div className="rounded-xl border border-white/[0.06] bg-white/[0.04] p-5 space-y-3">
                     {[
                       ['Client-Side Only', 'Private keys are generated and displayed in the browser. They are never transmitted over the network or stored on any server.'],
-                      ['One-Time Display', 'The private key is shown once during wallet creation. After the user navigates away, the key is no longer accessible through RelayForge.'],
+                      ['One-Time Display', 'The private key is shown once during wallet creation. After the user navigates away, the key is no longer accessible through Veilary.'],
                       ['Public Key Storage', 'Only the public key (wallet address) is stored server-side, linked to an anonymous browser session ID. This record enables wallet status display across page refreshes.'],
                       ['No Identity Linkage', 'The wallet address is unlinkable to the user\'s real identity, IP address, or any other session metadata. No login or account creation is required.'],
                     ].map(([title, desc]) => (
                       <div key={title}>
-                        <h4 className="text-sm font-medium text-black">{title}</h4>
-                        <p className="text-xs text-black/55 leading-relaxed mt-0.5">{desc}</p>
+                        <h4 className="text-sm font-medium text-white">{title}</h4>
+                        <p className="text-xs text-white/55 leading-relaxed mt-0.5">{desc}</p>
                       </div>
                     ))}
                   </div>
@@ -373,38 +373,38 @@ const privateKey = bs58.encode(keypair.secretKey);`}</CodeBlock>
 
               <section id="openclaw-network">
                 <div className="mb-8">
-                  <p className="text-xs font-medium text-black/40 uppercase tracking-wider mb-2">Infrastructure</p>
-                  <h2 className="text-3xl sm:text-4xl font-semibold text-black tracking-tight mb-4">OpenClaw Relayer Network</h2>
-                  <div className="h-px bg-black/[0.08]" />
+                  <p className="text-xs font-medium text-white/40 uppercase tracking-wider mb-2">Infrastructure</p>
+                  <h2 className="text-3xl sm:text-4xl font-semibold text-white tracking-tight mb-4">OpenClaw Relayer Network</h2>
+                  <div className="h-px bg-white/[0.06]" />
                 </div>
 
                 <div className="space-y-6">
-                  <p className="text-black/70 leading-relaxed">
-                    The OpenClaw protocol provides a decentralized registry of audited relayer nodes that form the backbone of RelayForge's IP cloaking infrastructure. Each node is independently operated, cryptographically verified, and subject to ongoing audits for uptime, performance, and security compliance.
+                  <p className="text-white/70 leading-relaxed">
+                    The OpenClaw protocol provides a decentralized registry of audited relayer nodes that form the backbone of Veilary's IP cloaking infrastructure. Each node is independently operated, cryptographically verified, and subject to ongoing audits for uptime, performance, and security compliance.
                   </p>
 
-                  <h3 className="text-lg font-semibold text-black">Node Discovery</h3>
-                  <p className="text-black/70 leading-relaxed">
-                    RelayForge's Relayers page displays all registered nodes with real-time operational metrics. Users can browse available nodes, inspect their geographic region, latency, bandwidth capacity, uptime percentage, and current session load. Nodes are filterable by region and status (online/offline).
+                  <h3 className="text-lg font-semibold text-white">Node Discovery</h3>
+                  <p className="text-white/70 leading-relaxed">
+                    Veilary's Relayers page displays all registered nodes with real-time operational metrics. Users can browse available nodes, inspect their geographic region, latency, bandwidth capacity, uptime percentage, and current session load. Nodes are filterable by region and status (online/offline).
                   </p>
 
-                  <h3 className="text-lg font-semibold text-black mt-6">Verification & Auditing</h3>
-                  <p className="text-black/70 leading-relaxed">
+                  <h3 className="text-lg font-semibold text-white mt-6">Verification & Auditing</h3>
+                  <p className="text-white/70 leading-relaxed">
                     Each node in the OpenClaw registry carries a verification status. Verified nodes have passed security audits confirming that they enforce no-logging policies, use encrypted transport, and meet minimum uptime and bandwidth thresholds. The audit trail is publicly accessible through the OpenClaw registry, allowing users to independently verify node integrity before routing traffic.
                   </p>
 
-                  <h3 className="text-lg font-semibold text-black mt-6">Global Distribution</h3>
-                  <p className="text-black/70 leading-relaxed">
+                  <h3 className="text-lg font-semibold text-white mt-6">Global Distribution</h3>
+                  <p className="text-white/70 leading-relaxed">
                     Relay nodes are deployed across multiple geographic regions to minimize latency and maximize availability. Current network coverage includes nodes in North America (US East, US West), Europe (Netherlands, Germany, UK), and Asia-Pacific (Singapore, Tokyo, Sydney). Auto-assignment selects the lowest-latency node for the user's geographic location.
                   </p>
 
-                  <h3 className="text-lg font-semibold text-black mt-6">Node Metrics</h3>
-                  <div className="rounded-xl border border-black/[0.08] overflow-hidden">
+                  <h3 className="text-lg font-semibold text-white mt-6">Node Metrics</h3>
+                  <div className="rounded-xl border border-white/[0.06] overflow-hidden">
                     <table className="w-full text-sm">
                       <thead>
-                        <tr className="bg-black/[0.03] border-b border-black/[0.06]">
-                          <th className="text-left px-4 py-3 font-medium text-black/60">Metric</th>
-                          <th className="text-left px-4 py-3 font-medium text-black/60">Description</th>
+                        <tr className="bg-white/[0.03] border-b border-white/[0.05]">
+                          <th className="text-left px-4 py-3 font-medium text-white/60">Metric</th>
+                          <th className="text-left px-4 py-3 font-medium text-white/60">Description</th>
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-black/[0.04]">
@@ -417,8 +417,8 @@ const privateKey = bs58.encode(keypair.secretKey);`}</CodeBlock>
                           ['Verification', 'OpenClaw audit status (Verified / Unverified)'],
                         ].map(([metric, desc]) => (
                           <tr key={metric}>
-                            <td className="px-4 py-2.5 text-black/70 font-medium whitespace-nowrap">{metric}</td>
-                            <td className="px-4 py-2.5 text-black/55">{desc}</td>
+                            <td className="px-4 py-2.5 text-white/70 font-medium whitespace-nowrap">{metric}</td>
+                            <td className="px-4 py-2.5 text-white/55">{desc}</td>
                           </tr>
                         ))}
                       </tbody>
@@ -429,21 +429,21 @@ const privateKey = bs58.encode(keypair.secretKey);`}</CodeBlock>
 
               <section id="privacy-security">
                 <div className="mb-8">
-                  <p className="text-xs font-medium text-black/40 uppercase tracking-wider mb-2">Trust Model</p>
-                  <h2 className="text-3xl sm:text-4xl font-semibold text-black tracking-tight mb-4">Privacy & Security</h2>
-                  <div className="h-px bg-black/[0.08]" />
+                  <p className="text-xs font-medium text-white/40 uppercase tracking-wider mb-2">Trust Model</p>
+                  <h2 className="text-3xl sm:text-4xl font-semibold text-white tracking-tight mb-4">Privacy & Security</h2>
+                  <div className="h-px bg-white/[0.06]" />
                 </div>
 
                 <div className="space-y-6">
-                  <p className="text-black/70 leading-relaxed">
-                    RelayForge is designed with a minimal-trust architecture. The system assumes that servers may be compromised and therefore ensures that no sensitive user data is ever available server-side. Privacy is enforced through cryptographic guarantees, not policy promises.
+                  <p className="text-white/70 leading-relaxed">
+                    Veilary is designed with a minimal-trust architecture. The system assumes that servers may be compromised and therefore ensures that no sensitive user data is ever available server-side. Privacy is enforced through cryptographic guarantees, not policy promises.
                   </p>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     {[
                       {
                         title: 'No-Logs Policy',
-                        desc: 'The RelayForge server does not log IP addresses, browsing activity, or session content. The only stored data is public wallet addresses and session metadata (target URL, timestamps, status).',
+                        desc: 'The Veilary server does not log IP addresses, browsing activity, or session content. The only stored data is public wallet addresses and session metadata (target URL, timestamps, status).',
                       },
                       {
                         title: 'End-to-End Encryption',
@@ -468,10 +468,10 @@ const privateKey = bs58.encode(keypair.secretKey);`}</CodeBlock>
                     ].map(({ title, desc }) => (
                       <div
                         key={title}
-                        className="rounded-xl border border-black/[0.08] bg-white/60 p-4"
+                        className="rounded-xl border border-white/[0.06] bg-white/[0.04] p-4"
                       >
-                        <h4 className="text-sm font-medium text-black mb-1.5">{title}</h4>
-                        <p className="text-xs text-black/55 leading-relaxed">{desc}</p>
+                        <h4 className="text-sm font-medium text-white mb-1.5">{title}</h4>
+                        <p className="text-xs text-white/55 leading-relaxed">{desc}</p>
                       </div>
                     ))}
                   </div>
@@ -480,14 +480,14 @@ const privateKey = bs58.encode(keypair.secretKey);`}</CodeBlock>
 
               <section id="getting-started">
                 <div className="mb-8">
-                  <p className="text-xs font-medium text-black/40 uppercase tracking-wider mb-2">Quick Start</p>
-                  <h2 className="text-3xl sm:text-4xl font-semibold text-black tracking-tight mb-4">Getting Started</h2>
-                  <div className="h-px bg-black/[0.08]" />
+                  <p className="text-xs font-medium text-white/40 uppercase tracking-wider mb-2">Quick Start</p>
+                  <h2 className="text-3xl sm:text-4xl font-semibold text-white tracking-tight mb-4">Getting Started</h2>
+                  <div className="h-px bg-white/[0.06]" />
                 </div>
 
                 <div className="space-y-8">
-                  <p className="text-black/70 leading-relaxed">
-                    RelayForge requires no account creation, email verification, or personal information to use. Open the application and begin immediately.
+                  <p className="text-white/70 leading-relaxed">
+                    Veilary requires no account creation, email verification, or personal information to use. Open the application and begin immediately.
                   </p>
 
                   {[
@@ -526,16 +526,16 @@ const privateKey = bs58.encode(keypair.secretKey);`}</CodeBlock>
                   ].map(({ step, title, instructions }) => (
                     <div key={step} className="flex gap-4">
                       <div className="shrink-0">
-                        <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-black text-white text-sm font-semibold">
+                        <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-[#F81719] text-white text-sm font-semibold">
                           {step}
                         </span>
                       </div>
                       <div className="min-w-0">
-                        <h3 className="text-lg font-semibold text-black mb-3">{title}</h3>
+                        <h3 className="text-lg font-semibold text-white mb-3">{title}</h3>
                         <ol className="space-y-2">
                           {instructions.map((inst, i) => (
-                            <li key={i} className="flex gap-2 text-sm text-black/65 leading-relaxed">
-                              <span className="text-black/35 shrink-0">{i + 1}.</span>
+                            <li key={i} className="flex gap-2 text-sm text-white/65 leading-relaxed">
+                              <span className="text-white/35 shrink-0">{i + 1}.</span>
                               <span>{inst}</span>
                             </li>
                           ))}
@@ -548,17 +548,17 @@ const privateKey = bs58.encode(keypair.secretKey);`}</CodeBlock>
 
               <section id="api-reference">
                 <div className="mb-8">
-                  <p className="text-xs font-medium text-black/40 uppercase tracking-wider mb-2">Developer Reference</p>
-                  <h2 className="text-3xl sm:text-4xl font-semibold text-black tracking-tight mb-4">API Reference</h2>
-                  <div className="h-px bg-black/[0.08]" />
+                  <p className="text-xs font-medium text-white/40 uppercase tracking-wider mb-2">Developer Reference</p>
+                  <h2 className="text-3xl sm:text-4xl font-semibold text-white tracking-tight mb-4">API Reference</h2>
+                  <div className="h-px bg-white/[0.06]" />
                 </div>
 
                 <div className="space-y-6">
-                  <p className="text-black/70 leading-relaxed">
-                    RelayForge exposes a RESTful API for wallet management and stealth session operations. All endpoints accept and return JSON. Session identification uses a UUID-v4 browser session ID stored in <code className="px-1.5 py-0.5 bg-black/[0.04] rounded text-sm font-mono">localStorage</code>.
+                  <p className="text-white/70 leading-relaxed">
+                    Veilary exposes a RESTful API for wallet management and stealth session operations. All endpoints accept and return JSON. Session identification uses a UUID-v4 browser session ID stored in <code className="px-1.5 py-0.5 bg-white/[0.04] rounded text-sm font-mono">localStorage</code>.
                   </p>
 
-                  <h3 className="text-xl font-semibold text-black mt-8 mb-4">Wallet Endpoints</h3>
+                  <h3 className="text-xl font-semibold text-white mt-8 mb-4">Wallet Endpoints</h3>
 
                   <div className="space-y-4">
                     <EndpointBlock
@@ -601,7 +601,7 @@ const privateKey = bs58.encode(keypair.secretKey);`}</CodeBlock>
                     />
                   </div>
 
-                  <h3 className="text-xl font-semibold text-black mt-10 mb-4">Session Endpoints</h3>
+                  <h3 className="text-xl font-semibold text-white mt-10 mb-4">Session Endpoints</h3>
 
                   <div className="space-y-4">
                     <EndpointBlock
@@ -681,7 +681,7 @@ const privateKey = bs58.encode(keypair.secretKey);`}</CodeBlock>
                     />
                   </div>
 
-                  <h3 className="text-xl font-semibold text-black mt-10 mb-4">Search Endpoint</h3>
+                  <h3 className="text-xl font-semibold text-white mt-10 mb-4">Search Endpoint</h3>
 
                   <div className="space-y-4">
                     <EndpointBlock
@@ -702,31 +702,31 @@ const privateKey = bs58.encode(keypair.secretKey);`}</CodeBlock>
                 </div>
               </section>
 
-              <div className="pt-8 border-t border-black/[0.08]">
+              <div className="pt-8 border-t border-white/[0.06]">
                 <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-                  <p className="text-sm text-black/40">
-                    RelayForge Documentation — Last updated March 2026
+                  <p className="text-sm text-white/40">
+                    Veilary Documentation — Last updated March 2026
                   </p>
                   <div className="flex items-center gap-3">
                     <Link
                       to="/"
-                      className="text-sm text-black/50 hover:text-black transition-colors"
+                      className="text-sm text-white/50 hover:text-white transition-colors"
                     >
                       Home
                     </Link>
-                    <span className="text-black/20">|</span>
+                    <span className="text-white/20">|</span>
                     <Link
                       to="/app"
-                      className="text-sm text-black/50 hover:text-black transition-colors"
+                      className="text-sm text-white/50 hover:text-white transition-colors"
                     >
                       Launch App
                     </Link>
-                    <span className="text-black/20">|</span>
+                    <span className="text-white/20">|</span>
                     <a
-                      href="https://x.com/RelayForge_"
+                      href="https://x.com/Veilary_"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-sm text-black/50 hover:text-black transition-colors"
+                      className="text-sm text-white/50 hover:text-white transition-colors"
                     >
                       X / Twitter
                     </a>

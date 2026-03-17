@@ -37,8 +37,8 @@ const Node = ({ position, scale = 1, speed = 1, mouseFactor = 1 }: { position: [
           metalness={0.8}
           clearcoat={0.5}
           clearcoatRoughness={0.1}
-          emissive="#333333"
-          emissiveIntensity={0.5}
+          emissive="#F81719"
+          emissiveIntensity={0.3}
           flatShading={true}
         />
       </mesh>
@@ -46,7 +46,7 @@ const Node = ({ position, scale = 1, speed = 1, mouseFactor = 1 }: { position: [
       <mesh scale={1.4}>
         <icosahedronGeometry args={[1, 2]} />
         <meshPhysicalMaterial
-          color="#8B7355"
+          color="#F81719"
           transparent
           opacity={0.15}
           roughness={0}
@@ -64,8 +64,8 @@ const NetworkScene = () => {
     <div className="w-full h-full absolute inset-0 z-0">
       <Canvas camera={{ position: [0, 0, 12], fov: 35 }} gl={{ antialias: true, alpha: true }} dpr={[1, 2]}>
         <ambientLight intensity={0.3} />
-        <pointLight position={[10, 10, 10]} intensity={1.5} color="#D4A574" />
-        <pointLight position={[-10, -10, -5]} intensity={0.5} color="#8B7355" />
+        <pointLight position={[10, 10, 10]} intensity={1.5} color="#F81719" />
+        <pointLight position={[-10, -10, -5]} intensity={0.5} color="#F81719" />
         <spotLight position={[0, 10, 0]} intensity={0.8} angle={0.5} penumbra={1} />
         
         <Node position={[0, -2.5, 0]} scale={2.2} speed={0.5} mouseFactor={0.2} />
@@ -97,8 +97,8 @@ const CytopathologySection = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
         >
-          <span className="text-white/60 font-medium tracking-widest text-xs uppercase mb-4 block">
-            RelayForge Launch Interface
+          <span className="text-[#F81719] font-medium tracking-widest text-xs uppercase mb-4 block">
+            Veilary Launch Interface
           </span>
           <h2 className="text-5xl md:text-7xl font-semibold text-white mb-6 tracking-tight leading-tight">
             The Product
@@ -134,11 +134,11 @@ const CytopathologySection = () => {
 
       <div className="absolute bottom-6 left-6 md:bottom-12 md:left-12 flex items-center gap-3 z-10">
         <span className="relative flex h-2 w-2">
-          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75"></span>
-          <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#F81719] opacity-75"></span>
+          <span className="relative inline-flex rounded-full h-2 w-2 bg-[#F81719]"></span>
         </span>
         <span className="text-[10px] font-mono uppercase tracking-widest text-white/40">
-          Relay Network Active
+          Veil Network Active
         </span>
       </div>
 

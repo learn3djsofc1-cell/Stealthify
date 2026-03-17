@@ -18,8 +18,8 @@ export default function Toggle({ checked, onChange, label, description, disabled
     >
       {(label || description) && (
         <div className="flex-1 min-w-0">
-          {label && <div className="text-sm font-medium text-black/90 group-hover:text-black transition-colors">{label}</div>}
-          {description && <div className="text-xs text-black/60 mt-0.5">{description}</div>}
+          {label && <div className="text-sm font-medium text-white/90 group-hover:text-white transition-colors">{label}</div>}
+          {description && <div className="text-xs text-white/50 mt-0.5">{description}</div>}
         </div>
       )}
       <button
@@ -31,8 +31,8 @@ export default function Toggle({ checked, onChange, label, description, disabled
         className={twMerge(
           'relative inline-flex h-6 w-11 shrink-0 rounded-full border transition-colors duration-200',
           checked
-            ? 'bg-black border-black/40'
-            : 'bg-black/20 border-black/20'
+            ? 'bg-[#F81719] border-[#F81719]/60'
+            : 'bg-white/20 border-white/20'
         )}
       >
         <span

@@ -101,8 +101,8 @@ export default function ActiveSession() {
     return (
       <div className="flex items-center justify-center min-h-[60vh]">
         <div className="flex flex-col items-center gap-3">
-          <Loader2 className="h-6 w-6 text-black/50 animate-spin" />
-          <p className="text-sm text-black/50">Loading session...</p>
+          <Loader2 className="h-6 w-6 text-white/50 animate-spin" />
+          <p className="text-sm text-white/50">Loading session...</p>
         </div>
       </div>
     );
@@ -113,10 +113,10 @@ export default function ActiveSession() {
       <div className="flex items-center justify-center min-h-[60vh]">
         <div className="flex flex-col items-center gap-3 text-center px-4">
           <AlertTriangle className="h-8 w-8 text-red-500" />
-          <h2 className="text-lg font-medium text-black">{error || 'Session not found'}</h2>
+          <h2 className="text-lg font-medium text-white">{error || 'Session not found'}</h2>
           <button
             onClick={() => navigate('/app/sessions')}
-            className="text-sm text-black/60 hover:text-black transition-colors"
+            className="text-sm text-white/60 hover:text-white transition-colors"
           >
             Back to Sessions
           </button>
@@ -131,44 +131,44 @@ export default function ActiveSession() {
         <div className="flex items-center gap-3">
           <button
             onClick={() => navigate('/app/sessions')}
-            className="rounded-xl bg-black/[0.05] border border-black/[0.10] p-2 hover:bg-black/[0.08] transition-colors"
+            className="rounded-xl bg-white/[0.04] border border-white/[0.08] p-2 hover:bg-white/[0.06] transition-colors"
           >
-            <ArrowLeft className="h-4 w-4 text-black/60" />
+            <ArrowLeft className="h-4 w-4 text-white/60" />
           </button>
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2">
-              <h1 className="text-lg font-semibold text-black truncate">
+              <h1 className="text-lg font-semibold text-white truncate">
                 {session.target_title || extractDomain(session.target_url)}
               </h1>
               <Badge label="Ended" variant="inactive" dot />
             </div>
-            <p className="text-xs text-black/50 truncate mt-0.5">{session.target_url}</p>
+            <p className="text-xs text-white/50 truncate mt-0.5">{session.target_url}</p>
           </div>
         </div>
 
-        <div className="rounded-2xl border border-black/[0.10] bg-white p-6">
+        <div className="rounded-2xl border border-white/[0.08] bg-white/[0.04] border border-white/[0.08] p-6">
           <div className="flex flex-col items-center justify-center py-8 text-center">
-            <div className="rounded-2xl bg-black/[0.05] border border-black/[0.10] p-4 mb-4">
-              <Globe className="h-8 w-8 text-black/35" />
+            <div className="rounded-2xl bg-white/[0.04] border border-white/[0.08] p-4 mb-4">
+              <Globe className="h-8 w-8 text-white/35" />
             </div>
-            <h2 className="text-base font-medium text-black/70 mb-1">Session ended</h2>
-            <p className="text-sm text-black/50 mb-1">
+            <h2 className="text-base font-medium text-white/70 mb-1">Session ended</h2>
+            <p className="text-sm text-white/50 mb-1">
               Duration: {formatDuration(session.started_at, session.ended_at)}
             </p>
-            <p className="text-xs text-black/40 mb-6">
+            <p className="text-xs text-white/40 mb-6">
               {session.ended_at && new Date(session.ended_at).toLocaleString()}
             </p>
             <div className="flex items-center gap-3">
               <button
                 onClick={() => navigate('/app/launch')}
-                className="inline-flex items-center gap-2 rounded-xl bg-black text-white px-5 py-2.5 text-sm font-medium hover:bg-black/80 transition-colors"
+                className="inline-flex items-center gap-2 rounded-xl bg-[#F81719] text-white px-5 py-2.5 text-sm font-medium hover:bg-[#F81719]/80 transition-colors"
               >
                 <Globe className="h-4 w-4" />
                 New Session
               </button>
               <button
                 onClick={() => navigate('/app/sessions')}
-                className="inline-flex items-center gap-2 rounded-xl bg-black/[0.06] text-black border border-black/[0.12] px-5 py-2.5 text-sm font-medium hover:bg-black/[0.10] transition-colors"
+                className="inline-flex items-center gap-2 rounded-xl bg-white/[0.06] text-white border border-white/[0.10] px-5 py-2.5 text-sm font-medium hover:bg-white/[0.08] transition-colors"
               >
                 All Sessions
               </button>
@@ -176,24 +176,24 @@ export default function ActiveSession() {
           </div>
         </div>
 
-        <div className="rounded-2xl border border-black/[0.10] bg-white p-6">
-          <h3 className="text-sm font-medium text-black mb-4">Session Details</h3>
+        <div className="rounded-2xl border border-white/[0.08] bg-white/[0.04] border border-white/[0.08] p-6">
+          <h3 className="text-sm font-medium text-white mb-4">Session Details</h3>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
             <div>
-              <p className="text-[10px] text-black/45 uppercase tracking-wider mb-1">Target</p>
-              <p className="text-xs text-black/60 font-mono truncate">{extractDomain(session.target_url)}</p>
+              <p className="text-[10px] text-white/45 uppercase tracking-wider mb-1">Target</p>
+              <p className="text-xs text-white/60 font-mono truncate">{extractDomain(session.target_url)}</p>
             </div>
             <div>
-              <p className="text-[10px] text-black/45 uppercase tracking-wider mb-1">Fingerprint</p>
-              <p className="text-xs text-black/60">{session.fingerprint_randomization ? 'Randomized' : 'Off'}</p>
+              <p className="text-[10px] text-white/45 uppercase tracking-wider mb-1">Fingerprint</p>
+              <p className="text-xs text-white/60">{session.fingerprint_randomization ? 'Randomized' : 'Off'}</p>
             </div>
             <div>
-              <p className="text-[10px] text-black/45 uppercase tracking-wider mb-1">IP Cloaking</p>
-              <p className="text-xs text-black/60">{session.ip_cloaking ? 'Enabled' : 'Off'}</p>
+              <p className="text-[10px] text-white/45 uppercase tracking-wider mb-1">IP Cloaking</p>
+              <p className="text-xs text-white/60">{session.ip_cloaking ? 'Enabled' : 'Off'}</p>
             </div>
             <div>
-              <p className="text-[10px] text-black/45 uppercase tracking-wider mb-1">Relayer</p>
-              <p className="text-xs text-black/60 capitalize">{session.relayer}</p>
+              <p className="text-[10px] text-white/45 uppercase tracking-wider mb-1">Relayer</p>
+              <p className="text-xs text-white/60 capitalize">{session.relayer}</p>
             </div>
           </div>
         </div>
@@ -206,46 +206,46 @@ export default function ActiveSession() {
       <div className="flex items-center gap-3">
         <button
           onClick={() => navigate('/app/sessions')}
-          className="rounded-xl bg-black/[0.05] border border-black/[0.10] p-2 hover:bg-black/[0.08] transition-colors"
+          className="rounded-xl bg-white/[0.04] border border-white/[0.08] p-2 hover:bg-white/[0.06] transition-colors"
         >
-          <ArrowLeft className="h-4 w-4 text-black/60" />
+          <ArrowLeft className="h-4 w-4 text-white/60" />
         </button>
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2">
-            <h1 className="text-lg font-semibold text-black truncate">
+            <h1 className="text-lg font-semibold text-white truncate">
               {session.target_title || extractDomain(session.target_url)}
             </h1>
             <Badge label="Active" variant="active" dot />
           </div>
-          <p className="text-xs text-black/50 truncate mt-0.5">{session.target_url}</p>
+          <p className="text-xs text-white/50 truncate mt-0.5">{session.target_url}</p>
         </div>
       </div>
 
-      <Card glow="rgba(0, 0, 0, 0.03)">
+      <Card glow="rgba(248, 23, 25, 0.02)">
         <div className="flex flex-col items-center py-6">
-          <div className={`rounded-2xl p-4 mb-4 border ${tabOpened ? 'bg-emerald-500/10 border-emerald-500/20' : 'bg-black/[0.05] border-black/[0.12]'}`}>
+          <div className={`rounded-2xl p-4 mb-4 border ${tabOpened ? 'bg-emerald-500/10 border-emerald-500/20' : 'bg-white/[0.04] border-white/[0.10]'}`}>
             {tabOpened ? (
               <CheckCircle2 className="h-10 w-10 text-emerald-500" />
             ) : (
-              <Globe className="h-10 w-10 text-black/50" />
+              <Globe className="h-10 w-10 text-white/50" />
             )}
           </div>
 
-          <h2 className="text-base font-medium text-black mb-1">
+          <h2 className="text-base font-medium text-white mb-1">
             {tabOpened ? 'dApp running in stealth tab' : 'Stealth session ready'}
           </h2>
-          <p className="text-sm text-black/50 mb-4 text-center max-w-sm">
+          <p className="text-sm text-white/50 mb-4 text-center max-w-sm">
             {tabOpened
               ? 'Your target dApp is running in a separate tab. Return here to manage or end the session.'
               : 'Open the target dApp in a new tab to start browsing privately.'}
           </p>
 
-          <div className="flex items-center gap-2 rounded-xl bg-black/[0.05] border border-black/[0.10] px-4 py-2.5 mb-6 max-w-md w-full">
+          <div className="flex items-center gap-2 rounded-xl bg-white/[0.04] border border-white/[0.08] px-4 py-2.5 mb-6 max-w-md w-full">
             <Lock className="h-3.5 w-3.5 text-emerald-500 shrink-0" />
-            <span className="text-sm text-black/60 truncate font-mono">{extractDomain(session.target_url)}</span>
+            <span className="text-sm text-white/60 truncate font-mono">{extractDomain(session.target_url)}</span>
             <div className="flex items-center gap-2 ml-auto shrink-0">
               {session.fingerprint_randomization && (
-                <span title="Fingerprint randomized"><Fingerprint className="h-3.5 w-3.5 text-black/50" /></span>
+                <span title="Fingerprint randomized"><Fingerprint className="h-3.5 w-3.5 text-white/50" /></span>
               )}
               {session.ip_cloaking && (
                 <span title="IP cloaked"><EyeOff className="h-3.5 w-3.5 text-blue-500" /></span>
@@ -257,7 +257,7 @@ export default function ActiveSession() {
           <div className="flex items-center gap-3 flex-wrap justify-center">
             <button
               onClick={handleOpenTab}
-              className="inline-flex items-center gap-2 rounded-xl bg-black text-white px-5 py-2.5 text-sm font-medium hover:bg-black/80 transition-colors"
+              className="inline-flex items-center gap-2 rounded-xl bg-[#F81719] text-white px-5 py-2.5 text-sm font-medium hover:bg-[#F81719]/80 transition-colors"
             >
               <ExternalLink className="h-4 w-4" />
               {tabOpened ? 'Open Again' : 'Open dApp'}
@@ -282,37 +282,37 @@ export default function ActiveSession() {
         <Card>
           <div className="text-center py-2">
             <div className="flex items-center justify-center gap-1.5 mb-2">
-              <Clock className="h-3.5 w-3.5 text-black/50" />
-              <span className="text-[10px] text-black/45 uppercase tracking-wider">Duration</span>
+              <Clock className="h-3.5 w-3.5 text-white/50" />
+              <span className="text-[10px] text-white/45 uppercase tracking-wider">Duration</span>
             </div>
-            <p className="text-lg font-mono font-semibold text-black tabular-nums">{duration}</p>
+            <p className="text-lg font-mono font-semibold text-white tabular-nums">{duration}</p>
           </div>
         </Card>
         <Card>
           <div className="text-center py-2">
             <div className="flex items-center justify-center gap-1.5 mb-2">
-              <Fingerprint className="h-3.5 w-3.5 text-black/50" />
-              <span className="text-[10px] text-black/45 uppercase tracking-wider">Fingerprint</span>
+              <Fingerprint className="h-3.5 w-3.5 text-white/50" />
+              <span className="text-[10px] text-white/45 uppercase tracking-wider">Fingerprint</span>
             </div>
-            <p className="text-sm font-medium text-black">{session.fingerprint_randomization ? 'Randomized' : 'Off'}</p>
+            <p className="text-sm font-medium text-white">{session.fingerprint_randomization ? 'Randomized' : 'Off'}</p>
           </div>
         </Card>
         <Card>
           <div className="text-center py-2">
             <div className="flex items-center justify-center gap-1.5 mb-2">
               <EyeOff className="h-3.5 w-3.5 text-blue-500" />
-              <span className="text-[10px] text-black/45 uppercase tracking-wider">IP Cloak</span>
+              <span className="text-[10px] text-white/45 uppercase tracking-wider">IP Cloak</span>
             </div>
-            <p className="text-sm font-medium text-black">{session.ip_cloaking ? 'Enabled' : 'Off'}</p>
+            <p className="text-sm font-medium text-white">{session.ip_cloaking ? 'Enabled' : 'Off'}</p>
           </div>
         </Card>
         <Card>
           <div className="text-center py-2">
             <div className="flex items-center justify-center gap-1.5 mb-2">
               <Shield className="h-3.5 w-3.5 text-emerald-500" />
-              <span className="text-[10px] text-black/45 uppercase tracking-wider">Relayer</span>
+              <span className="text-[10px] text-white/45 uppercase tracking-wider">Relayer</span>
             </div>
-            <p className="text-sm font-medium text-black capitalize">{session.relayer}</p>
+            <p className="text-sm font-medium text-white capitalize">{session.relayer}</p>
           </div>
         </Card>
       </div>

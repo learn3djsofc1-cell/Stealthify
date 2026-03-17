@@ -1,6 +1,6 @@
 # Project Overview
 
-RelayForge — A privacy-native Web3 access layer. Landing page + web application for launching stealth browsing sessions, managing anonymous Solana wallets (Phantom-compatible), and connecting to OpenClaw relayer nodes.
+Veilary — A privacy-native Web3 access layer. Landing page + web application for launching stealth browsing sessions, managing anonymous Solana wallets (Phantom-compatible), and connecting to OpenClaw relayer nodes.
 
 ## Architecture
 
@@ -14,7 +14,7 @@ RelayForge — A privacy-native Web3 access layer. Landing page + web applicatio
 - **Animation**: Framer Motion (motion)
 - **Icons**: Lucide React
 - **Font**: Outfit (Google Fonts)
-- **Theme**: Light — warm cream (#FFF6E5) background, black (#000000) primary text/accents
+- **Theme**: Dark — black (#000000) background, red (#F81719) primary accent, white text
 
 ## Project Structure
 
@@ -37,6 +37,7 @@ RelayForge — A privacy-native Web3 access layer. Landing page + web applicatio
   - `Hero.tsx`, `Navbar.tsx`, `Footer.tsx`
   - `PrecisionSection.tsx`, `CytopathologySection.tsx`
   - `ComparisonSection.tsx`, `InfrastructureSection.tsx`
+  - `UseCasesSection.tsx`, `HowItWorksSection.tsx`, `FAQSection.tsx`
   - `CaseStudySection.tsx`, `CTASection.tsx`
   - `Nucleus3D.tsx`, `Infrastructure3D.tsx` - Three.js visualizations
 
@@ -66,23 +67,23 @@ RelayForge — A privacy-native Web3 access layer. Landing page + web applicatio
 - `src/lib/relayers.ts` - Mock relayer node data (8 nodes across global regions with realistic stats)
 
 ### Assets
-- `src/assets/logo.png` - RelayForge logo (imported in components)
+- `src/assets/logo.png` - Veilary logo (red-V, imported in components)
 - `public/favicon.png` - Favicon
-- `public/og-image.png` - Open Graph social sharing image (RelayForge logo)
+- `public/og-image.png` - Open Graph social sharing image (Veilary logo)
 
 ### Production Build & Deployment
 - `npm run build` → Vite builds frontend to `dist/`, then esbuild bundles `server/index.ts` to `dist/index.cjs`
 - Deployment runs `node ./dist/index.cjs` which serves the built frontend + API endpoints
 - Native Node.js modules (pg, better-sqlite3) and dev tools (vite, esbuild, lightningcss) are externalized from the server bundle
 - `public/robots.txt` - Search engine crawl directives
-- `public/sitemap.xml` - XML sitemap for https://relay-forge.io
+- `public/sitemap.xml` - XML sitemap for https://veilary.io
 
 ### SEO (index.html)
-- Canonical URL: https://relay-forge.io/
+- Canonical URL: https://veilary.io/
 - Open Graph + Twitter Card meta tags with OG image
 - JSON-LD structured data (WebApplication + Organization schemas)
 - PWA meta tags (theme-color, apple-mobile-web-app)
-- Twitter handle: @RelayForge_
+- Twitter handle: @Veilary
 
 ## Database Schema
 

@@ -113,12 +113,12 @@ export default function Wallet() {
     return (
       <div className="space-y-6 sm:space-y-8">
         <div>
-          <h1 className="text-xl sm:text-2xl font-semibold text-black">Wallet</h1>
-          <p className="mt-1 text-sm text-black/60">Manage your anonymous Solana wallet</p>
+          <h1 className="text-xl sm:text-2xl font-semibold text-white">Wallet</h1>
+          <p className="mt-1 text-sm text-white/60">Manage your anonymous Solana wallet</p>
         </div>
         <Card>
           <div className="flex items-center justify-center py-12">
-            <div className="h-6 w-6 border-2 border-black/30 border-t-black rounded-full animate-spin" />
+            <div className="h-6 w-6 border-2 border-white/[0.10]/30 border-t-[#F81719] rounded-full animate-spin" />
           </div>
         </Card>
       </div>
@@ -129,8 +129,8 @@ export default function Wallet() {
     return (
       <div className="space-y-6 sm:space-y-8">
         <div>
-          <h1 className="text-xl sm:text-2xl font-semibold text-black">Wallet Created</h1>
-          <p className="mt-1 text-sm text-black/60">Save your private key before continuing — you can import it into Phantom</p>
+          <h1 className="text-xl sm:text-2xl font-semibold text-white">Wallet Created</h1>
+          <p className="mt-1 text-sm text-white/60">Save your private key before continuing — you can import it into Phantom</p>
         </div>
 
         <Card glow="rgba(245, 158, 11, 0.08)" className="border-amber-500/20">
@@ -139,8 +139,8 @@ export default function Wallet() {
               <AlertTriangle className="h-4 w-4 text-amber-500" />
             </div>
             <div>
-              <h3 className="text-sm font-medium text-amber-600">Important</h3>
-              <p className="text-xs text-black/55 mt-1 leading-relaxed">
+              <h3 className="text-sm font-medium text-amber-400">Important</h3>
+              <p className="text-xs text-white/55 mt-1 leading-relaxed">
                 Your private key will only be shown once. Save it securely — it cannot be recovered.
                 Never share your private key with anyone. You can import this key directly into Phantom wallet.
               </p>
@@ -149,12 +149,12 @@ export default function Wallet() {
 
           <div className="space-y-4">
             <div>
-              <label className="text-xs text-black/55 mb-2 block">Solana Address (Public Key)</label>
-              <div className="flex items-center gap-2 rounded-xl bg-black/[0.04] border border-black/[0.10] px-4 py-3">
-                <p className="text-sm text-black font-mono flex-1 break-all">{newWallet.publicKey}</p>
+              <label className="text-xs text-white/55 mb-2 block">Solana Address (Public Key)</label>
+              <div className="flex items-center gap-2 rounded-xl bg-white/[0.04] border border-white/[0.08] px-4 py-3">
+                <p className="text-sm text-white font-mono flex-1 break-all">{newWallet.publicKey}</p>
                 <button
                   onClick={() => handleCopy(newWallet.publicKey, 'address')}
-                  className="shrink-0 rounded-lg p-2 text-black/50 hover:text-black/70 hover:bg-black/[0.06] transition-colors"
+                  className="shrink-0 rounded-lg p-2 text-white/50 hover:text-white/70 hover:bg-white/[0.06] transition-colors"
                 >
                   {copiedField === 'address' ? <Check className="h-4 w-4 text-emerald-500" /> : <Copy className="h-4 w-4" />}
                 </button>
@@ -162,20 +162,20 @@ export default function Wallet() {
             </div>
 
             <div>
-              <label className="text-xs text-black/55 mb-2 block">Private Key (Phantom-compatible)</label>
-              <div className="flex items-center gap-2 rounded-xl bg-black/[0.04] border border-black/[0.10] px-4 py-3">
-                <p className="text-sm text-black font-mono flex-1 break-all">
+              <label className="text-xs text-white/55 mb-2 block">Private Key (Phantom-compatible)</label>
+              <div className="flex items-center gap-2 rounded-xl bg-white/[0.04] border border-white/[0.08] px-4 py-3">
+                <p className="text-sm text-white font-mono flex-1 break-all">
                   {showPrivateKey ? newWallet.privateKey : '•'.repeat(44)}
                 </p>
                 <button
                   onClick={() => setShowPrivateKey(!showPrivateKey)}
-                  className="shrink-0 rounded-lg p-2 text-black/50 hover:text-black/70 hover:bg-black/[0.06] transition-colors"
+                  className="shrink-0 rounded-lg p-2 text-white/50 hover:text-white/70 hover:bg-white/[0.06] transition-colors"
                 >
                   {showPrivateKey ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                 </button>
                 <button
                   onClick={() => handleCopy(newWallet.privateKey, 'privateKey')}
-                  className="shrink-0 rounded-lg p-2 text-black/50 hover:text-black/70 hover:bg-black/[0.06] transition-colors"
+                  className="shrink-0 rounded-lg p-2 text-white/50 hover:text-white/70 hover:bg-white/[0.06] transition-colors"
                 >
                   {copiedField === 'privateKey' ? <Check className="h-4 w-4 text-emerald-500" /> : <Copy className="h-4 w-4" />}
                 </button>
@@ -193,11 +193,11 @@ export default function Wallet() {
                 onChange={(e) => setAcknowledged(e.target.checked)}
                 className="sr-only peer"
               />
-              <div className="h-5 w-5 rounded-md border-2 border-black/25 bg-black/[0.04] peer-checked:bg-black peer-checked:border-black transition-all flex items-center justify-center">
+              <div className="h-5 w-5 rounded-md border-2 border-white/[0.10]/25 bg-white/[0.04] peer-checked:bg-black peer-checked:border-white/[0.10] transition-all flex items-center justify-center">
                 {acknowledged && <Check className="h-3 w-3 text-white" />}
               </div>
             </div>
-            <span className="text-sm text-black/60 leading-relaxed">
+            <span className="text-sm text-white/60 leading-relaxed">
               I have securely saved my private key. I understand that it will not be shown again and cannot be recovered if lost.
             </span>
           </label>
@@ -232,44 +232,44 @@ export default function Wallet() {
     return (
       <div className="space-y-6 sm:space-y-8">
         <div>
-          <h1 className="text-xl sm:text-2xl font-semibold text-black">Wallet</h1>
-          <p className="mt-1 text-sm text-black/60">Manage your anonymous Solana wallet</p>
+          <h1 className="text-xl sm:text-2xl font-semibold text-white">Wallet</h1>
+          <p className="mt-1 text-sm text-white/60">Manage your anonymous Solana wallet</p>
         </div>
 
-        <Card glow="rgba(0, 0, 0, 0.03)">
+        <Card glow="rgba(248, 23, 25, 0.02)">
           <div className="flex items-center gap-3 mb-6">
-            <div className="rounded-xl bg-black/[0.06] border border-black/[0.12] p-3">
-              <WalletIcon className="h-5 w-5 text-black/70" />
+            <div className="rounded-xl bg-white/[0.06] border border-white/[0.10] p-3">
+              <WalletIcon className="h-5 w-5 text-white/70" />
             </div>
             <div>
-              <h2 className="text-sm font-medium text-black">Wallet Details</h2>
-              <p className="text-xs text-black/50">Your Solana wallet information</p>
+              <h2 className="text-sm font-medium text-white">Wallet Details</h2>
+              <p className="text-xs text-white/50">Your Solana wallet information</p>
             </div>
           </div>
 
           <div className="space-y-4">
-            <div className="flex items-center justify-between rounded-xl bg-black/[0.04] border border-black/[0.10] px-4 py-3">
+            <div className="flex items-center justify-between rounded-xl bg-white/[0.04] border border-white/[0.08] px-4 py-3">
               <div className="min-w-0 flex-1">
-                <p className="text-xs text-black/55 mb-1">Wallet Address</p>
-                <p className="text-sm text-black font-mono truncate sm:hidden">{formatAddress(wallet.public_key)}</p>
-                <p className="text-sm text-black font-mono hidden sm:block break-all">{wallet.public_key}</p>
+                <p className="text-xs text-white/55 mb-1">Wallet Address</p>
+                <p className="text-sm text-white font-mono truncate sm:hidden">{formatAddress(wallet.public_key)}</p>
+                <p className="text-sm text-white font-mono hidden sm:block break-all">{wallet.public_key}</p>
               </div>
               <button
                 onClick={() => handleCopy(wallet.public_key, 'walletAddr')}
-                className="shrink-0 ml-3 rounded-lg p-2 text-black/50 hover:text-black/70 hover:bg-black/[0.06] transition-colors"
+                className="shrink-0 ml-3 rounded-lg p-2 text-white/50 hover:text-white/70 hover:bg-white/[0.06] transition-colors"
               >
                 {copiedField === 'walletAddr' ? <Check className="h-4 w-4 text-emerald-500" /> : <Copy className="h-4 w-4" />}
               </button>
             </div>
 
             <div className="grid grid-cols-2 gap-3">
-              <div className="rounded-xl bg-black/[0.04] border border-black/[0.10] px-4 py-3">
-                <p className="text-xs text-black/55 mb-1">Network</p>
-                <p className="text-sm text-black">Solana</p>
+              <div className="rounded-xl bg-white/[0.04] border border-white/[0.08] px-4 py-3">
+                <p className="text-xs text-white/55 mb-1">Network</p>
+                <p className="text-sm text-white">Solana</p>
               </div>
-              <div className="rounded-xl bg-black/[0.04] border border-black/[0.10] px-4 py-3">
-                <p className="text-xs text-black/55 mb-1">Created</p>
-                <p className="text-sm text-black">{formatDate(wallet.created_at)}</p>
+              <div className="rounded-xl bg-white/[0.04] border border-white/[0.08] px-4 py-3">
+                <p className="text-xs text-white/55 mb-1">Created</p>
+                <p className="text-sm text-white">{formatDate(wallet.created_at)}</p>
               </div>
             </div>
 
@@ -282,14 +282,14 @@ export default function Wallet() {
         </Card>
 
         <div>
-          <h2 className="text-sm font-medium text-black/60 uppercase tracking-wider mb-4">Security Guarantees</h2>
+          <h2 className="text-sm font-medium text-white/60 uppercase tracking-wider mb-4">Security Guarantees</h2>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
             {[
               {
                 icon: Lock,
                 title: 'In-Browser Only',
                 desc: 'Private keys never leave your browser. All cryptographic operations happen locally.',
-                glow: 'rgba(0, 0, 0, 0.03)',
+                glow: 'rgba(248, 23, 25, 0.02)',
               },
               {
                 icon: UserX,
@@ -306,11 +306,11 @@ export default function Wallet() {
             ].map(({ icon: Icon, title, desc, glow }) => (
               <Card key={title} hover glow={glow}>
                 <div className="flex flex-col items-center text-center">
-                  <div className="rounded-xl bg-black/[0.06] border border-black/[0.12] p-3 mb-3">
-                    <Icon className="h-5 w-5 text-black/60" />
+                  <div className="rounded-xl bg-white/[0.06] border border-white/[0.10] p-3 mb-3">
+                    <Icon className="h-5 w-5 text-white/60" />
                   </div>
-                  <h3 className="text-sm font-medium text-black">{title}</h3>
-                  <p className="text-xs text-black/50 mt-1.5 leading-relaxed">{desc}</p>
+                  <h3 className="text-sm font-medium text-white">{title}</h3>
+                  <p className="text-xs text-white/50 mt-1.5 leading-relaxed">{desc}</p>
                 </div>
               </Card>
             ))}
@@ -324,7 +324,7 @@ export default function Wallet() {
             </div>
             <div>
               <h3 className="text-sm font-medium text-red-500">Delete Wallet</h3>
-              <p className="text-xs text-black/50">Remove wallet from this device permanently</p>
+              <p className="text-xs text-white/50">Remove wallet from this device permanently</p>
             </div>
           </div>
           <Button
@@ -343,8 +343,8 @@ export default function Wallet() {
   return (
     <div className="space-y-6 sm:space-y-8">
       <div>
-        <h1 className="text-xl sm:text-2xl font-semibold text-black">Wallet</h1>
-        <p className="mt-1 text-sm text-black/60">Manage your anonymous Solana wallet</p>
+        <h1 className="text-xl sm:text-2xl font-semibold text-white">Wallet</h1>
+        <p className="mt-1 text-sm text-white/60">Manage your anonymous Solana wallet</p>
       </div>
 
       <Card glow="rgba(245, 158, 11, 0.06)">
@@ -358,14 +358,14 @@ export default function Wallet() {
       </Card>
 
       <div>
-        <h2 className="text-sm font-medium text-black/60 uppercase tracking-wider mb-4">Security Guarantees</h2>
+        <h2 className="text-sm font-medium text-white/60 uppercase tracking-wider mb-4">Security Guarantees</h2>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
           {[
             {
               icon: Lock,
               title: 'In-Browser Only',
               desc: 'Private keys never leave your browser. All cryptographic operations happen locally.',
-              glow: 'rgba(0, 0, 0, 0.03)',
+              glow: 'rgba(248, 23, 25, 0.02)',
             },
             {
               icon: UserX,
@@ -382,11 +382,11 @@ export default function Wallet() {
           ].map(({ icon: Icon, title, desc, glow }) => (
             <Card key={title} hover glow={glow}>
               <div className="flex flex-col items-center text-center">
-                <div className="rounded-xl bg-black/[0.06] border border-black/[0.12] p-3 mb-3">
-                  <Icon className="h-5 w-5 text-black/60" />
+                <div className="rounded-xl bg-white/[0.06] border border-white/[0.10] p-3 mb-3">
+                  <Icon className="h-5 w-5 text-white/60" />
                 </div>
-                <h3 className="text-sm font-medium text-black">{title}</h3>
-                <p className="text-xs text-black/50 mt-1.5 leading-relaxed">{desc}</p>
+                <h3 className="text-sm font-medium text-white">{title}</h3>
+                <p className="text-xs text-white/50 mt-1.5 leading-relaxed">{desc}</p>
               </div>
             </Card>
           ))}
