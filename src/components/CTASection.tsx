@@ -4,7 +4,7 @@ import { ArrowRight } from 'lucide-react';
 
 const CTASection = () => {
   return (
-    <section className="py-32 sm:py-40 px-6 bg-black relative overflow-hidden">
+    <section className="py-32 sm:py-40 px-6 relative overflow-hidden">
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/[0.06] to-transparent" />
 
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_40%_at_50%_50%,rgba(248,23,25,0.06),transparent_70%)] pointer-events-none" />

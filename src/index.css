@@ -27,8 +27,12 @@
   100% { transform: translateX(0); }
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
-  background-color: #000000;
+  background-color: #050505;
   color: #ffffff;
   font-family: var(--font-sans);
   overflow-x: hidden;

@@ -36,7 +36,7 @@ const HexGrid = () => {
 
 const CytopathologySection = () => {
   return (
-    <section className="w-full min-h-screen bg-black relative overflow-hidden flex items-center py-24 sm:py-32">
+    <section className="w-full min-h-screen relative overflow-hidden flex items-center py-24 sm:py-32">
       <HexGrid />
 
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_50%,rgba(248,23,25,0.06),transparent_70%)] pointer-events-none" />

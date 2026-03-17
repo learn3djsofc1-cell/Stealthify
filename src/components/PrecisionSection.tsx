@@ -62,7 +62,7 @@ const features = [
 
 const PrecisionSection = () => {
   return (
-    <section id="features" className="w-full bg-black py-32 sm:py-40 px-6 relative z-10">
+    <section id="features" className="w-full py-32 sm:py-40 px-6 relative z-10">
       <div className="max-w-7xl mx-auto">
 
         <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between mb-20 gap-6">

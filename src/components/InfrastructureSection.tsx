@@ -13,7 +13,7 @@ const badges = [
 
 const InfrastructureSection = () => {
   return (
-    <section className="w-full py-32 sm:py-40 bg-black relative overflow-hidden">
+    <section className="w-full py-32 sm:py-40 relative overflow-hidden">
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/[0.06] to-transparent" />
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">

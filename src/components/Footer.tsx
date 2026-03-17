@@ -24,7 +24,7 @@ const legalLinks = [
 
 const Footer = () => {
   return (
-    <footer className="bg-black relative overflow-hidden border-t border-white/[0.05]">
+    <footer className="relative overflow-hidden border-t border-white/[0.05]">
       <div className="max-w-7xl mx-auto px-6">
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-8 py-16 sm:py-20">

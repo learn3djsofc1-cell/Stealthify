@@ -11,7 +11,7 @@ const Hero = () => {
   const isInView = useInView(ref, { margin: "0px 0px -200px 0px" });
 
   return (
-    <div ref={ref} className="relative w-full min-h-screen bg-black overflow-hidden flex flex-col font-sans selection:bg-[#F81719]/20">
+    <div ref={ref} className="relative w-full min-h-screen overflow-hidden flex flex-col font-sans selection:bg-[#F81719]/20">
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-20%,rgba(248,23,25,0.08),transparent_70%)] pointer-events-none" />
       <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.015)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.015)_1px,transparent_1px)] bg-[size:80px_80px] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_50%,#000_20%,transparent_80%)] pointer-events-none" />
 
@@ -28,16 +28,6 @@ const Hero = () => {
         </div>
 
         <div className="w-full max-w-4xl z-20 flex flex-col items-center text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-            className="inline-flex items-center gap-2.5 px-5 py-2 rounded-full bg-white/[0.04] border border-white/[0.08] mb-10"
-          >
-            <span className="h-1.5 w-1.5 rounded-full bg-[#F81719] animate-pulse" />
-            <span className="text-xs font-medium text-white/60 tracking-wide">Veil Network Live</span>
-          </motion.div>
-
           <motion.h1
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
@@ -80,7 +70,7 @@ const Hero = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 1 }}
-          className="absolute bottom-12 left-0 right-0 z-20 px-6"
+          className="z-20 mt-16 sm:mt-20 px-6"
         >
           <div className="max-w-4xl mx-auto flex flex-wrap items-center justify-center gap-6 sm:gap-12 lg:gap-16">
             {[

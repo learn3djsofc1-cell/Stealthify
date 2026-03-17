@@ -24,7 +24,7 @@ const steps = [
 
 const HowItWorksSection = () => {
   return (
-    <section className="w-full py-32 sm:py-40 px-6 bg-black relative overflow-hidden">
+    <section id="how-it-works" className="w-full py-32 sm:py-40 px-6 relative overflow-hidden">
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/[0.06] to-transparent" />
 
       <div className="max-w-6xl mx-auto relative z-10">
@@ -77,7 +77,7 @@ const HowItWorksSection = () => {
                   <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-[#F81719]/[0.06] border border-[#F81719]/15 flex items-center justify-center group-hover:bg-[#F81719]/[0.12] group-hover:border-[#F81719]/30 transition-all duration-500">
                     <Icon className="w-7 h-7 sm:w-8 sm:h-8 text-[#F81719]" />
                   </div>
-                  <div className="absolute -top-3 -right-3 w-8 h-8 rounded-full bg-black border border-[#F81719]/30 flex items-center justify-center">
+                  <div className="absolute -top-3 -right-3 w-8 h-8 rounded-full bg-[#050505] border border-[#F81719]/30 flex items-center justify-center">
                     <span className="text-xs font-bold text-[#F81719]">{step.number}</span>
                   </div>
                 </div>

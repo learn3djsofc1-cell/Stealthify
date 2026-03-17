@@ -30,7 +30,7 @@ const useCases = [
 
 const UseCasesSection = () => {
   return (
-    <section className="w-full py-32 sm:py-40 px-6 bg-black relative overflow-hidden">
+    <section id="use-cases" className="w-full py-32 sm:py-40 px-6 relative overflow-hidden">
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/[0.06] to-transparent" />
 
       <div className="max-w-7xl mx-auto relative z-10">

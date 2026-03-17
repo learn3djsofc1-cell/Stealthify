@@ -109,7 +109,7 @@ const ComparisonSection = () => {
   }, [handleMove]);
 
   return (
-    <section className="w-full py-32 sm:py-40 bg-black flex flex-col items-center justify-center relative overflow-hidden px-6">
+    <section className="w-full py-32 sm:py-40 flex flex-col items-center justify-center relative overflow-hidden px-6">
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/[0.06] to-transparent" />
 
       <div className="text-center mb-14 z-10 max-w-3xl">
