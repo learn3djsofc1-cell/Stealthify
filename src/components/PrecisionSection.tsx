@@ -1,5 +1,5 @@
 import { motion } from 'motion/react';
-import { Wallet, Ghost, Bot, Send } from 'lucide-react';
+import { KeyRound, Scan, Network } from 'lucide-react';
 import clsx from 'clsx';
 import { useMemo, memo } from 'react';
 
@@ -36,10 +36,10 @@ const MatrixRain = memo(() => {
   return (
     <div className="absolute inset-0 overflow-hidden opacity-20 pointer-events-none">
       {columns.map((col) => (
-        <div 
+        <div
           key={col.id}
           className="absolute top-0 flex flex-col text-[10px] font-mono text-[#F81719]/30 leading-tight select-none animate-fall"
-          style={{ 
+          style={{
             left: `${col.x}%`,
             animationDuration: `${col.duration}s`,
             animationDelay: `${col.delay}s`
@@ -65,7 +65,7 @@ const RadarVisualization = () => {
           <div className="absolute inset-0 rounded-full border border-white/[0.08]" />
           <div className="absolute inset-[18%] rounded-full border border-white/[0.10] border-dashed opacity-50" />
           <div className="absolute inset-0 rounded-full animate-[spin_4s_linear_infinite]">
-            <div 
+            <div
               className="w-full h-full rounded-full"
               style={{
                 background: 'conic-gradient(from 180deg, transparent 0deg, transparent 240deg, rgba(248, 23, 25, 0.02) 280deg, rgba(248, 23, 25, 0.12) 360deg)'
@@ -74,7 +74,7 @@ const RadarVisualization = () => {
           </div>
           <div className="absolute inset-0 flex flex-col items-center justify-center z-20">
             <span className="text-6xl font-bold text-white tracking-tight">100%</span>
-            <span className="text-[10px] uppercase tracking-[0.25em] text-white/40 mt-2 font-medium">Anonymous</span>
+            <span className="text-[10px] uppercase tracking-[0.25em] text-white/40 mt-2 font-medium">Untraceable</span>
           </div>
           <div className="absolute top-[20%] right-[20%] w-1.5 h-1.5 bg-[#F81719] rounded-full shadow-[0_0_8px_rgba(248,23,25,0.8)] animate-pulse" />
        </div>
@@ -88,21 +88,21 @@ const RadarVisualization = () => {
 const DataList = () => (
   <div className="flex flex-col gap-2 text-[10px] font-mono text-white/40 w-full max-w-[240px] mx-auto">
     <div className="flex justify-between items-center border-b border-white/[0.06] pb-1.5">
-      <span>WALLET_GEN</span>
+      <span>KEYPAIR_GEN</span>
       <span className="text-emerald-500 flex items-center gap-1.5">
-        <span className="w-1 h-1 bg-emerald-500 rounded-full" /> COMPLETE
+        <span className="w-1 h-1 bg-emerald-500 rounded-full" /> SEALED
       </span>
     </div>
     <div className="flex justify-between items-center border-b border-white/[0.06] pb-1.5">
-      <span>KEYS_CREATED</span>
+      <span>IDENTITY_MASK</span>
       <span className="text-emerald-500 flex items-center gap-1.5">
-        <span className="w-1 h-1 bg-emerald-500 rounded-full" /> SECURED
+        <span className="w-1 h-1 bg-emerald-500 rounded-full" /> APPLIED
       </span>
     </div>
     <div className="flex justify-between items-center border-b border-white/[0.06] pb-1.5">
-      <span>ANON_READY</span>
+      <span>RELAY_TUNNEL</span>
       <span className="text-[#F81719] flex items-center gap-1.5">
-        <span className="w-1 h-1 bg-[#F81719] rounded-full" /> ACTIVE
+        <span className="w-1 h-1 bg-[#F81719] rounded-full" /> ROUTING
       </span>
     </div>
   </div>
@@ -112,36 +112,36 @@ const PrecisionSection = () => {
   return (
     <section id="features" className="w-full bg-black py-32 px-6 relative z-10">
       <div className="max-w-7xl mx-auto">
-        
+
         <div className="text-center mb-24">
-          <motion.h2 
+          <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             className="text-4xl md:text-5xl font-semibold text-white mb-6 tracking-tight"
           >
-            Core Capabilities
+            Built for Invisibility
           </motion.h2>
-          <motion.p 
+          <motion.p
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
             className="text-white/50 text-lg max-w-2xl mx-auto font-light leading-relaxed"
           >
-            Veilary delivers privacy-first dApp access with enterprise-grade auditability by combining anonymous session technology, encrypted session memory, and an OpenClaw-powered relayer ecosystem.
+            Four integrated privacy primitives that work together to make your on-chain activity completely untraceable while remaining fully verifiable.
           </motion.p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-12 gap-6 auto-rows-fr">
-          
+
           <Card className="md:col-span-7 min-h-[380px] flex flex-col md:flex-row items-center justify-between overflow-hidden" delay={0.2}>
             <div className="flex flex-col justify-between h-full w-full md:max-w-[40%] z-10 relative mb-8 md:mb-0">
-              <IconBox icon={Wallet} />
+              <IconBox icon={KeyRound} />
               <div>
-                <h3 className="text-3xl font-semibold text-white mb-4 tracking-tight">Anonymous Wallet Creation</h3>
+                <h3 className="text-3xl font-semibold text-white mb-4 tracking-tight">Ephemeral Wallets</h3>
                 <p className="text-white/50 font-light leading-relaxed text-sm">
-                  No login, no wallet connect. Wallets are generated instantly and privately in-browser.
+                  Generate disposable Solana keypairs directly in your browser. No seed phrase servers, no account creation, no trace.
                 </p>
               </div>
             </div>
@@ -153,18 +153,18 @@ const PrecisionSection = () => {
 
           <Card className="md:col-span-5 min-h-[380px]" delay={0.3}>
             <div className="flex justify-between items-start w-full mb-auto">
-              <IconBox icon={Ghost} />
+              <IconBox icon={Scan} />
               <div className="flex gap-2 mt-2">
                 <div className="w-1.5 h-1.5 rounded-full bg-[#F81719]" />
                 <div className="w-1.5 h-1.5 rounded-full bg-yellow-500" />
                 <div className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
               </div>
             </div>
-            
+
             <div className="mt-auto">
-              <h3 className="text-3xl font-semibold text-white mb-4 tracking-tight">Stealth Browsing</h3>
+              <h3 className="text-3xl font-semibold text-white mb-4 tracking-tight">Fingerprint Scrambling</h3>
               <p className="text-white/50 font-light leading-relaxed text-sm">
-                Fingerprint-randomized, IP-cloaked, and isolated per dApp session.
+                Every session generates a unique browser fingerprint. Canvas, WebGL, fonts, and hardware profiles are randomized per connection.
               </p>
             </div>
           </Card>
@@ -172,23 +172,23 @@ const PrecisionSection = () => {
           <Card className="md:col-span-4 min-h-[380px] relative overflow-hidden" delay={0.4}>
              <div className="absolute inset-0 bg-gradient-to-br from-[#F81719]/[0.03] via-transparent to-transparent" />
              <div className="absolute -bottom-20 -right-20 w-64 h-64 bg-[#F81719]/[0.04] blur-[80px] rounded-full pointer-events-none" />
-             
-             <IconBox icon={Bot} />
-             
+
+             <IconBox icon={Network} />
+
              <div className="mt-auto relative z-10">
-              <h3 className="text-3xl font-semibold text-white mb-4 tracking-tight">OpenClaw Agents</h3>
+              <h3 className="text-3xl font-semibold text-white mb-4 tracking-tight">OpenClaw Relayers</h3>
               <p className="text-white/50 font-light leading-relaxed text-sm">
-                One-click deployable relayer agents, verifiable agent manifests, and a registry for trusted relayer operators.
+                Traffic routed through audited, decentralized relay nodes. Each operator is cryptographically verified and independently monitored.
               </p>
             </div>
           </Card>
 
           <Card className="md:col-span-8 min-h-[380px] flex items-center justify-center relative overflow-hidden" delay={0.5}>
             <MatrixRain />
-            
+
             <div className="relative z-10 bg-black/90 backdrop-blur-xl border border-white/[0.08] px-12 py-10 rounded-2xl text-center shadow-[0_8px_40px_rgba(248,23,25,0.06)]">
               <div className="text-6xl font-semibold text-white mb-3 tracking-tighter">100%</div>
-              <div className="text-[10px] uppercase tracking-[0.25em] text-white/40 font-medium">Auditable Relaying</div>
+              <div className="text-[10px] uppercase tracking-[0.25em] text-white/40 font-medium">Verifiable Relay Audit</div>
             </div>
           </Card>
 

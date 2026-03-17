@@ -1,6 +1,6 @@
 # Project Overview
 
-Veilary — A privacy-native Web3 access layer. Landing page + web application for launching stealth browsing sessions, managing anonymous Solana wallets (Phantom-compatible), and connecting to OpenClaw relayer nodes.
+Veilary: A privacy-native Web3 access layer. Landing page + web application for launching stealth browsing sessions, managing anonymous Solana wallets (Phantom-compatible), and connecting to OpenClaw relayer nodes.
 
 ## Architecture
 
@@ -14,7 +14,7 @@ Veilary — A privacy-native Web3 access layer. Landing page + web application f
 - **Animation**: Framer Motion (motion)
 - **Icons**: Lucide React
 - **Font**: Outfit (Google Fonts)
-- **Theme**: Dark — black (#000000) background, red (#F81719) primary accent, white text
+- **Theme**: Dark, black (#000000) background, red (#F81719) primary accent, white text
 
 ## Project Structure
 
@@ -72,7 +72,7 @@ Veilary — A privacy-native Web3 access layer. Landing page + web application f
 - `public/og-image.png` - Open Graph social sharing image (Veilary logo)
 
 ### Production Build & Deployment
-- `npm run build` → Vite builds frontend to `dist/`, then esbuild bundles `server/index.ts` to `dist/index.cjs`
+- `npm run build` -> Vite builds frontend to `dist/`, then esbuild bundles `server/index.ts` to `dist/index.cjs`
 - Deployment runs `node ./dist/index.cjs` which serves the built frontend + API endpoints
 - Native Node.js modules (pg, better-sqlite3) and dev tools (vite, esbuild, lightningcss) are externalized from the server bundle
 - `public/robots.txt` - Search engine crawl directives
@@ -89,23 +89,23 @@ Veilary — A privacy-native Web3 access layer. Landing page + web application f
 
 ### wallets
 - `id` SERIAL PRIMARY KEY
-- `session_id` VARCHAR(64) UNIQUE NOT NULL — browser session identifier
-- `public_key` VARCHAR(64) NOT NULL — Solana wallet address (Base58)
+- `session_id` VARCHAR(64) UNIQUE NOT NULL (browser session identifier)
+- `public_key` VARCHAR(64) NOT NULL (Solana wallet address, Base58)
 - `created_at` TIMESTAMP DEFAULT NOW()
 
 Note: Private keys are generated client-side and never stored server-side.
 
 ### stealth_sessions
-- `id` VARCHAR(36) PRIMARY KEY — UUID generated server-side
-- `browser_session_id` VARCHAR(64) NOT NULL — links to browser session
-- `target_url` TEXT NOT NULL — target dApp URL
-- `target_title` TEXT — display title for the target
-- `status` VARCHAR(16) NOT NULL DEFAULT 'active' — active/ended/error
+- `id` VARCHAR(36) PRIMARY KEY (UUID generated server-side)
+- `browser_session_id` VARCHAR(64) NOT NULL (links to browser session)
+- `target_url` TEXT NOT NULL (target dApp URL)
+- `target_title` TEXT (display title for the target)
+- `status` VARCHAR(16) NOT NULL DEFAULT 'active' (active/ended/error)
 - `fingerprint_randomization` BOOLEAN NOT NULL DEFAULT true
 - `ip_cloaking` BOOLEAN NOT NULL DEFAULT true
 - `relayer` VARCHAR(64) DEFAULT 'auto'
 - `started_at` TIMESTAMP DEFAULT NOW()
-- `ended_at` TIMESTAMP — set when session is ended
+- `ended_at` TIMESTAMP (set when session is ended)
 
 ## Development
 

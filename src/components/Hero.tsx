@@ -1,22 +1,13 @@
 import { motion, useInView } from 'motion/react';
-import { ArrowRight, Copy, Check, Download, Smartphone } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Scene from './Nucleus3D';
 import Navbar from './Navbar';
-import { useRef, useState } from 'react';
-
-const CA = "CCZ82whciPVkMdUj3Uqn4TX76F6BZ7rEstWHUEKwpump";
+import { useRef } from 'react';
 
 const Hero = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { margin: "0px 0px -200px 0px" });
-  const [copied, setCopied] = useState(false);
-
-  const copyCA = () => {
-    navigator.clipboard.writeText(CA);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
 
   return (
     <div ref={ref} className="relative w-full min-h-screen bg-black overflow-hidden flex flex-col font-sans selection:bg-[#F81719]/20">
@@ -50,9 +41,9 @@ const Hero = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
-            className="text-white/50 text-base sm:text-lg max-w-xl leading-relaxed mb-8 font-light tracking-wide"
+            className="text-white/50 text-base sm:text-lg max-w-xl leading-relaxed mb-10 font-light tracking-wide"
           >
-            A privacy-native access layer with stealth browsing, anonymous wallets, and zero-knowledge technology — powered by the OpenClaw relayer network.
+            Privacy-native access layer for Web3. Stealth browsing, anonymous wallets, and zero-knowledge proofs, all powered by the OpenClaw relayer network.
           </motion.p>
           
           <motion.div 
@@ -71,46 +62,21 @@ const Hero = () => {
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.7, ease: [0.22, 1, 0.36, 1] }}
-            className="mt-5"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1, delay: 1 }}
+            className="mt-12 flex items-center gap-6"
           >
-            <a
-              href="/Veilary-OS.apk"
-              download="Veilary-OS.apk"
-              className="inline-flex items-center gap-3 px-5 py-3 bg-white/[0.06] border border-white/[0.10] text-white rounded-xl font-medium text-sm hover:bg-white/[0.10] transition-all duration-300 shadow-[0_4px_20px_rgba(0,0,0,0.12)] group"
-            >
-              <div className="flex items-center justify-center w-8 h-8 bg-[#F81719]/20 rounded-lg">
-                <Smartphone className="w-4 h-4 text-[#F81719]" />
+            {[
+              { label: 'Zero Logs', value: '0' },
+              { label: 'Chains', value: '15+' },
+              { label: 'Uptime', value: '99.9%' },
+            ].map((stat) => (
+              <div key={stat.label} className="flex flex-col">
+                <span className="text-xl font-semibold text-white">{stat.value}</span>
+                <span className="text-[10px] text-white/40 uppercase tracking-widest">{stat.label}</span>
               </div>
-              <div className="flex flex-col">
-                <span className="text-[10px] text-white/60 uppercase tracking-wider leading-none">Download</span>
-                <span className="text-sm font-semibold leading-tight">Veilary OS</span>
-              </div>
-              <Download className="w-4 h-4 ml-1 text-white/50 group-hover:text-white transition-colors" />
-            </a>
-            <span className="text-[10px] text-white/35 mt-1.5 block">Android APK v1.0</span>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.8, ease: [0.22, 1, 0.36, 1] }}
-            className="mt-6"
-          >
-            <span className="text-[10px] uppercase tracking-widest text-white/40 font-medium mb-1.5 block">Contract Address</span>
-            <button
-              onClick={copyCA}
-              className="flex items-center gap-2 px-4 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-xl hover:bg-white/[0.07] hover:border-white/[0.14] transition-all duration-300 group cursor-pointer max-w-full"
-            >
-              <code className="text-xs sm:text-sm font-mono text-white/70 truncate">{CA}</code>
-              {copied ? (
-                <Check className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
-              ) : (
-                <Copy className="w-3.5 h-3.5 text-white/30 group-hover:text-white/60 transition-colors shrink-0" />
-              )}
-            </button>
+            ))}
           </motion.div>
         </div>
 

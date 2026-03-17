@@ -33,7 +33,7 @@ const faqs = [
   },
   {
     question: 'How is Veilary different from a VPN?',
-    answer: 'Unlike VPNs which only mask your IP, Veilary operates at the application layer with purpose-built privacy for Web3 workflows. It randomizes browser fingerprints, isolates each session cryptographically, generates anonymous wallets, and provides zero-knowledge proofs — capabilities no VPN offers.',
+    answer: 'Unlike VPNs which only mask your IP, Veilary operates at the application layer with purpose-built privacy for Web3 workflows. It randomizes browser fingerprints, isolates each session cryptographically, generates anonymous wallets, and provides zero-knowledge proofs. These are capabilities no VPN offers.',
   },
 ];
 

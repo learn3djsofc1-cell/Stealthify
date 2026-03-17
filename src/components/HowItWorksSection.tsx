@@ -1,24 +1,24 @@
 import { motion } from 'motion/react';
-import { Globe, Shield, Fingerprint } from 'lucide-react';
+import { Search, SlidersHorizontal, Zap } from 'lucide-react';
 
 const steps = [
   {
     number: '01',
-    icon: Globe,
-    title: 'Enter Your Target',
-    description: 'Search for any decentralized application or paste a URL. Veilary indexes thousands of dApps across all major chains.',
+    icon: Search,
+    title: 'Select Your Target',
+    description: 'Search for any dApp or protocol across supported chains, or paste a URL directly. Veilary indexes thousands of decentralized applications.',
   },
   {
     number: '02',
-    icon: Shield,
-    title: 'Configure Privacy',
-    description: 'Toggle fingerprint randomization and IP cloaking. Select a verified relayer node or let Veilary auto-assign the fastest one.',
+    icon: SlidersHorizontal,
+    title: 'Set Privacy Parameters',
+    description: 'Toggle fingerprint randomization and IP cloaking. Choose a verified relay node or let the network auto-assign the fastest available.',
   },
   {
     number: '03',
-    icon: Fingerprint,
-    title: 'Launch Stealth Session',
-    description: 'Your session opens in a sandboxed environment with a randomized identity. All traces are destroyed when you end the session.',
+    icon: Zap,
+    title: 'Go Stealth',
+    description: 'Your session launches in a sandboxed environment with a unique identity. When you close it, every trace is permanently destroyed.',
   },
 ];
 
@@ -43,7 +43,7 @@ const HowItWorksSection = () => {
             viewport={{ once: true }}
             className="text-4xl md:text-5xl font-semibold text-white mb-6 tracking-tight"
           >
-            Three Steps to Invisibility
+            Three Steps to Vanish
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -52,7 +52,7 @@ const HowItWorksSection = () => {
             transition={{ delay: 0.1 }}
             className="text-white/50 text-lg max-w-2xl mx-auto font-light leading-relaxed"
           >
-            From search to stealth in under 10 seconds. No downloads, no extensions, no accounts required.
+            From search to stealth in under 10 seconds. No downloads, no extensions, no accounts.
           </motion.p>
         </div>
 

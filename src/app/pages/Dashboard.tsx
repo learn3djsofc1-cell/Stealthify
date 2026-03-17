@@ -99,7 +99,7 @@ export default function Dashboard() {
         />
         <StatCard
           label="Privacy Score"
-          value={totalSessions > 0 ? '100' : '—'}
+          value={totalSessions > 0 ? '100' : '-'}
           icon={<ShieldCheck className="h-5 w-5" />}
           trend={totalSessions > 0 ? 'Full anonymity' : 'Launch a session to score'}
           glow="rgba(16, 185, 129, 0.08)"

@@ -130,7 +130,7 @@ export default function Wallet() {
       <div className="space-y-6 sm:space-y-8">
         <div>
           <h1 className="text-xl sm:text-2xl font-semibold text-white">Wallet Created</h1>
-          <p className="mt-1 text-sm text-white/60">Save your private key before continuing — you can import it into Phantom</p>
+          <p className="mt-1 text-sm text-white/60">Save your private key before continuing. You can import it into Phantom.</p>
         </div>
 
         <Card glow="rgba(245, 158, 11, 0.08)" className="border-amber-500/20">
@@ -141,7 +141,7 @@ export default function Wallet() {
             <div>
               <h3 className="text-sm font-medium text-amber-400">Important</h3>
               <p className="text-xs text-white/55 mt-1 leading-relaxed">
-                Your private key will only be shown once. Save it securely — it cannot be recovered.
+                Your private key will only be shown once. Save it securely. It cannot be recovered.
                 Never share your private key with anyone. You can import this key directly into Phantom wallet.
               </p>
             </div>

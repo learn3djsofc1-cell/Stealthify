@@ -235,7 +235,7 @@ export default function Documentation() {
 
                 <div className="space-y-6">
                   <p className="text-white/70 leading-relaxed">
-                    Veilary follows a client-heavy architecture where all sensitive cryptographic operations execute in the user's browser. The server layer is intentionally minimal — it stores only public keys and session metadata, never private keys or browsing content.
+                    Veilary follows a client-heavy architecture where all sensitive cryptographic operations execute in the user's browser. The server layer is intentionally minimal. It stores only public keys and session metadata, never private keys or browsing content.
                   </p>
 
                   <h3 className="text-lg font-semibold text-white mt-8">Frontend</h3>
@@ -705,7 +705,7 @@ const privateKey = bs58.encode(keypair.secretKey);`}</CodeBlock>
               <div className="pt-8 border-t border-white/[0.06]">
                 <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                   <p className="text-sm text-white/40">
-                    Veilary Documentation — Last updated March 2026
+                    Veilary Documentation | Last updated March 2026
                   </p>
                   <div className="flex items-center gap-3">
                     <Link

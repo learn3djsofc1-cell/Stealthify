@@ -1,21 +1,21 @@
 import { motion } from 'motion/react';
 
 const chains = [
-  { name: 'Solana', symbol: 'SOL', color: '#9945FF' },
-  { name: 'Ethereum', symbol: 'ETH', color: '#627EEA' },
-  { name: 'Bitcoin', symbol: 'BTC', color: '#F7931A' },
-  { name: 'Polygon', symbol: 'MATIC', color: '#8247E5' },
-  { name: 'Arbitrum', symbol: 'ARB', color: '#28A0F0' },
-  { name: 'Avalanche', symbol: 'AVAX', color: '#E84142' },
-  { name: 'Base', symbol: 'BASE', color: '#0052FF' },
-  { name: 'Optimism', symbol: 'OP', color: '#FF0420' },
-  { name: 'BNB Chain', symbol: 'BNB', color: '#F0B90B' },
-  { name: 'Cosmos', symbol: 'ATOM', color: '#2E3148' },
-  { name: 'Sui', symbol: 'SUI', color: '#4DA2FF' },
-  { name: 'Aptos', symbol: 'APT', color: '#2DD8A3' },
-  { name: 'Near', symbol: 'NEAR', color: '#00C08B' },
-  { name: 'Fantom', symbol: 'FTM', color: '#1969FF' },
-  { name: 'Tron', symbol: 'TRX', color: '#FF0013' },
+  { name: 'Solana', symbol: 'SOL' },
+  { name: 'Ethereum', symbol: 'ETH' },
+  { name: 'Bitcoin', symbol: 'BTC' },
+  { name: 'Polygon', symbol: 'MATIC' },
+  { name: 'Arbitrum', symbol: 'ARB' },
+  { name: 'Avalanche', symbol: 'AVAX' },
+  { name: 'Base', symbol: 'BASE' },
+  { name: 'Optimism', symbol: 'OP' },
+  { name: 'BNB Chain', symbol: 'BNB' },
+  { name: 'Cosmos', symbol: 'ATOM' },
+  { name: 'Sui', symbol: 'SUI' },
+  { name: 'Aptos', symbol: 'APT' },
+  { name: 'Near', symbol: 'NEAR' },
+  { name: 'Fantom', symbol: 'FTM' },
+  { name: 'Tron', symbol: 'TRX' },
 ];
 
 const SupportedChainsSection = () => {
@@ -48,7 +48,7 @@ const SupportedChainsSection = () => {
             transition={{ delay: 0.1 }}
             className="text-white/50 text-lg max-w-2xl mx-auto font-light leading-relaxed"
           >
-            Veilary supports stealth access and anonymous wallet generation across all major Layer 1 and Layer 2 blockchains.
+            Stealth access and ephemeral wallet generation across every major L1 and L2 blockchain.
           </motion.p>
         </div>
 
@@ -57,7 +57,7 @@ const SupportedChainsSection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="flex flex-wrap justify-center gap-4"
+          className="flex flex-wrap justify-center gap-3"
         >
           {chains.map((chain, index) => (
             <motion.div
@@ -66,18 +66,10 @@ const SupportedChainsSection = () => {
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.3, delay: index * 0.03 }}
-              className="group flex items-center gap-3 px-5 py-3.5 rounded-2xl bg-white/[0.03] border border-white/[0.06] hover:border-white/[0.14] hover:bg-white/[0.06] transition-all duration-300"
+              className="group px-5 py-3 rounded-xl bg-white/[0.03] border border-white/[0.06] hover:border-white/[0.14] hover:bg-white/[0.06] transition-all duration-300"
             >
-              <div
-                className="w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold text-white"
-                style={{ backgroundColor: `${chain.color}30`, border: `1px solid ${chain.color}50` }}
-              >
-                {chain.symbol.slice(0, 2)}
-              </div>
-              <div>
-                <p className="text-sm font-medium text-white/80 group-hover:text-white transition-colors">{chain.name}</p>
-                <p className="text-[10px] text-white/40 font-mono">{chain.symbol}</p>
-              </div>
+              <span className="text-sm font-medium text-white/80 group-hover:text-white transition-colors">{chain.name}</span>
+              <span className="text-xs text-white/35 font-mono ml-2">{chain.symbol}</span>
             </motion.div>
           ))}
         </motion.div>
@@ -90,7 +82,7 @@ const SupportedChainsSection = () => {
           className="mt-12 text-center"
         >
           <p className="text-sm text-white/35">
-            More chains added regularly. Cross-chain ZK bridges coming soon.
+            New chains integrated continuously. Cross-chain ZK bridging in development.
           </p>
         </motion.div>
       </div>
