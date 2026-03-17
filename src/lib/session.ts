@@ -1,4 +1,4 @@
-const SESSION_KEY = 'relayforge_session_id';
+const SESSION_KEY = 'veilary_session_id';
 
 export function getSessionId(): string {
   let sessionId = localStorage.getItem(SESSION_KEY);

@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /api/
 
-Sitemap: https://relay-forge.io/sitemap.xml
+Sitemap: https://veilary.io/sitemap.xml
