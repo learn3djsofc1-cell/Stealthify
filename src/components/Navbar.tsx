@@ -31,20 +31,25 @@ const Navbar = () => {
         </div>
 
         <div className="hidden md:flex items-center gap-8">
-          {['Overview', 'Features', 'Product', 'Security'].map((item, index) => (
-            <a 
-              key={item} 
-              href="#" 
+          {[
+            { label: 'Overview', to: '/' },
+            { label: 'Features', to: '/#features' },
+            { label: 'Docs', to: '/docs' },
+            { label: 'App', to: '/app' },
+          ].map((item, index) => (
+            <Link 
+              key={item.label} 
+              to={item.to}
               className={clsx(
                 "text-sm font-medium transition-colors hover:text-white",
                 index === 0 ? "text-white relative" : "text-white/50"
               )}
             >
-              {item}
+              {item.label}
               {index === 0 && (
                 <span className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-1 h-1 bg-[#F81719] rounded-full" />
               )}
-            </a>
+            </Link>
           ))}
         </div>
 
@@ -61,15 +66,20 @@ const Navbar = () => {
               exit={{ height: 0, opacity: 0 }}
               className="w-full md:hidden overflow-hidden flex flex-col gap-4 pt-4 border-t border-white/[0.08] mt-4"
             >
-              {['Overview', 'Features', 'Product', 'Security'].map((item) => (
-                <a 
-                  key={item} 
-                  href="#" 
+              {[
+                { label: 'Overview', to: '/' },
+                { label: 'Features', to: '/#features' },
+                { label: 'Docs', to: '/docs' },
+                { label: 'App', to: '/app' },
+              ].map((item) => (
+                <Link 
+                  key={item.label} 
+                  to={item.to}
                   className="text-white/60 text-sm font-medium py-2 hover:text-white transition-colors"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  {item}
-                </a>
+                  {item.label}
+                </Link>
               ))}
               <Link to="/app" className="flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-[#F81719] text-white text-sm font-medium hover:bg-[#F81719]/80 transition-colors w-full" onClick={() => setIsMobileMenuOpen(false)}>
                 Launch App

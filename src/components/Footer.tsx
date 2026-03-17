@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Twitter } from 'lucide-react';
 import logoSrc from '../assets/logo.png';
 
@@ -16,9 +17,9 @@ const Footer: React.FC = () => {
         </div>
         
         <div className="flex items-center gap-8">
-          <a href="#" className="hover:text-white transition-colors">Privacy</a>
-          <a href="#" className="hover:text-white transition-colors">Terms</a>
-          <a href="#" className="hover:text-white transition-colors">Security</a>
+          <Link to="/docs" className="hover:text-white transition-colors">Docs</Link>
+          <Link to="/app" className="hover:text-white transition-colors">App</Link>
+          <Link to="/docs#privacy-security" className="hover:text-white transition-colors">Security</Link>
           <a href="https://x.com/Veilary" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors flex items-center gap-2">
             <Twitter size={16} />
             <span className="sr-only">X (Twitter)</span>
