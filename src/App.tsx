@@ -8,6 +8,7 @@ import CaseStudySection from './components/CaseStudySection';
 import UseCasesSection from './components/UseCasesSection';
 import HowItWorksSection from './components/HowItWorksSection';
 import FAQSection from './components/FAQSection';
+import SupportedChainsSection from './components/SupportedChainsSection';
 import CTASection from './components/CTASection';
 import Footer from './components/Footer';
 import Documentation from './pages/Documentation';
@@ -27,6 +28,7 @@ function LandingPage() {
       <PrecisionSection />
       <CytopathologySection />
       <UseCasesSection />
+      <SupportedChainsSection />
       <HowItWorksSection />
       <InfrastructureSection />
       <ComparisonSection />

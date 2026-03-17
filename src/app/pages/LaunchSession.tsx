@@ -139,6 +139,7 @@ export default function LaunchSession() {
         targetTitle: selectedTitle || undefined,
         fingerprintRandomization,
         ipCloaking,
+        relayer: selectedRelayer,
       });
       sessionId = session.id;
     } catch (err: unknown) {
