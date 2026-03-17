@@ -146,7 +146,7 @@ export default function ActiveSession() {
           </div>
         </div>
 
-        <div className="rounded-2xl border border-white/[0.08] bg-white/[0.04] border border-white/[0.08] p-6">
+        <div className="rounded-2xl border border-white/[0.08] bg-white/[0.04] p-6">
           <div className="flex flex-col items-center justify-center py-8 text-center">
             <div className="rounded-2xl bg-white/[0.04] border border-white/[0.08] p-4 mb-4">
               <Globe className="h-8 w-8 text-white/35" />
@@ -176,7 +176,7 @@ export default function ActiveSession() {
           </div>
         </div>
 
-        <div className="rounded-2xl border border-white/[0.08] bg-white/[0.04] border border-white/[0.08] p-6">
+        <div className="rounded-2xl border border-white/[0.08] bg-white/[0.04] p-6">
           <h3 className="text-sm font-medium text-white mb-4">Session Details</h3>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
             <div>
