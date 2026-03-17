@@ -149,7 +149,7 @@ export default function Dashboard() {
             </div>
             <div className="flex-1 min-w-0">
               <h3 className="text-sm font-medium text-white">View Relayers</h3>
-              <p className="text-xs text-white/45 mt-0.5">Browse OpenClaw nodes</p>
+              <p className="text-xs text-white/45 mt-0.5">Browse VeilRelay nodes</p>
             </div>
             <ArrowRight className="h-4 w-4 text-white/40 shrink-0" />
           </div>
@@ -219,7 +219,7 @@ export default function Dashboard() {
             <div className="flex items-center justify-between rounded-xl bg-white/[0.04] border border-white/[0.06] px-4 py-3">
               <div className="flex items-center gap-2.5">
                 <div className="h-2 w-2 rounded-full bg-emerald-500" />
-                <span className="text-sm text-white/60">OpenClaw Registry</span>
+                <span className="text-sm text-white/60">VeilRelay Registry</span>
               </div>
               <Badge label="Connected" variant="active" />
             </div>

@@ -10,7 +10,7 @@ const productLinks = [
 ];
 
 const resourceLinks = [
-  { label: 'OpenClaw Protocol', to: '/docs#openclaw' },
+  { label: 'VeilRelay Protocol', to: '/docs#veilrelay-network' },
   { label: 'Security Audits', to: '/docs#privacy-security' },
   { label: 'Relayer Registry', to: '/app/relayers' },
   { label: 'API Reference', to: '/docs' },

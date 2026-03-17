@@ -1,22 +1,45 @@
 import { motion } from 'motion/react';
+import { useState } from 'react';
 
 const chains = [
-  { name: 'Solana', symbol: 'SOL' },
-  { name: 'Ethereum', symbol: 'ETH' },
-  { name: 'Bitcoin', symbol: 'BTC' },
-  { name: 'Polygon', symbol: 'MATIC' },
-  { name: 'Arbitrum', symbol: 'ARB' },
-  { name: 'Avalanche', symbol: 'AVAX' },
-  { name: 'Base', symbol: 'BASE' },
-  { name: 'Optimism', symbol: 'OP' },
-  { name: 'BNB Chain', symbol: 'BNB' },
-  { name: 'Cosmos', symbol: 'ATOM' },
-  { name: 'Sui', symbol: 'SUI' },
-  { name: 'Aptos', symbol: 'APT' },
-  { name: 'Near', symbol: 'NEAR' },
-  { name: 'Fantom', symbol: 'FTM' },
-  { name: 'Tron', symbol: 'TRX' },
+  { name: 'Solana', symbol: 'SOL', logo: 'https://coin-images.coingecko.com/coins/images/4128/large/solana.png?1718769756' },
+  { name: 'Ethereum', symbol: 'ETH', logo: 'https://coin-images.coingecko.com/coins/images/279/large/ethereum.png?1696501628' },
+  { name: 'Bitcoin', symbol: 'BTC', logo: 'https://coin-images.coingecko.com/coins/images/1/large/bitcoin.png?1696501400' },
+  { name: 'Polygon', symbol: 'MATIC', logo: 'https://coin-images.coingecko.com/coins/images/4713/large/polygon.png?1698233745' },
+  { name: 'Arbitrum', symbol: 'ARB', logo: 'https://coin-images.coingecko.com/coins/images/16547/large/arb.jpg?1721358242' },
+  { name: 'Avalanche', symbol: 'AVAX', logo: 'https://coin-images.coingecko.com/coins/images/12559/large/Avalanche_Circle_RedWhite_Trans.png?1696512369' },
+  { name: 'Base', symbol: 'BASE', logo: 'https://coin-images.coingecko.com/asset_platforms/images/131/large/base.jpeg?1706606519' },
+  { name: 'Optimism', symbol: 'OP', logo: 'https://coin-images.coingecko.com/coins/images/25244/large/Optimism.png?1696524385' },
+  { name: 'BNB Chain', symbol: 'BNB', logo: 'https://coin-images.coingecko.com/coins/images/825/large/bnb-icon2_2x.png?1696501970' },
+  { name: 'Cosmos', symbol: 'ATOM', logo: 'https://coin-images.coingecko.com/coins/images/1481/large/cosmos_hub.png?1696502525' },
+  { name: 'Sui', symbol: 'SUI', logo: 'https://coin-images.coingecko.com/coins/images/26375/large/sui-ocean-square.png?1727791290' },
+  { name: 'Aptos', symbol: 'APT', logo: 'https://coin-images.coingecko.com/coins/images/26455/large/Aptos-Network-Symbol-Black-RGB-1x.png?1761789140' },
+  { name: 'Near', symbol: 'NEAR', logo: 'https://coin-images.coingecko.com/coins/images/10365/large/near.jpg?1696510367' },
+  { name: 'Fantom', symbol: 'FTM', logo: 'https://coin-images.coingecko.com/coins/images/4001/large/Fantom_round.png?1696504642' },
+  { name: 'Tron', symbol: 'TRX', logo: 'https://coin-images.coingecko.com/coins/images/1094/large/tron-logo.png?1696502193' },
 ];
+
+const ChainLogo = ({ chain }: { chain: typeof chains[number] }) => {
+  const [failed, setFailed] = useState(false);
+
+  if (failed) {
+    return (
+      <div className="w-8 h-8 rounded-lg bg-[#F81719]/[0.06] border border-[#F81719]/10 flex items-center justify-center">
+        <span className="text-[10px] font-bold text-[#F81719] tracking-wider">{chain.symbol.slice(0, 2)}</span>
+      </div>
+    );
+  }
+
+  return (
+    <img
+      src={chain.logo}
+      alt={chain.name}
+      className="w-8 h-8 rounded-lg object-contain"
+      onError={() => setFailed(true)}
+      loading="lazy"
+    />
+  );
+};
 
 const MarqueeRow = ({ items, direction = 'left', speed = 30 }: { items: typeof chains; direction?: 'left' | 'right'; speed?: number }) => {
   const doubled = [...items, ...items];
@@ -31,9 +54,7 @@ const MarqueeRow = ({ items, direction = 'left', speed = 30 }: { items: typeof c
             key={`${chain.symbol}-${index}`}
             className="flex items-center gap-3 px-6 py-4 rounded-xl bg-white/[0.02] border border-white/[0.05] hover:border-[#F81719]/20 hover:bg-white/[0.04] transition-all duration-500 shrink-0"
           >
-            <div className="w-8 h-8 rounded-lg bg-[#F81719]/[0.06] border border-[#F81719]/10 flex items-center justify-center">
-              <span className="text-[10px] font-bold text-[#F81719] tracking-wider">{chain.symbol.slice(0, 2)}</span>
-            </div>
+            <ChainLogo chain={chain} />
             <div className="flex flex-col">
               <span className="text-sm font-medium text-white/80">{chain.name}</span>
               <span className="text-[10px] text-white/30 font-mono">{chain.symbol}</span>

@@ -5,7 +5,7 @@ import { Plus, Minus } from 'lucide-react';
 const faqs = [
   {
     question: 'What is Veilary?',
-    answer: 'Veilary is a complete privacy ecosystem for Web3 that enables anonymous interaction with decentralized applications through stealth browsing sessions, anonymous Solana wallet generation, and zero-knowledge technology. It operates through the OpenClaw relayer network for verified, decentralized traffic routing.',
+    answer: 'Veilary is a complete privacy ecosystem for Web3 that enables anonymous interaction with decentralized applications through stealth browsing sessions, anonymous Solana wallet generation, and zero-knowledge technology. It operates through the VeilRelay network for verified, decentralized traffic routing.',
   },
   {
     question: 'How does Veilary protect my privacy?',
@@ -28,8 +28,8 @@ const faqs = [
     answer: 'No. Private keys are generated entirely in your browser using cryptographically secure random number generation. They are displayed once during wallet creation and never transmitted to or stored on any server. Only the public key (wallet address) is stored for display purposes.',
   },
   {
-    question: 'What is the OpenClaw relayer network?',
-    answer: 'OpenClaw is a decentralized protocol that provides a registry of audited relayer nodes. These nodes route your traffic to mask your IP address. Each node is independently operated, cryptographically verified, and subject to ongoing audits for uptime, performance, and security compliance.',
+    question: 'What is the VeilRelay network?',
+    answer: 'VeilRelay is a decentralized protocol that provides a registry of audited relayer nodes. These nodes route your traffic to mask your IP address. Each node is independently operated, cryptographically verified, and subject to ongoing audits for uptime, performance, and security compliance.',
   },
   {
     question: 'How is Veilary different from a VPN?',
@@ -84,7 +84,7 @@ const FAQSection = () => {
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/[0.06] to-transparent" />
 
       <div className="max-w-4xl mx-auto relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr,2fr] gap-12 lg:gap-20">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr,2fr] gap-16 lg:gap-20">
           <div className="lg:sticky lg:top-32 lg:self-start">
             <motion.span
               initial={{ opacity: 0, y: 10 }}

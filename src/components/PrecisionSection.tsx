@@ -42,7 +42,7 @@ const features = [
   },
   {
     icon: Network,
-    title: 'OpenClaw Relayers',
+    title: 'VeilRelay Nodes',
     description: 'Traffic routed through audited, decentralized relay nodes. Each operator is cryptographically verified and independently monitored.',
     stat: '50+',
     statLabel: 'Active Nodes',

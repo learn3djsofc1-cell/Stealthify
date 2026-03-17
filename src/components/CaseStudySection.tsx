@@ -12,7 +12,7 @@ const audiences = [
   'Privacy-focused Web3 users needing anonymous dApp access.',
   'Protocols and DAOs requiring verifiable audit trails.',
   'Enterprise teams needing private testnets or stealth access.',
-  'Relayer operators publishing trusted relayers via OpenClaw.',
+  'Relayer operators publishing trusted relayers via VeilRelay.',
 ];
 
 const CaseStudySection = () => {

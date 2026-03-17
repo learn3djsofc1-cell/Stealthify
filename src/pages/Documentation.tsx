@@ -7,7 +7,7 @@ const sections = [
   { id: 'architecture', label: 'Architecture' },
   { id: 'stealth-sessions', label: 'Stealth Sessions' },
   { id: 'anonymous-wallet', label: 'Anonymous Wallet' },
-  { id: 'openclaw-network', label: 'OpenClaw Network' },
+  { id: 'veilrelay-network', label: 'VeilRelay Network' },
   { id: 'privacy-security', label: 'Privacy & Security' },
   { id: 'getting-started', label: 'Getting Started' },
   { id: 'api-reference', label: 'API Reference' },
@@ -134,8 +134,12 @@ export default function Documentation() {
   }, [mobileMenuOpen]);
 
   return (
-    <div className="bg-black min-h-screen font-sans">
-      <header className="sticky top-0 z-40 bg-black/90 backdrop-blur-md border-b border-white/[0.05]">
+    <div className="bg-[#050505] min-h-screen font-sans relative">
+      <div className="pointer-events-none fixed inset-0 z-0">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1200px] h-[800px] bg-[radial-gradient(ellipse_at_center,rgba(248,23,25,0.06)_0%,transparent_70%)]" />
+        <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-[radial-gradient(ellipse_at_center,rgba(248,23,25,0.03)_0%,transparent_70%)]" />
+      </div>
+      <header className="sticky top-0 z-40 bg-[#050505]/90 backdrop-blur-md border-b border-white/[0.05]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <Link
@@ -170,9 +174,9 @@ export default function Documentation() {
 
       {mobileMenuOpen && (
         <div className="fixed inset-0 z-30 lg:hidden" onClick={closeMobileMenu}>
-          <div className="absolute inset-0 bg-black/20 backdrop-blur-sm" />
+          <div className="absolute inset-0 bg-[#050505]/20 backdrop-blur-sm" />
           <div
-            className="absolute top-16 left-0 right-0 bg-black border-b border-white/[0.06] p-4 shadow-lg"
+            className="absolute top-16 left-0 right-0 bg-[#050505] border-b border-white/[0.06] p-4 shadow-lg"
             onClick={(e) => e.stopPropagation()}
           >
             <SidebarNav active={activeSection} onSelect={closeMobileMenu} />
@@ -180,7 +184,7 @@ export default function Documentation() {
         </div>
       )}
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 lg:py-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 lg:py-12 relative z-10">
         <div className="lg:grid lg:grid-cols-[220px_1fr] lg:gap-12 xl:grid-cols-[240px_1fr]">
           <aside className="hidden lg:block">
             <div className="sticky top-24">
@@ -202,17 +206,17 @@ export default function Documentation() {
 
                 <div className="prose-doc space-y-4">
                   <p className="text-white/70 leading-relaxed">
-                    Veilary is a privacy-native Web3 access layer designed for users who require anonymous, untraceable interaction with decentralized applications. It provides three core capabilities: stealth browsing sessions with fingerprint randomization and IP cloaking, anonymous Solana wallet generation compatible with Phantom, and access to the OpenClaw relayer network for verified, decentralized traffic routing.
+                    Veilary is a privacy-native Web3 access layer designed for users who require anonymous, untraceable interaction with decentralized applications. It provides three core capabilities: stealth browsing sessions with fingerprint randomization and IP cloaking, anonymous Solana wallet generation compatible with Phantom, and access to the VeilRelay relayer network for verified, decentralized traffic routing.
                   </p>
                   <p className="text-white/70 leading-relaxed">
-                    Unlike traditional VPN or proxy solutions, Veilary operates at the application layer with a purpose-built architecture for Web3 workflows. Every session is cryptographically isolated. Wallet keypairs are generated entirely client-side using Ed25519 elliptic curve cryptography, and private keys are never transmitted to or stored on any server. The relay network is audited and discoverable through the OpenClaw protocol, ensuring transparent verification of node operators.
+                    Unlike traditional VPN or proxy solutions, Veilary operates at the application layer with a purpose-built architecture for Web3 workflows. Every session is cryptographically isolated. Wallet keypairs are generated entirely client-side using Ed25519 elliptic curve cryptography, and private keys are never transmitted to or stored on any server. The relay network is audited and discoverable through the VeilRelay protocol, ensuring transparent verification of node operators.
                   </p>
 
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-6">
                     {[
                       { title: 'Stealth Sessions', desc: 'Fingerprint-randomized, IP-cloaked browsing for dApps.' },
                       { title: 'Anonymous Wallet', desc: 'Client-side Solana keypair generation. Phantom-importable.' },
-                      { title: 'Relay Network', desc: 'OpenClaw-audited nodes across global regions.' },
+                      { title: 'Relay Network', desc: 'VeilRelay-audited nodes across global regions.' },
                     ].map(({ title, desc }) => (
                       <div
                         key={title}
@@ -299,7 +303,7 @@ export default function Documentation() {
 
                   <h3 className="text-lg font-semibold text-white mt-6">IP Cloaking</h3>
                   <p className="text-white/70 leading-relaxed">
-                    When IP cloaking is enabled, all session traffic is routed through the OpenClaw relayer network. The target application sees only the relayer node's IP address, not the user's actual IP. Relay nodes are distributed across multiple geographic regions (US, EU, APAC) to provide low-latency routing regardless of the user's location.
+                    When IP cloaking is enabled, all session traffic is routed through the VeilRelay relayer network. The target application sees only the relayer node's IP address, not the user's actual IP. Relay nodes are distributed across multiple geographic regions (US, EU, APAC) to provide low-latency routing regardless of the user's location.
                   </p>
 
                   <h3 className="text-lg font-semibold text-white mt-6">Session Isolation</h3>
@@ -371,16 +375,16 @@ const privateKey = bs58.encode(keypair.secretKey);`}</CodeBlock>
                 </div>
               </section>
 
-              <section id="openclaw-network">
+              <section id="veilrelay-network">
                 <div className="mb-8">
                   <p className="text-xs font-medium text-white/40 uppercase tracking-wider mb-2">Infrastructure</p>
-                  <h2 className="text-3xl sm:text-4xl font-semibold text-white tracking-tight mb-4">OpenClaw Relayer Network</h2>
+                  <h2 className="text-3xl sm:text-4xl font-semibold text-white tracking-tight mb-4">VeilRelay Relayer Network</h2>
                   <div className="h-px bg-white/[0.06]" />
                 </div>
 
                 <div className="space-y-6">
                   <p className="text-white/70 leading-relaxed">
-                    The OpenClaw protocol provides a decentralized registry of audited relayer nodes that form the backbone of Veilary's IP cloaking infrastructure. Each node is independently operated, cryptographically verified, and subject to ongoing audits for uptime, performance, and security compliance.
+                    The VeilRelay protocol provides a decentralized registry of audited relayer nodes that form the backbone of Veilary's IP cloaking infrastructure. Each node is independently operated, cryptographically verified, and subject to ongoing audits for uptime, performance, and security compliance.
                   </p>
 
                   <h3 className="text-lg font-semibold text-white">Node Discovery</h3>
@@ -390,7 +394,7 @@ const privateKey = bs58.encode(keypair.secretKey);`}</CodeBlock>
 
                   <h3 className="text-lg font-semibold text-white mt-6">Verification & Auditing</h3>
                   <p className="text-white/70 leading-relaxed">
-                    Each node in the OpenClaw registry carries a verification status. Verified nodes have passed security audits confirming that they enforce no-logging policies, use encrypted transport, and meet minimum uptime and bandwidth thresholds. The audit trail is publicly accessible through the OpenClaw registry, allowing users to independently verify node integrity before routing traffic.
+                    Each node in the VeilRelay registry carries a verification status. Verified nodes have passed security audits confirming that they enforce no-logging policies, use encrypted transport, and meet minimum uptime and bandwidth thresholds. The audit trail is publicly accessible through the VeilRelay registry, allowing users to independently verify node integrity before routing traffic.
                   </p>
 
                   <h3 className="text-lg font-semibold text-white mt-6">Global Distribution</h3>
@@ -414,7 +418,7 @@ const privateKey = bs58.encode(keypair.secretKey);`}</CodeBlock>
                           ['Uptime', 'Percentage availability over the trailing 30-day window'],
                           ['Active Sessions', 'Current number of concurrent sessions routed through the node'],
                           ['Stake', 'Amount of collateral staked by the node operator'],
-                          ['Verification', 'OpenClaw audit status (Verified / Unverified)'],
+                          ['Verification', 'VeilRelay audit status (Verified / Unverified)'],
                         ].map(([metric, desc]) => (
                           <tr key={metric}>
                             <td className="px-4 py-2.5 text-white/70 font-medium whitespace-nowrap">{metric}</td>
@@ -463,7 +467,7 @@ const privateKey = bs58.encode(keypair.secretKey);`}</CodeBlock>
                       },
                       {
                         title: 'Open Audit Trail',
-                        desc: 'All relay nodes are registered in the OpenClaw protocol with publicly verifiable audit records. Users can independently validate node security before routing traffic.',
+                        desc: 'All relay nodes are registered in the VeilRelay protocol with publicly verifiable audit records. Users can independently validate node security before routing traffic.',
                       },
                     ].map(({ title, desc }) => (
                       <div
@@ -518,9 +522,9 @@ const privateKey = bs58.encode(keypair.secretKey);`}</CodeBlock>
                       title: 'Browse the Relayer Network',
                       instructions: [
                         'Navigate to the Relayers page.',
-                        'Browse available OpenClaw-registered relay nodes with real-time metrics.',
+                        'Browse available VeilRelay-registered relay nodes with real-time metrics.',
                         'Check each node\'s verification status, latency, uptime, and geographic region.',
-                        'Verified nodes have passed OpenClaw security audits and enforce no-logging policies.',
+                        'Verified nodes have passed VeilRelay security audits and enforce no-logging policies.',
                       ],
                     },
                   ].map(({ step, title, instructions }) => (

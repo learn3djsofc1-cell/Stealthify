@@ -17,7 +17,7 @@ const Hero = () => {
 
       <Navbar />
 
-      <main className="flex-grow flex flex-col items-center justify-center relative max-w-7xl mx-auto w-full px-6 pt-28 pb-16 lg:pt-0 z-10">
+      <main className="flex-grow flex flex-col items-center justify-center relative max-w-7xl mx-auto w-full px-6 pt-36 sm:pt-40 lg:pt-44 pb-16 z-10">
 
         <div className="absolute top-0 right-0 w-full h-full pointer-events-none z-0 opacity-30 lg:opacity-60">
           {isInView && (
@@ -47,7 +47,7 @@ const Hero = () => {
             transition={{ duration: 0.8, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
             className="text-white/45 text-lg sm:text-xl max-w-2xl leading-relaxed mb-12 font-light"
           >
-            Stealth browsing, anonymous wallets, and zero-knowledge proofs. All powered by the OpenClaw relayer network.
+            Stealth browsing, anonymous wallets, and zero-knowledge proofs. All powered by the VeilRelay network.
           </motion.p>
 
           <motion.div

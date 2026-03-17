@@ -66,7 +66,7 @@ export default function Relayers() {
     <div className="space-y-6 sm:space-y-8">
       <div>
         <h1 className="text-xl sm:text-2xl font-semibold text-white">Relayers</h1>
-        <p className="mt-1 text-sm text-white/60">Discover and manage OpenClaw relayer nodes</p>
+        <p className="mt-1 text-sm text-white/60">Discover and manage VeilRelay nodes</p>
       </div>
 
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">

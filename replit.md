@@ -1,6 +1,6 @@
 # Project Overview
 
-Veilary: A privacy-native Web3 access layer. Landing page + web application for launching stealth browsing sessions, managing anonymous Solana wallets (Phantom-compatible), and connecting to OpenClaw relayer nodes.
+Veilary: A privacy-native Web3 access layer. Landing page + web application for launching stealth browsing sessions, managing anonymous Solana wallets (Phantom-compatible), and connecting to VeilRelay nodes.
 
 ## Architecture
 
@@ -44,7 +44,7 @@ Veilary: A privacy-native Web3 access layer. Landing page + web application for 
   - `Infrastructure3D.tsx` - Architecture 3D scene (torus knot core, lazy-loaded)
 
 ### Documentation (`/docs`)
-- `src/pages/Documentation.tsx` - Comprehensive technical documentation page with sticky sidebar TOC, covering overview, architecture, stealth sessions, anonymous wallet, OpenClaw network, privacy/security, getting started, and API reference
+- `src/pages/Documentation.tsx` - Comprehensive technical documentation page with sticky sidebar TOC, covering overview, architecture, stealth sessions, anonymous wallet, VeilRelay network, privacy/security, getting started, and API reference
 
 ### Web App (`/app`)
 - `src/app/AppLayout.tsx` - Layout shell with top bar + bottom nav
@@ -55,7 +55,7 @@ Veilary: A privacy-native Web3 access layer. Landing page + web application for 
   - `LaunchSession.tsx` (`/app/launch`) - Search/paste dApp URL, configure privacy, launch session
   - `ActiveSession.tsx` (`/app/session/:id`) - Session control panel (opens target in managed popup window)
   - `Wallet.tsx` (`/app/wallet`) - Solana wallet creation and management (Phantom-importable)
-  - `Relayers.tsx` (`/app/relayers`) - OpenClaw relayer node discovery
+  - `Relayers.tsx` (`/app/relayers`) - VeilRelay node discovery
   - `Sessions.tsx` (`/app/sessions`) - Session history with active/past sections
   - `Settings.tsx` (`/app/settings`) - App preferences and privacy settings
 - `src/app/components/` - Reusable UI components:
