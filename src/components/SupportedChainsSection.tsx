@@ -1,28 +1,114 @@
 import { motion } from 'motion/react';
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
-const chains = [
-  { name: 'Solana', symbol: 'SOL', logo: 'https://coin-images.coingecko.com/coins/images/4128/large/solana.png?1718769756' },
-  { name: 'Ethereum', symbol: 'ETH', logo: 'https://coin-images.coingecko.com/coins/images/279/large/ethereum.png?1696501628' },
-  { name: 'Bitcoin', symbol: 'BTC', logo: 'https://coin-images.coingecko.com/coins/images/1/large/bitcoin.png?1696501400' },
-  { name: 'Polygon', symbol: 'MATIC', logo: 'https://coin-images.coingecko.com/coins/images/4713/large/polygon.png?1698233745' },
-  { name: 'Arbitrum', symbol: 'ARB', logo: 'https://coin-images.coingecko.com/coins/images/16547/large/arb.jpg?1721358242' },
-  { name: 'Avalanche', symbol: 'AVAX', logo: 'https://coin-images.coingecko.com/coins/images/12559/large/Avalanche_Circle_RedWhite_Trans.png?1696512369' },
-  { name: 'Base', symbol: 'BASE', logo: 'https://coin-images.coingecko.com/asset_platforms/images/131/large/base.jpeg?1706606519' },
-  { name: 'Optimism', symbol: 'OP', logo: 'https://coin-images.coingecko.com/coins/images/25244/large/Optimism.png?1696524385' },
-  { name: 'BNB Chain', symbol: 'BNB', logo: 'https://coin-images.coingecko.com/coins/images/825/large/bnb-icon2_2x.png?1696501970' },
-  { name: 'Cosmos', symbol: 'ATOM', logo: 'https://coin-images.coingecko.com/coins/images/1481/large/cosmos_hub.png?1696502525' },
-  { name: 'Sui', symbol: 'SUI', logo: 'https://coin-images.coingecko.com/coins/images/26375/large/sui-ocean-square.png?1727791290' },
-  { name: 'Aptos', symbol: 'APT', logo: 'https://coin-images.coingecko.com/coins/images/26455/large/Aptos-Network-Symbol-Black-RGB-1x.png?1761789140' },
-  { name: 'Near', symbol: 'NEAR', logo: 'https://coin-images.coingecko.com/coins/images/10365/large/near.jpg?1696510367' },
-  { name: 'Fantom', symbol: 'FTM', logo: 'https://coin-images.coingecko.com/coins/images/4001/large/Fantom_round.png?1696504642' },
-  { name: 'Tron', symbol: 'TRX', logo: 'https://coin-images.coingecko.com/coins/images/1094/large/tron-logo.png?1696502193' },
+interface ChainData {
+  name: string;
+  symbol: string;
+  cgId: string;
+  logo?: string;
+}
+
+const chains: ChainData[] = [
+  { name: 'Solana', symbol: 'SOL', cgId: 'solana' },
+  { name: 'Ethereum', symbol: 'ETH', cgId: 'ethereum' },
+  { name: 'Bitcoin', symbol: 'BTC', cgId: 'bitcoin' },
+  { name: 'Polygon', symbol: 'MATIC', cgId: 'matic-network' },
+  { name: 'Arbitrum', symbol: 'ARB', cgId: 'arbitrum' },
+  { name: 'Avalanche', symbol: 'AVAX', cgId: 'avalanche-2' },
+  { name: 'Base', symbol: 'BASE', cgId: 'base-protocol' },
+  { name: 'Optimism', symbol: 'OP', cgId: 'optimism' },
+  { name: 'BNB Chain', symbol: 'BNB', cgId: 'binancecoin' },
+  { name: 'Cosmos', symbol: 'ATOM', cgId: 'cosmos' },
+  { name: 'Sui', symbol: 'SUI', cgId: 'sui' },
+  { name: 'Aptos', symbol: 'APT', cgId: 'aptos' },
+  { name: 'Near', symbol: 'NEAR', cgId: 'near' },
+  { name: 'Fantom', symbol: 'FTM', cgId: 'fantom' },
+  { name: 'Tron', symbol: 'TRX', cgId: 'tron' },
 ];
 
-const ChainLogo = ({ chain }: { chain: typeof chains[number] }) => {
+const CACHE_KEY = 'veilary_chain_logos';
+const CACHE_TTL = 24 * 60 * 60 * 1000;
+const API_TIMEOUT = 8000;
+
+function getCachedLogos(): Record<string, string> | null {
+  try {
+    const raw = localStorage.getItem(CACHE_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw);
+    if (Date.now() - parsed.timestamp > CACHE_TTL) {
+      localStorage.removeItem(CACHE_KEY);
+      return null;
+    }
+    return parsed.logos;
+  } catch {
+    return null;
+  }
+}
+
+function setCachedLogos(logos: Record<string, string>) {
+  try {
+    localStorage.setItem(CACHE_KEY, JSON.stringify({ logos, timestamp: Date.now() }));
+  } catch {
+  }
+}
+
+async function fetchChainLogos(): Promise<Record<string, string>> {
+  const ids = chains.map(c => c.cgId).join(',');
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), API_TIMEOUT);
+
+  try {
+    const res = await fetch(
+      `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${ids}&x_cg_demo_api_key=CG-t4bHGmbr6hqGvnfbMggxXvWB`,
+      { signal: controller.signal }
+    );
+    clearTimeout(timeout);
+
+    if (!res.ok) throw new Error(`CoinGecko API returned ${res.status}`);
+
+    const data = await res.json();
+    const logos: Record<string, string> = {};
+    for (const coin of data) {
+      if (coin.id && coin.image) {
+        logos[coin.id] = coin.image;
+      }
+    }
+    return logos;
+  } catch {
+    clearTimeout(timeout);
+    return {};
+  }
+}
+
+function useChainLogos() {
+  const [logos, setLogos] = useState<Record<string, string>>(() => getCachedLogos() || {});
+  const fetched = useRef(false);
+
+  useEffect(() => {
+    if (fetched.current) return;
+    fetched.current = true;
+
+    const cached = getCachedLogos();
+    if (cached && Object.keys(cached).length > 0) {
+      setLogos(cached);
+      return;
+    }
+
+    fetchChainLogos().then(result => {
+      if (Object.keys(result).length > 0) {
+        setCachedLogos(result);
+        setLogos(result);
+      }
+    });
+  }, []);
+
+  return logos;
+}
+
+const ChainLogo = ({ chain, logoUrl }: { chain: ChainData; logoUrl?: string }) => {
   const [failed, setFailed] = useState(false);
 
-  if (failed) {
+  if (!logoUrl || failed) {
     return (
       <div className="w-8 h-8 rounded-lg bg-[#F81719]/[0.06] border border-[#F81719]/10 flex items-center justify-center">
         <span className="text-[10px] font-bold text-[#F81719] tracking-wider">{chain.symbol.slice(0, 2)}</span>
@@ -32,16 +118,17 @@ const ChainLogo = ({ chain }: { chain: typeof chains[number] }) => {
 
   return (
     <img
-      src={chain.logo}
+      src={logoUrl}
       alt={chain.name}
       className="w-8 h-8 rounded-lg object-contain"
       onError={() => setFailed(true)}
       loading="lazy"
+      referrerPolicy="no-referrer"
     />
   );
 };
 
-const MarqueeRow = ({ items, direction = 'left', speed = 30 }: { items: typeof chains; direction?: 'left' | 'right'; speed?: number }) => {
+const MarqueeRow = ({ items, logos, direction = 'left', speed = 30 }: { items: ChainData[]; logos: Record<string, string>; direction?: 'left' | 'right'; speed?: number }) => {
   const doubled = [...items, ...items];
   return (
     <div className="relative overflow-hidden py-2">
@@ -54,7 +141,7 @@ const MarqueeRow = ({ items, direction = 'left', speed = 30 }: { items: typeof c
             key={`${chain.symbol}-${index}`}
             className="flex items-center gap-3 px-6 py-4 rounded-xl bg-white/[0.02] border border-white/[0.05] hover:border-[#F81719]/20 hover:bg-white/[0.04] transition-all duration-500 shrink-0"
           >
-            <ChainLogo chain={chain} />
+            <ChainLogo chain={chain} logoUrl={logos[chain.cgId]} />
             <div className="flex flex-col">
               <span className="text-sm font-medium text-white/80">{chain.name}</span>
               <span className="text-[10px] text-white/30 font-mono">{chain.symbol}</span>
@@ -67,6 +154,7 @@ const MarqueeRow = ({ items, direction = 'left', speed = 30 }: { items: typeof c
 };
 
 const SupportedChainsSection = () => {
+  const logos = useChainLogos();
   const firstHalf = chains.slice(0, 8);
   const secondHalf = chains.slice(8);
 
@@ -114,8 +202,8 @@ const SupportedChainsSection = () => {
         <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-[#050505] to-transparent z-10 pointer-events-none" />
         <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-[#050505] to-transparent z-10 pointer-events-none" />
 
-        <MarqueeRow items={firstHalf} direction="left" speed={35} />
-        <MarqueeRow items={secondHalf} direction="right" speed={40} />
+        <MarqueeRow items={firstHalf} logos={logos} direction="left" speed={35} />
+        <MarqueeRow items={secondHalf} logos={logos} direction="right" speed={40} />
       </motion.div>
 
       <div className="max-w-7xl mx-auto px-6 mt-12">
